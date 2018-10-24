@@ -1,20 +1,20 @@
 <template lang="jade">
   .hello
-    .ui.list
-      .item(v-for="h in hands")
-        | {{h.name}}
+    h1 {{ msg }}
 
 </template>
 
 <script>
 
 import { handsRef } from '../firebase'
+import mix from '../mixins/mix.js'
 
 export default {
   name: 'hello',
+  mixins: [mix],
   data () {
     return {
-      msg: 'Welcome to Your Vue.js PWA'
+      msg: 'Welcome'
     }
   },
   firebase: {

@@ -7,6 +7,9 @@
       router-link.item(to="/cards", exact='') 
         i.comments.icon
         | 自學朋友
+      router-link.item(to="/maps", exact='') 
+        i.map.icon
+        | 地圖
     main
       router-view
 </template>

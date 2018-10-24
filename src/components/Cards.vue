@@ -15,27 +15,17 @@
 <script>
 
 import { handsRef } from '../firebase'
+import mix from '../mixins/mix.js'
 
 export default {
   name: 'hello',
+  mixins: [mix],
   data () {
     return {
     }
   },
   firebase: {
     hands: handsRef
-  },
-  methods: {
-    toAge: function (y) {
-      var ans = (new Date()).getFullYear()
-      return ans - parseInt(y)
-    },
-    getIcon: function (h) {
-      if (!h) {
-        return ''
-      }
-      return 'http://graph.facebook.com/' + (h.fbid || h.id || h.username || h.username) + '/picture'
-    }
   }
 }
 </script>
