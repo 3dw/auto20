@@ -1,0 +1,98 @@
+<template lang="jade">
+  #app
+    nav.ui.fixed.top.labeled.icon.inverted.menu
+      router-link.item(to="/", exact='') 
+        i.home.icon
+        | 自學2.0
+      router-link.item(to="/cards", exact='') 
+        i.comments.icon
+        | 自學朋友
+    main
+      router-view
+</template>
+
+<script>
+export default {
+  name: 'app'
+}
+</script>
+
+<style>
+body {
+  margin: 0;
+}
+
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+main {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.print-only {
+  visibility: hidden !important;
+  display: none !important;
+}
+
+@media print {
+  .no-print {
+    visibility: hidden !important;
+    display: none !important;
+    height: 0 !important;
+  }
+  .print-only {
+    visibility: visible !important;
+    display: block !important;
+  }
+  img, div, .card, .column {
+    page-break-inside: avoid !important;
+  }
+}
+
+a, button, .clickable {
+  cursor: pointer !important;
+}
+
+@media screen and (max-width: 600px) {
+  .fat-only {
+    display: none !important;
+  }
+  .button {
+    max-width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .fater-only {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .thin-only {
+    display: none !important;
+  }
+}
+
+.router-link-active {
+  background-color: #acf !important;
+}
+
+.invisible {
+  color: transparent !important;
+}
+
+.highlightedText {
+  background-color: yellow;
+}
+</style>
