@@ -14,7 +14,6 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "facebook-login-vuejs": "^2.1.3",
     "firebase": "^5.5.5",
     "jade": "^1.11.0",
     "jade-loader": "^0.8.0",
