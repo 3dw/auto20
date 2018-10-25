@@ -1,39 +1,32 @@
-<template>
-  <div class="hello">
-    <img v-show="profile.name" :src="profilePicture" alt="profile" class="profile-picture"/>
-    <h1 v-html="msg"></h1>
-  </div>
+<template lang="jade">
+  .hello
+    h1 {{msg}} {{user.displayName}}
+    a.ui.massive.blue.button(@click="login", v-if="!user")
+      i.facebook.icon
+      | 登入
+    router-link.ui.massive.blue.button(to="/myFlag", v-else)
+      img(:src = "'http://graph.facebook.com/' + id + '/picture'")
+      | 我的旗幟
 
 </template>
 
 <script>
 
-import { handsRef } from '../firebase'
 import mix from '../mixins/mix.js'
 
 export default {
   name: 'hello',
-  props: ['profile'],
+  props: ['id', 'user'],
   mixins: [mix],
   data () {
     return {
-      msg: 'Welcome'
+      msg: '歡迎'
     }
   },
-  computed: {
-    msg () {
-      if (this.profile.name) {
-        return `Welcome <b><i> ${this.profile.name} </i></b> to Vue.js App`
-      } else {
-        return 'Login Facebook to Enjoy the App'
-      }
-    },
-    profilePicture () {
-      return (this.profile.id) ? `https://graph.facebook.com/${this.profile.id}/picture?width=300` : `/static/man.gif`
+  methods: {
+    login: function () {
+      this.$emit('login')
     }
-  },
-  firebase: {
-    hands: handsRef
   }
 }
 </script>

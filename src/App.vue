@@ -18,15 +18,17 @@
           img(:src = "'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
     main
-      router-view(:id = "id")
+      router-view(:id = "id", :user="user", @login="login")
 </template>
 
 <script>
 
 import firebase from 'firebase/app'
+import mix from './mixins/mix.js'
 
 export default {
   name: 'app',
+  mixins: [mix],
   data () {
     return {
       user: '',
