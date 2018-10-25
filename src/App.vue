@@ -10,13 +10,48 @@
       router-link.item(to="/maps", exact='') 
         i.map.icon
         | 地圖
+      .right.menu
+        a.item(@click="login", v-if="!user")
+          i.facebook.icon
+          | 登入
+        router-link.item(to="/myFlag", v-else)
+          img(:src = "'http://graph.facebook.com/' + id + '/picture'")
+          | 我的旗幟
     main
-      router-view
+      router-view(:id = "id")
 </template>
 
 <script>
+
+import firebase from 'firebase/app'
+
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      user: '',
+      token: '',
+      id: ''
+    }
+  },
+  methods: {
+    login: function () {
+      var vm = this
+      var provider = new firebase.auth.FacebookAuthProvider()
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        vm.token = result.credential.accessToken
+        // The signed-in user info.
+        vm.user = result.user
+        vm.id = result.user.uid.split(':')[1]
+        // ...
+      }).catch(function (error) {
+        var errorCode = error.code
+        var errorMessage = error.message
+        console.log(errorCode + errorMessage)
+      })
+    }
+  }
 }
 </script>
 

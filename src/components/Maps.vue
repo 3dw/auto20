@@ -2,7 +2,8 @@
   .hello
     l-map(style="width: 100%; height: 600px;" ref="map", :zoom="7", :center="[22.413220, 121.219482]")
       l-tile-layer(:url="url", :attribution="attribution")
-      l-marker(v-for = "h in hands", :lat-lng="countLatLng(h)")
+      l-marker(v-for = "(h,index) in hands", :lat-lng="countLatLng(h)" @click="$router.push({ path: '/flag/' + index })")
+        l-popup {{h.name}}
 </template>
 
 <script>

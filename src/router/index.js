@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Cards from '@/components/Cards'
 import Maps from '@/components/Maps'
 import Flag from '@/components/Flag'
+import MyFlag from '@/components/MyFlag'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/flag/:id',
       name: 'Flag',
       component: Flag
+    },
+    {
+      path: '/myFlag',
+      name: 'MyFlag',
+      component: MyFlag
     }
   ]
 })

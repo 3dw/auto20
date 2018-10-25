@@ -1,6 +1,8 @@
-<template lang="jade">
-  .hello
-    h1 {{ msg }}
+<template>
+  <div class="hello">
+    <img v-show="profile.name" :src="profilePicture" alt="profile" class="profile-picture"/>
+    <h1 v-html="msg"></h1>
+  </div>
 
 </template>
 
@@ -11,10 +13,23 @@ import mix from '../mixins/mix.js'
 
 export default {
   name: 'hello',
+  props: ['profile'],
   mixins: [mix],
   data () {
     return {
       msg: 'Welcome'
+    }
+  },
+  computed: {
+    msg () {
+      if (this.profile.name) {
+        return `Welcome <b><i> ${this.profile.name} </i></b> to Vue.js App`
+      } else {
+        return 'Login Facebook to Enjoy the App'
+      }
+    },
+    profilePicture () {
+      return (this.profile.id) ? `https://graph.facebook.com/${this.profile.id}/picture?width=300` : `/static/man.gif`
     }
   },
   firebase: {
