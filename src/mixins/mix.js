@@ -29,6 +29,14 @@ export default {
         return ''
       }
       return 'http://graph.facebook.com/' + (h.fbid || h.id || h.username || h.username) + '/picture'
+    },
+    countDateDiff: function (num) {
+      var ans
+      if (!num) {
+        return ''
+      }
+      ans = new Date(num).toLocaleDateString()
+      return ans
     }
   }
 }

@@ -1,7 +1,7 @@
 <template lang="jade">
   .hello
     .ui.four.doubling.cards
-      router-link.card(v-for="(h, index) in hands", :to="'/flag/'+index")
+      router-link.card(v-for="(h, index) in hands", :key="index", :to="'/flag/'+index")
         h4.ui.header
           img.main(src='../assets/handshake0.png', :src='getIcon(h)' alt='^_^')
           | {{h.name}}

@@ -16,7 +16,7 @@
           img.icon(:src="'http://www.google.com/s2/favicons?domain=' + h.site2", title='community', alt='community')
         .ui.divider
         sub#time
-          | {{ h.lastUpdate }}已更新
+          | {{ countDateDiff(h.lastUpdate) }}已更新
         .ui.divider
         #intro
           .ui.list          
