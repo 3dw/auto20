@@ -15,6 +15,9 @@
       p.description.gray {{h.address}} - {{countDateDiff(h.lastUpdate)}}已更新
       p.description(v-if="h.share") 可分享： {{h.share}}
       p.description(v-if="h.ask") 需要： {{h.ask}}
+    .content(v-if="h.connect_me")
+      .ui.divider
+      p.descrtpion 連絡方式： {{h.connect_me}}
     .content
       .ui.divider
       p.descrtpion(v-if="!full") {{part(h.note)}}...
