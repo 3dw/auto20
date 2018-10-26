@@ -1,6 +1,6 @@
 <template lang="jade">
   #app
-    nav.ui.fixed.top.labeled.icon.inverted.menu
+    nav#menu.ui.fixed.top.labeled.icon.inverted.menu
       router-link.item(to="/", exact='') 
         i.home.icon
         | 自學2.0
@@ -15,7 +15,7 @@
           i.facebook.icon
           | 登入
         router-link.item(to="/myFlag", v-else)
-          img(:src = "'http://graph.facebook.com/' + id + '/picture'")
+          img#me.icon(:src = "'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
     main
       router-view(:id = "id", :user="user", @login="login")
@@ -66,6 +66,10 @@ body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#menu {
+  z-index: 999999;
 }
 
 p {
@@ -135,4 +139,10 @@ a, button, .clickable {
 .highlightedText {
   background-color: yellow;
 }
+
+#me {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 </style>

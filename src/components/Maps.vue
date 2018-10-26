@@ -1,23 +1,32 @@
 <template lang="jade">
   .hello
-    l-map(style="width: 100%; height: 600px;" ref="map", :zoom="7", :center="[22.413220, 121.219482]")
+    loader(v-show="!hands.length")
+    .ui.form.container
+      input(v-model="mySearch", placeholder="搜詢", autofocus)
+    .ui.divider
+    l-map(style="width: 100%; height: 600px;" ref="map", :zoom="zoom", :center="center")
       l-tile-layer(:url="url", :attribution="attribution")
-      l-marker(v-for = "(h, index) in hands", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + index })")
+      l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.id })", :icon="getAnIcon(h)")
         l-popup {{h.name}}
 </template>
 
 <script>
 
+import * as L from 'leaflet'
 import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
 import { handsRef } from '../firebase'
 import mix from '../mixins/mix.js'
+import Loader from './Loader'
 
 export default {
   name: 'map',
   mixins: [mix],
-  components: {LMap, LTileLayer, LMarker, LPopup},
+  components: {LMap, LTileLayer, LMarker, LPopup, Loader},
   data () {
     return {
+      mySearch: '',
+      zoom: 7,
+      center: [22.613220, 121.219482],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }
@@ -29,6 +38,17 @@ export default {
     countLatLng: function (h) {
       if (!h.latlngColumn) { return {lat: 0, lng: 0} }
       return {lat: h.latlngColumn.split(',')[0], lng: h.latlngColumn.split(',')[1]}
+    },
+    getAnIcon: function (h) {
+      return L.icon({
+        iconUrl: this.getIcon(h),
+        shadowUrl: '',
+        iconSize: [50, 50], // size of the icon
+        shadowSize: [0, 0], // size of the shadow
+        iconAnchor: [25, 25], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0], // the same for the shadow
+        popupAnchor: [0, 0] // point from which the po
+      })
     }
   }
 }
@@ -36,21 +56,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-h1, h2 {
-  font-weight: normal;
+
+img.leaflet-marker-icon {
+  border-radius: 50% !important;
+  border: 1px solid purple !important;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #35495E;
-}
 </style>

@@ -1,27 +1,28 @@
 <template lang="jade">
   .hello
-    .ui.four.doubling.cards
-      router-link.card(v-for="(h, index) in hands", :key="index", :to="'/flag/'+index")
-        h4.ui.header
-          img.main(src='../assets/handshake0.png', :src='getIcon(h)' alt='^_^')
-          | {{h.name}}
-          span(v-if="h.learner_birth") -
-            | 約
-            span(v-html='toAge(h.learner_birth)')
-            | 歲
-
+    loader(v-show="!hands.length")
+    .ui.form.container
+      input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
+    .ui.divider
+    .ui.two.doubling.cards.container
+      router-link.ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index", :to="'/flag/'+h.id")
+        card(:h="h", :full="false")
 </template>
 
 <script>
 
 import { handsRef } from '../firebase'
 import mix from '../mixins/mix.js'
+import Loader from './Loader'
+import Card from './Card'
 
 export default {
   name: 'hello',
   mixins: [mix],
+  components: { Loader, Card },
   data () {
     return {
+      mySearch: ''
     }
   },
   firebase: {
@@ -31,22 +32,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+<style scoped>
 
 a {
   color: #35495E;
 }
+
 </style>
