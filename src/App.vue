@@ -10,6 +10,9 @@
       router-link.item(to="/maps", exact='') 
         i.map.icon
         | 地圖
+      router-link.item(to="/groups", exact='') 
+        i.users.icon
+        | 自學社團
       .right.menu
         a.item(@click="login", v-if="!user")
           i.facebook.icon
@@ -17,6 +20,7 @@
         router-link.item(to="/myFlag", v-else)
           img#me.icon(:src = "'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
+    chatbox(v-if="id", :id="id", :user="user")
     main
       router-view(:id = "id", :user="user", @login="login")
 </template>
@@ -25,10 +29,12 @@
 
 import firebase from 'firebase/app'
 import mix from './mixins/mix.js'
+import Chatbox from './components/Chatbox'
 
 export default {
   name: 'app',
   mixins: [mix],
+  components: { Chatbox },
   data () {
     return {
       user: '',

@@ -1,6 +1,6 @@
 <template lang="jade">
   .hello
-    h1 {{msg}} {{user.displayName}}
+    h1 {{msg}} {{user && user.providerData[0].displayName}}
     a.ui.massive.blue.button(@click="login", v-if="!user")
       i.facebook.icon
       | 登入
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 h1, h2 {
   font-weight: normal;
 }

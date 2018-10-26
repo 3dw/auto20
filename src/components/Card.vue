@@ -5,14 +5,14 @@
         img.main(src='../assets/handshake0.png', :src='getIcon(h)' alt='^_^')
         | {{h.name}}
         span(v-if="h.learner_birth")
+          | -
           span(v-html='toAge(h.learner_birth)')
           | 歲
-        span(v-if = "h.child_birth") (孩子 {{toAge(h.child_birth)}}
-          span(v-if="h.child_birth2")
-            | ~ {{toAge(h.child_birth2)}}
-          | 歲)
+        span(v-if="h.child_birth") (孩子
+        span(v-if="h.child_birth2") {{toAge(h.child_birth2)}} ~
+        span(v-if="h.child_birth") {{toAge(h.child_birth)}} 歲)
     .content
-      p.description 位於 {{h.address}} 附近
+      p.description.gray {{h.address}} - {{countDateDiff(h.lastUpdate)}}已更新
       p.description(v-if="h.share") 可分享： {{h.share}}
       p.description(v-if="h.ask") 需要： {{h.ask}}
     .content
@@ -41,6 +41,10 @@ export default {
 
 .image {
   background-color: #c9c9c9;
+}
+
+.gary {
+  color: gray;
 }
 
 </style>

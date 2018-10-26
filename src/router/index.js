@@ -5,6 +5,7 @@ import Cards from '@/components/Cards'
 import Maps from '@/components/Maps'
 import Flag from '@/components/Flag'
 import MyFlag from '@/components/MyFlag'
+import Groups from '@/components/Groups'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/myFlag',
       name: 'MyFlag',
       component: MyFlag
+    },
+    {
+      path: '/groups',
+      name: 'Groups',
+      component: Groups
     }
   ]
 })
