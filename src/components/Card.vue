@@ -51,4 +51,8 @@ export default {
   color: gray;
 }
 
+p {
+  white-space: pre-line;
+}
+
 </style>
