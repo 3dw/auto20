@@ -13,6 +13,7 @@
         span(v-if="h.child_birth") {{toAge(h.child_birth)}} 歲)
     .content
       p.description.gray {{h.address}} - {{countDateDiff(h.lastUpdate)}}已更新
+      p.description(v-if="h.learner_habit && full") 興趣： {{h.learner_habit}}
       p.description(v-if="h.share") 可分享： {{h.share}}
       p.description(v-if="h.ask") 需要： {{h.ask}}
     .content(v-if="h.connect_me")

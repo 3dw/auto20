@@ -1,6 +1,7 @@
 <template lang="jade">
   .hello
-    h1 {{msg}} {{user && user.providerData[0].displayName}}
+    h1.ui.header {{msg}} {{user && user.providerData[0].displayName}}
+    h4.ui.header(v-if = "hands.length") 和 {{ hands.length }} 位朋友相互認識吧
     a.ui.massive.blue.button(@click="login", v-if="!user")
       i.facebook.icon
       | 登入
@@ -11,7 +12,7 @@
     h2(v-if="hands.length") 最近更新 
     .ui.two.doubling.cards.container
       router-link.ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 4)", :key="index", :to="'/flag/'+h.id")
-        card(:h="h", :full="false")
+        card(:h="h", :full="false", :mySearch="mySearch")
 
 </template>
 

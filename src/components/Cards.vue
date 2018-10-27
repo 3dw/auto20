@@ -1,12 +1,10 @@
 <template lang="jade">
   .hello
     loader(v-show="!hands.length")
-    .ui.form.container
-      input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
     .ui.divider
     .ui.two.doubling.cards.container
       router-link.ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index", :to="'/flag/'+h.id")
-        card(:h="h", :full="false")
+        card(:h="h", :full="false", :mySearch="mySearch")
 </template>
 
 <script>
@@ -19,10 +17,10 @@ import Card from './Card'
 export default {
   name: 'hello',
   mixins: [mix],
+  props: ['mySearch'],
   components: { Loader, Card },
   data () {
     return {
-      mySearch: ''
     }
   },
   firebase: {

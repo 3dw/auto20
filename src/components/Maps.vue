@@ -1,8 +1,6 @@
 <template lang="jade">
   .hello
     loader(v-show="!hands.length")
-    .ui.form.container
-      input(v-model="mySearch", placeholder="搜詢", autofocus)
     .ui.divider
     l-map(style="width: 100%; height: 600px;" ref="map", :zoom="zoom", :center="center")
       l-tile-layer(:url="url", :attribution="attribution")
@@ -21,10 +19,10 @@ import Loader from './Loader'
 export default {
   name: 'map',
   mixins: [mix],
+  props: ['mySearch'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
   data () {
     return {
-      mySearch: '',
       zoom: 7,
       center: [22.613220, 121.219482],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',

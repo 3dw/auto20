@@ -1,6 +1,21 @@
 <template lang="jade">
   #app
-    nav#menu.ui.fixed.top.labeled.icon.inverted.menu
+    nav#menu.ui.fixed.top.inverted.menu.thin-only
+      router-link.item(to="/", exact='') 
+        i.home.icon
+      router-link.item(to="/cards", exact='') 
+        | 朋友
+      router-link.item(to="/maps", exact='') 
+        | 地圖
+      router-link.item(to="/groups", exact='') 
+        | 社團
+      .right.menu
+        a.item(@click="login", v-if="!user")
+          | 登入
+        router-link.item(to="/myFlag", v-else)
+          img#me.icon(:src = "'http://graph.facebook.com/' + id + '/picture'")
+          | 我
+    nav#menu.ui.fixed.top.labeled.icon.inverted.menu.fat-only
       router-link.item(to="/", exact='') 
         i.home.icon
         | 自學2.0
@@ -22,7 +37,9 @@
           | 我的旗幟
     chatbox(v-if="id", :id="id", :user="user")
     main
-      router-view(:id = "id", :user="user", @login="login")
+      .ui.form.container(v-if="doSearch($route.path)")
+        input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
+      router-view(:id = "id", :user="user", :mySearch="mySearch", @login="login")
 </template>
 
 <script>
@@ -35,6 +52,9 @@ export default {
   name: 'app',
   mixins: [mix],
   components: { Chatbox },
+  props: {
+    mySearch: { type: String, default: '' }
+  },
   data () {
     return {
       user: '',
@@ -43,6 +63,9 @@ export default {
     }
   },
   methods: {
+    doSearch: function (p) {
+      return (!(p.match(/^\/(myFlag|flag\/\d+)?$/)))
+    },
     login: function () {
       var vm = this
       var provider = new firebase.auth.FacebookAuthProvider()
@@ -72,6 +95,9 @@ body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 #menu {
@@ -86,7 +112,8 @@ p {
 
 main {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 80px;
+  margin-bottom: 100px;
 }
 
 .print-only {
@@ -114,6 +141,9 @@ a, button, .clickable {
 }
 
 @media screen and (max-width: 600px) {
+  main {
+    margin-top: 60px;
+  }
   .fat-only {
     display: none !important;
   }
