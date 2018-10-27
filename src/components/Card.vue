@@ -12,17 +12,19 @@
         span(v-if="h.child_birth2") {{toAge(h.child_birth2)}} ~
         span(v-if="h.child_birth") {{toAge(h.child_birth)}} 歲)
     .content
-      p.description.gray {{h.address}} - {{countDateDiff(h.lastUpdate)}}已更新
-      p.description(v-if="h.learner_habit && full") 興趣： {{h.learner_habit}}
-      p.description(v-if="h.share") 可分享： {{h.share}}
-      p.description(v-if="h.ask") 需要： {{h.ask}}
+      p.description.gray 
+        span(v-html="highlight(h.address, mySearch)")
+        | - {{countDateDiff(h.lastUpdate)}}已更新
+      p.description(v-if="h.learner_habit && full" v-html="'興趣： ' + highlight(h.learner_habit, mySearch)")
+      p.description(v-if="h.share" v-html="'可分享： ' + highlight(h.share, mySearch)")
+      p.description(v-if="h.ask" v-html="'需要： ' + highlight(h.ask, mySearch)")
     .content(v-if="h.connect_me")
       .ui.divider
       p.descrtpion 連絡方式： {{h.connect_me}}
     .content
       .ui.divider
-      p.descrtpion(v-if="!full") {{part(h.note)}}...
-      p.descrtpion(v-else) {{h.note}}
+      p.descrtpion(v-if="!full" v-html="highlight(part(h.note), mySearch) + '...'")
+      p.descrtpion(v-else v-html="highlight(h.note, mySearch)")
 </template>
 
 <script>
