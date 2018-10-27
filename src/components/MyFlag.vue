@@ -89,7 +89,7 @@
            | 出生年(西元)的欄位僅能填寫數字喔
 
         .field
-          label 孩子的出生年次(西元)，若還沒有孩子請略過本項
+          label 孩子的出生年次(西元)，若還沒有孩子或還不需找共學夥伴可略過本項
           span
             input(v-model='root.child_birth', type='text', placeholder='最大孩子的出生年次(西元)')
             br
