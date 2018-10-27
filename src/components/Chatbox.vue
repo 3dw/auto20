@@ -73,13 +73,13 @@ export default {
   }
 
   .chats.full {
-    width: 66vw;
+    width: 100vw;
     height: 66vh;    
   }
 
   .chats.mini {
-    width: 33vh;
-    height: 100px;    
+    width: 50vh;
+    height: 200px;    
   }
 
   img.ui.avatar {
