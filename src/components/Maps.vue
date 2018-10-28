@@ -2,7 +2,7 @@
   .hello
     loader(v-show="!hands.length")
     .ui.divider
-    l-map(style="width: 100%; height: 600px;" ref="map", :zoom="zoom", :center="center")
+    l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
       l-tile-layer(:url="url", :attribution="attribution")
       l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.id })", :icon="getAnIcon(h)")
         l-popup {{h.name}}
@@ -19,12 +19,10 @@ import Loader from './Loader'
 export default {
   name: 'map',
   mixins: [mix],
-  props: ['mySearch'],
+  props: ['mySearch', 'zoom', 'center'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
   data () {
     return {
-      zoom: 7,
-      center: [22.613220, 121.219482],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }

@@ -13,8 +13,8 @@
     .ui.divider
     h2(v-if="hands.length") 最近更新 
     .ui.two.doubling.cards.container
-      router-link.ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 4)", :key="index", :to="'/flag/'+h.id")
-        card(:h="h", :full="false", :mySearch="mySearch")
+      .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 4)", :key="index")
+        card(:h="h", :full="false", :mySearch="mySearch", @locate="locate")
 
 </template>
 
@@ -44,6 +44,9 @@ export default {
     isFacebookApp: function () {
       var ua = navigator.userAgent || navigator.vendor || window.opera
       return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
+    },
+    locate: function (h) {
+      this.$emit('locate', h)
     }
   }
 }

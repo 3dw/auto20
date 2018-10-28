@@ -3,8 +3,8 @@
     loader(v-show="!hands.length")
     .ui.divider
     .ui.two.doubling.cards.container
-      router-link.ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index", :to="'/flag/'+h.id")
-        card(:h="h", :full="false", :mySearch="mySearch")
+      .ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index")
+        card(:h="h", :full="false", :mySearch="mySearch", @locate="locate")
 </template>
 
 <script>
@@ -25,6 +25,11 @@ export default {
   },
   firebase: {
     hands: handsRef
+  },
+  methods: {
+    locate: function (h) {
+      this.$emit('locate', h)
+    }
   }
 }
 </script>

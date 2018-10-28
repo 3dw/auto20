@@ -42,7 +42,7 @@
     main
       .ui.form.container(v-if="doSearch($route.path)")
         input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
-      router-view(:id = "id", :user="user", :mySearch="mySearch", @login="login")
+      router-view(:id = "id", :user="user", :mySearch="mySearch", :zoom="zoom", :center="center", @login="login", @locate="locate")
 </template>
 
 <script>
@@ -60,6 +60,8 @@ export default {
   },
   data () {
     return {
+      zoom: 7,
+      center: [22.613220, 121.219482],
       user: '',
       token: '',
       id: ''
@@ -68,6 +70,11 @@ export default {
   methods: {
     doSearch: function (p) {
       return (!(p.match(/^\/(myFlag|groups|flag\/\d+)?$/)))
+    },
+    locate: function (h) {
+      this.zoom = 13
+      this.center = h.latlngColumn.split(',')
+      this.$router.push({path: '/maps'})
     },
     login: function () {
       var vm = this
