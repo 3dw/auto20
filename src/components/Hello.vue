@@ -5,8 +5,8 @@
     a.ui.massive.blue.button(@click="login", v-if="!user && !isFacebookApp()")
       i.facebook.icon
       | 登入
-    a.ui.massive.red.button(v-else href="http://we.alearn.org.tw", target="_blank")
-      | 請使用原生瀏覽器開啟本頁
+    a.ui.massive.red.button(v-else, href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
+      | 按右上的...用瀏覽器開啟
     router-link.ui.massive.blue.button(to="/myFlag", v-else)
       img(:src = "'http://graph.facebook.com/' + id + '/picture'", alt="^_^")
       | 我的旗幟
