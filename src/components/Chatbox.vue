@@ -85,6 +85,8 @@ export default {
 
   img.ui.avatar {
     float: left;
+    width: 50px;
+    height: 50px;
   }
 
   #input {
