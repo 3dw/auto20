@@ -2,11 +2,13 @@
   .hello
     h1.ui.header {{msg}} {{user && user.providerData[0].displayName}}
     h4.ui.header(v-if = "hands.length") 和 {{ hands.length }} 位朋友相互認識吧
-    a.ui.massive.blue.button(@click="login", v-if="!user")
+    a.ui.massive.blue.button(@click="login", v-if="!user && !isFacebookApp()")
       i.facebook.icon
       | 登入
+    a.ui.massive.red.button(v-else href="http://we.alearn.org.tw", target="_blank")
+      | 請使用原生瀏覽器開啟本頁
     router-link.ui.massive.blue.button(to="/myFlag", v-else)
-      img(:src = "'http://graph.facebook.com/' + id + '/picture'")
+      img(:src = "'http://graph.facebook.com/' + id + '/picture'", alt="^_^")
       | 我的旗幟
     .ui.divider
     h2(v-if="hands.length") 最近更新 
@@ -38,6 +40,10 @@ export default {
   methods: {
     login: function () {
       this.$emit('login')
+    },
+    isFacebookApp: function () {
+      var ua = navigator.userAgent || navigator.vendor || window.opera
+      return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
     }
   }
 }

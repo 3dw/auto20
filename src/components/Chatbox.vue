@@ -12,7 +12,7 @@
       .ui.list(v-if = "chats.length")
         .item(v-for="c in chats")
           router-link(:to="'/flag/'+c.id")
-            img.ui.avatar(:src="'http://graph.facebook.com/' + c.id + '/picture'")
+            img.ui.avatar(:src="'http://graph.facebook.com/' + c.id + '/picture'", alt="^_^")
           span {{c.n}} : {{c.t}}
           span.gray(v-show="isFull") &nbsp;&nbsp;-{{ countDateDiff(c.time) }}
         .item
