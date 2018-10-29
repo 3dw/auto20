@@ -140,11 +140,7 @@ import Loader from './Loader'
 export default {
   name: 'hello',
   mixins: [mix],
-<<<<<<< HEAD
-  props: ['id', 'user', 'providor'],
-=======
-  props: ['id', 'user', 'mySearch'],
->>>>>>> master
+  props: ['id', 'user', 'mySearch', 'provider'],
   components: { Loader },
   data () {
     return {
