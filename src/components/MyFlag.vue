@@ -89,7 +89,7 @@
            | 出生年(西元)的欄位僅能填寫數字喔
 
         .field
-          label 孩子的出生年次(西元)，若還沒有孩子請略過本項
+          label 孩子的出生年次(西元)，若還沒有孩子或還不需找共學夥伴可略過本項
           span
             input(v-model='root.child_birth', type='text', placeholder='最大孩子的出生年次(西元)')
             br
@@ -114,10 +114,10 @@
           .field
             label.required 自我介紹
             textarea#note(v-model='root.note', rows='5', cols='30', placeholder='自我介紹很重要，請寫20字以上，謝謝')
-          .ui.warning.message(v-show="root.note.length < 20")
+          .ui.warning.message(v-show="root.note && root.note.length < 20")
             .header 請再寫{{20 - root.note.length}}字介紹您自己
             p 愈詳細別人愈能認識您，您的旗幟才好發揮作用。        
-          .ui.success.message(v-show="root.note.length >= 20")
+          .ui.success.message(v-show="root.note && root.note.length >= 20")
             .header 謝謝您
             p 您詳細的介紹，讓人能夠更認識您。
 
@@ -140,11 +140,14 @@ import Loader from './Loader'
 export default {
   name: 'hello',
   mixins: [mix],
+<<<<<<< HEAD
   props: ['id', 'user', 'providor'],
+=======
+  props: ['id', 'user', 'mySearch'],
+>>>>>>> master
   components: { Loader },
   data () {
     return {
-      mySearch: '',
       myIndex: -1,
       root: {},
       local: {}
@@ -155,27 +158,29 @@ export default {
   },
   methods: {
     setMe: function () {
-      var vm = this
-      console.log('tongbu')
-      if (!vm.hands) {
-        setTimeout(vm.setMe, 2000)
+      var l = this.hands.length
+      console.log(l)
+      if (!this.hands) {
+        setTimeout(this.setMe, 2000)
         return
       }
-      for (var i = 0; i < vm.hands.length; i++) {
-        if (vm.hands[i].id === vm.id) {
-          vm.myIndex = i
-          vm.root = vm.hands[i]
+      for (var i = 0; i < l; i++) {
+        if (this.hands[i].id === this.id) {
+          this.myIndex = i
+          this.root = this.hands[i]
         }
       }
-      console.log(vm.id)
-      console.log(vm.user.displayName)
-      if (vm.id && vm.myIndex === -1) {
-        vm.myIndex = vm.hands.length
-        vm.root.name = vm.user.displayName
-        vm.root.provider = vm.provider
+      if (this.id && this.myIndex === -1) {
+        console.log('new')
+        this.myIndex = l
+        this.root = {
+          name: this.user.providerData[0].displayName,
+          id: this.id,
+          note: ''
+        }
       }
-      console.log(vm.root.name)
-      console.log(vm.root)
+      console.log(this.root.name)
+      console.log(this.root)
     },
     checkLatLng: function (add) {
       var vm = this
@@ -236,6 +241,7 @@ export default {
         db.ref('hands/' + this.myIndex).update(JSON.parse(JSON.stringify(this.root).replace('.key', 'key').replace('undefined', 'null')))
         alert('更新成功!')
       } else {
+        console.log('new2')
         db.ref('hands/' + this.myIndex).set(JSON.parse(JSON.stringify(this.root).replace('.key', 'key').replace('undefined', 'null')))
         alert('登錄成功!')
       }

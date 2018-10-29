@@ -11,7 +11,6 @@ export default {
   name: 'loder',
   data () {
     return {
-      msg: '歡迎'
     }
   },
   methods: {

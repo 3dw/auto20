@@ -1,6 +1,21 @@
 <template lang="jade">
   #app
-    nav#menu.ui.fixed.top.labeled.icon.inverted.menu
+    nav#menu.ui.fixed.top.inverted.menu.thin-only
+      router-link.item(to="/", exact='') 
+        i.home.icon
+      router-link.item(to="/cards", exact='') 
+        | 朋友
+      router-link.item(to="/maps", exact='') 
+        | 地圖
+      router-link.item(to="/groups", exact='') 
+        | 社團
+      .right.menu
+        a.item(@click="login", v-if="!user")
+          | 登入
+        router-link.item(to="/myFlag", v-else)
+          img#me.icon(:src = "'http://graph.facebook.com/' + id + '/picture'")
+          | 我
+    nav#menu.ui.fixed.top.labeled.icon.inverted.menu.fat-only
       router-link.item(to="/", exact='') 
         i.home.icon
         | 自學2.0
@@ -10,24 +25,40 @@
       router-link.item(to="/maps", exact='') 
         i.map.icon
         | 地圖
+      router-link.item(to="/groups", exact='') 
+        i.users.icon
+        | 自學社團
+      a.item(href="http://map.alearn.org.tw", target="_blank")
+        i.phone.icon
+        | 自學FAQ
       .right.menu
         router-link.item(to="/myFlag", v-if="user")
           img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
+    chatbox(v-if="id", :id="id", :user="user")
     main
-      router-view(:id = "id", :user="user", :provider="provider", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
+      router-view(:id = "id", :user="user", :provider="provider", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", @locate="locate")
+      .ui.form.container(v-if="doSearch($route.path)")
+        input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
 </template>
 
 <script>
 
 import firebase from 'firebase/app'
 import mix from './mixins/mix.js'
+import Chatbox from './components/Chatbox'
 
 export default {
   name: 'app',
   mixins: [mix],
+  components: { Chatbox },
+  props: {
+    mySearch: { type: String, default: '' }
+  },
   data () {
     return {
+      zoom: 7,
+      center: [22.613220, 121.219482],
       user: '',
       token: '',
       id: '',
@@ -36,6 +67,14 @@ export default {
     }
   },
   methods: {
+    doSearch: function (p) {
+      return (!(p.match(/^\/(myFlag|groups|flag\/\d+)?$/)))
+    },
+    locate: function (h) {
+      this.zoom = 13
+      this.center = h.latlngColumn.split(',')
+      this.$router.push({path: '/maps'})
+    },
     loginFB: function () {
       var vm = this
       var provider = new firebase.auth.FacebookAuthProvider()
@@ -90,6 +129,9 @@ body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 #menu {
@@ -104,7 +146,8 @@ p {
 
 main {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 80px;
+  margin-bottom: 100px;
 }
 
 .print-only {
@@ -132,6 +175,9 @@ a, button, .clickable {
 }
 
 @media screen and (max-width: 600px) {
+  main {
+    margin-top: 60px;
+  }
   .fat-only {
     display: none !important;
   }

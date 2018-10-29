@@ -8,17 +8,21 @@
       .or
       button.ui.orange.button(@click="loginGoogle")
         i.google.icon
-        | 登入
-
-      
+        | 登入 
     router-link.ui.massive.blue.button(to="/myFlag", v-else)
       img.ui.avatar(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
+    h1.ui.header {{msg}} {{user && user.providerData[0].displayName}}
+    h4.ui.header(v-if = "hands.length") 和 {{ hands.length }} 位朋友相互認識吧
+    router-link.ui.massive.blue.button(to="/myFlag", v-else)
+      img(:src = "'http://graph.facebook.com/' + id + '/picture'", alt="^_^")
       | 我的旗幟
+    a.ui.massive.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
+      | 按右上的...用瀏覽器開啟
     .ui.divider
     h2(v-if="hands.length") 最近更新 
     .ui.two.doubling.cards.container
-      router-link.ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 4)", :key="index", :to="'/flag/'+h.id")
-        card(:h="h", :full="false")
+      .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 4)", :key="index")
+        card(:h="h", :full="false", :mySearch="mySearch", @locate="locate")
 
 </template>
 
@@ -47,13 +51,20 @@ export default {
     },
     loginGoogle: function () {
       this.$emit('loginGoogle')
+    },
+    isFacebookApp: function () {
+      var ua = navigator.userAgent || navigator.vendor || window.opera
+      return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
+    },
+    locate: function (h) {
+      this.$emit('locate', h)
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped="">
+<style scoped>
 
 .ui.avatar {
   max-height: 100px;
