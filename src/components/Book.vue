@@ -3,8 +3,8 @@
     loader(v-show="!hands.length")
     .ui.divider
     .ui.two.doubling.cards.container
-      .ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index")
-        card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
+      .ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index" v-if="book && book.indexOf(h.id) > -1")
+        card(:h="h", :full="false",:book="book", :mySearch="mySearch", @locate="locate", @addBook="addBook", @removeBook="removeBook")
 </template>
 
 <script>
@@ -17,7 +17,7 @@ import Card from './Card'
 export default {
   name: 'hello',
   mixins: [mix],
-  props: ['mySearch', 'id', 'book'],
+  props: ['mySearch', 'book'],
   components: { Loader, Card },
   data () {
     return {
@@ -44,5 +44,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+a {
+  color: #35495E;
+}
 
 </style>

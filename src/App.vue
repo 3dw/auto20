@@ -10,6 +10,8 @@
       router-link.item(to="/groups", exact='') 
         | 社團
       .right.menu
+        router-link.item(to="/mymap", v-if="user")
+          i.map.icon
         router-link.item(to="/myFlag", v-if="user")
           img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我
@@ -30,18 +32,26 @@
         i.phone.icon
         | 自學FAQ
       .right.menu
+        router-link.item(to="/book")
+          i.book.icon
+          | 我的名簿
+        router-link.item(to="/mymap", v-if="user")
+          i.map.icon
+          | 我的地圖
         router-link.item(to="/myFlag", v-if="user")
           img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
     chatbox(v-if="id", :id="id", :user="user", :photoURL="photoURL")
     main
-      router-view(:id = "id", :user="user", :provider="provider", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", @locate="locate")
       .ui.form.container(v-if="doSearch($route.path)")
         input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
+      router-view(:id = "id", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
+      @locate="locate", @addBook="addBook", @removeBook="removeBook")
 </template>
 
 <script>
 
+import { handsRef } from './firebase'
 import firebase from 'firebase/app'
 import mix from './mixins/mix.js'
 import Chatbox from './components/Chatbox'
@@ -53,6 +63,9 @@ export default {
   props: {
     mySearch: { type: String, default: '' }
   },
+  firebase: {
+    hands: handsRef
+  },
   data () {
     return {
       zoom: 7,
@@ -61,7 +74,8 @@ export default {
       token: '',
       id: '',
       provider: '',
-      photoURL: ''
+      photoURL: '',
+      book: []
     }
   },
   methods: {
@@ -73,6 +87,25 @@ export default {
       this.center = h.latlngColumn.split(',')
       this.$router.push({path: '/maps'})
     },
+    getLocal: function (n) {
+      console.log('get:' + n)
+      this[n] = JSON.parse(this.$localStorage.get(n))
+    },
+    setLocal: function (n) {
+      console.log('set:' + n)
+      this.$localStorage.set(n, JSON.stringify(this[n]))
+      // console.log(this.$localStorage.get(n))
+    },
+    addBook: function (id) {
+      if (this.book.indexOf(id) === -1) {
+        this.book.push(id)
+        this.setLocal('book')
+      }
+    },
+    removeBook: function (index) {
+      this.book.splice(index, 1)
+      this.setLocal('book')
+    },
     loginFB: function () {
       var vm = this
       var provider = new firebase.auth.FacebookAuthProvider()
@@ -83,6 +116,11 @@ export default {
         // The signed-in user info.
         vm.user = result.user
         vm.id = result.user.uid.split(':')[1]
+        for (var i = 0; i < vm.hands.length; i++) {
+          if (vm.hands[i].id === vm.id) {
+            vm.center = vm.hands[i].latlngColumn.split(',')
+          }
+        }
         // ...
       }).catch(function (error) {
         var errorCode = error.code
@@ -101,7 +139,11 @@ export default {
         vm.id = result.user.uid
         vm.user = result.user
         vm.photoURL = vm.user.photoURL
-        console.log(vm.user)
+        for (var i = 0; i < vm.hands.length; i++) {
+          if (vm.hands[i].id === vm.id) {
+            vm.center = vm.hands[i].latlngColumn.split(',')
+          }
+        }
         // ...
       }).catch(function (error) {
         // Handle Errors here.
@@ -113,6 +155,12 @@ export default {
         var credential = error.credential
         console.log(errorCode + errorMessage + email + credential)
       })
+    }
+  },
+  mounted () {
+    // console.log(this.$localStorage.get(n))
+    if (this.$localStorage.get('book')) {
+      this.getLocal('book')
     }
   }
 }

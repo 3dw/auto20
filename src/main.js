@@ -8,6 +8,7 @@ import VueFire from 'vuefire'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import VueResource from 'vue-resource'
+import VueLocalStorage from 'vue-localstorage'
 
 delete L.Icon.Default.prototype._getIconUrl
 // eslint-disable-next-line
@@ -19,6 +20,7 @@ L.Icon.Default.mergeOptions({
 
 Vue.use(VueFire)
 Vue.use(VueResource)
+Vue.use(VueLocalStorage)
 
 require('semantic-ui-css/semantic.css')
 

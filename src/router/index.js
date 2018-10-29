@@ -6,6 +6,8 @@ import Maps from '@/components/Maps'
 import Flag from '@/components/Flag'
 import MyFlag from '@/components/MyFlag'
 import Groups from '@/components/Groups'
+import Book from '@/components/Book'
+import MyMap from '@/components/MyMap'
 
 Vue.use(Router)
 
@@ -40,6 +42,16 @@ export default new Router({
       path: '/groups',
       name: 'Groups',
       component: Groups
+    },
+    {
+      path: '/book',
+      name: 'Book',
+      component: Book
+    },
+    {
+      path: '/mymap',
+      name: 'MyMap',
+      component: MyMap
     }
   ]
 })

@@ -26,9 +26,16 @@
         .ui.divider
         p.descrtpion(v-if="!full" v-html="highlight(part(h.note), mySearch) + '...'")
         p.descrtpion(v-else v-html="highlight(h.note, mySearch)")
-    .ui.bottom.attached.red.basic.button(@click="locate(h)")
-      i.map.icon
-      | 地圖檢視
+    .ui.bottom.attached.buttons
+      .ui.green.basic.button(@click="addBook(h.id)" v-if="book.indexOf(h.id) == -1")
+        i.book.icon
+        | 加入名簿
+      .ui.red.basic.button(@click="removeBook(book.indexOf(h.id))" v-else)
+        i.book.icon
+        | 移除
+      .ui.pink.basic.button(@click="locate(h)")
+        i.map.icon
+        | 地圖檢視
 </template>
 
 <script>
@@ -38,7 +45,7 @@ import mix from '../mixins/mix.js'
 export default {
   name: 'hello',
   mixins: [mix],
-  props: ['h', 'mySearch', 'full'],
+  props: ['h', 'mySearch', 'full', 'id', 'book'],
   data () {
     return {
     }
@@ -47,6 +54,14 @@ export default {
     locate: function (h) {
       console.log(h)
       this.$emit('locate', h)
+    },
+    addBook: function (id) {
+      console.log(id)
+      this.$emit('addBook', id)
+    },
+    removeBook: function (index) {
+      console.log(index)
+      this.$emit('removeBook', index)
     }
   }
 }

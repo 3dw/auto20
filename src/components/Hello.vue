@@ -19,7 +19,7 @@
     h2(v-if="hands.length") 最近更新 
     .ui.two.doubling.cards.container
       .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 4)", :key="index")
-        card(:h="h", :full="false", :mySearch="mySearch", @locate="locate")
+        card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
 
 </template>
 
@@ -32,7 +32,7 @@ import Card from './Card'
 export default {
   name: 'hello',
   components: { Card },
-  props: ['id', 'user', 'mySearch', 'photoURL'],
+  props: ['id', 'user', 'mySearch', 'photoURL', 'book'],
   mixins: [mix],
   data () {
     return {
@@ -55,6 +55,14 @@ export default {
     },
     locate: function (h) {
       this.$emit('locate', h)
+    },
+    addBook: function (id) {
+      console.log(id)
+      this.$emit('addBook', id)
+    },
+    removeBook: function (index) {
+      console.log(index)
+      this.$emit('removeBook', index)
     }
   }
 }
