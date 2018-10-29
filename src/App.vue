@@ -10,9 +10,7 @@
       router-link.item(to="/groups", exact='') 
         | 社團
       .right.menu
-        a.item(@click="login", v-if="!user")
-          | 登入
-        router-link.item(to="/myFlag", v-else)
+        router-link.item(to="/myFlag", v-if="user")
           img#me.icon(:src = "'http://graph.facebook.com/' + id + '/picture'")
           | 我
     nav#menu.ui.fixed.top.labeled.icon.inverted.menu.fat-only
