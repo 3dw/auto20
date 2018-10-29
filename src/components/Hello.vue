@@ -1,11 +1,18 @@
 <template lang="jade">
   .hello
     h1 {{msg}} {{user.displayName}}
-    a.ui.massive.blue.button(@click="login", v-if="!user")
-      i.facebook.icon
-      | 登入
+    .ui.huge.buttons(v-if="!user")
+      button.ui.blue.button(@click="loginFB")
+        i.facebook.icon
+        | 登入 
+      .or
+      button.ui.orange.button(@click="loginGoogle")
+        i.google.icon
+        | 登入
+
+      
     router-link.ui.massive.blue.button(to="/myFlag", v-else)
-      img(:src = "'http://graph.facebook.com/' + id + '/picture'")
+      img.ui.avatar(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
       | 我的旗幟
     .ui.divider
     h2(v-if="hands.length") 最近更新 
@@ -24,7 +31,7 @@ import Card from './Card'
 export default {
   name: 'hello',
   components: { Card },
-  props: ['id', 'user', 'mySearch'],
+  props: ['id', 'user', 'mySearch', 'photoURL'],
   mixins: [mix],
   data () {
     return {
@@ -35,30 +42,23 @@ export default {
     hands: handsRef
   },
   methods: {
-    login: function () {
-      this.$emit('login')
+    loginFB: function () {
+      this.$emit('loginFB')
+    },
+    loginGoogle: function () {
+      this.$emit('loginGoogle')
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-h1, h2 {
-  font-weight: normal;
+<style scoped="">
+
+.ui.avatar {
+  max-height: 100px;
+  max-width: 100px;
+  border-radius: 50%;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #35495E;
-}
 </style>

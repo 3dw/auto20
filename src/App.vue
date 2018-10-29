@@ -11,14 +11,11 @@
         i.map.icon
         | 地圖
       .right.menu
-        a.item(@click="login", v-if="!user")
-          i.facebook.icon
-          | 登入
-        router-link.item(to="/myFlag", v-else)
-          img#me.icon(:src = "'http://graph.facebook.com/' + id + '/picture'")
+        router-link.item(to="/myFlag", v-if="user")
+          img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
     main
-      router-view(:id = "id", :user="user", @login="login")
+      router-view(:id = "id", :user="user", :provider="provider", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
 </template>
 
 <script>
@@ -33,15 +30,18 @@ export default {
     return {
       user: '',
       token: '',
-      id: ''
+      id: '',
+      provider: '',
+      photoURL: ''
     }
   },
   methods: {
-    login: function () {
+    loginFB: function () {
       var vm = this
       var provider = new firebase.auth.FacebookAuthProvider()
       firebase.auth().signInWithPopup(provider).then(function (result) {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        vm.provider = 'facebook'
         vm.token = result.credential.accessToken
         // The signed-in user info.
         vm.user = result.user
@@ -51,6 +51,30 @@ export default {
         var errorCode = error.code
         var errorMessage = error.message
         console.log(errorCode + errorMessage)
+      })
+    },
+    loginGoogle: function () {
+      var vm = this
+      var provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        vm.provider = 'google'
+        vm.token = result.credential.accessToken
+        // The signed-in user info.
+        vm.id = result.user.uid
+        vm.user = result.user
+        vm.photoURL = vm.user.photoURL
+        console.log(vm.user)
+        // ...
+      }).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code
+        var errorMessage = error.message
+        // The email of the user's account used.
+        var email = error.email
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential
+        console.log(errorCode + errorMessage + email + credential)
       })
     }
   }

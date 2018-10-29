@@ -1,7 +1,7 @@
 <template lang="jade">
   .hello
     loader(v-show="!hands.length")
-    .ui.massive.blue.button(v-if="!root.name && hands.length" @click="setMe()") 同步
+    .ui.massive.blue.button(v-if="!root.name && hands.length" @click="setMe()") 同步{{root}}
     .ui.container(v-if="id && root.name && hands.length")
       form#main-form.ui.form.error.warning.success
         h2.ui.header 請填表
@@ -140,7 +140,7 @@ import Loader from './Loader'
 export default {
   name: 'hello',
   mixins: [mix],
-  props: ['id', 'user'],
+  props: ['id', 'user', 'providor'],
   components: { Loader },
   data () {
     return {
@@ -155,20 +155,27 @@ export default {
   },
   methods: {
     setMe: function () {
-      if (!this.hands) {
-        setTimeout(this.setMe, 2000)
+      var vm = this
+      console.log('tongbu')
+      if (!vm.hands) {
+        setTimeout(vm.setMe, 2000)
         return
       }
-      for (var i = 0; i < this.hands.length; i++) {
-        if (this.hands[i].id === this.id) {
-          this.myIndex = i
-          this.root = this.hands[i]
+      for (var i = 0; i < vm.hands.length; i++) {
+        if (vm.hands[i].id === vm.id) {
+          vm.myIndex = i
+          vm.root = vm.hands[i]
         }
       }
-      if (this.id && this.myIndex === -1) {
-        this.myIndex = this.hands.length
-        this.root.name = this.user.displayName
+      console.log(vm.id)
+      console.log(vm.user.displayName)
+      if (vm.id && vm.myIndex === -1) {
+        vm.myIndex = vm.hands.length
+        vm.root.name = vm.user.displayName
+        vm.root.provider = vm.provider
       }
+      console.log(vm.root.name)
+      console.log(vm.root)
     },
     checkLatLng: function (add) {
       var vm = this
