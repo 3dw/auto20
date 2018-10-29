@@ -12,13 +12,13 @@
       .ui.list(v-if = "chats.length")
         .item(v-for="c in chats")
           router-link(:to="'/flag/'+c.id")
-            img.ui.avatar(:src="'http://graph.facebook.com/' + c.id + '/picture'", alt="^_^")
+            img.ui.avatar(:src="c.photoURL || 'http://graph.facebook.com/' + c.id + '/picture'", alt="^_^")
           span {{c.n}} : {{c.t}}
           span.gray(v-show="isFull") &nbsp;&nbsp;-{{ countDateDiff(c.time) }}
         .item
           .ui.form
             .field
-              img.ui.avatar(:src="'http://graph.facebook.com/' + id + '/picture'")
+              img.ui.avatar(:src="photoURL || 'http://graph.facebook.com/' + id + '/picture'")
               input#input(v-model="msg" placeholder="在想什麼嗎?" autofocus)
               a.ui.green.small.button(@click="addChat") 留言
 </template>
@@ -31,7 +31,7 @@ import mix from '../mixins/mix.js'
 export default {
   name: 'chats',
   mixins: [mix],
-  props: ['id', 'user'],
+  props: ['id', 'user', 'photoURL'],
   data () {
     return {
       msg: '',
@@ -48,6 +48,7 @@ export default {
         id: this.id,
         n: this.user.providerData[0].displayName,
         t: this.msg,
+        photoURL: this.photoURL || '',
         time: (new Date()).getTime()
       }
       if (this.msg) {

@@ -1,7 +1,7 @@
 <template lang="jade">
   .hello
     loader(v-show="!hands.length")
-    .ui.massive.blue.button(v-if="!root.name && hands.length" @click="setMe()") 同步{{root}}
+    .ui.massive.blue.button(v-if="!root.name && hands.length" @click="setMe()") 同步
     .ui.container(v-if="id && root.name && hands.length")
       form#main-form.ui.form.error.warning.success
         h2.ui.header 請填表
@@ -140,7 +140,7 @@ import Loader from './Loader'
 export default {
   name: 'hello',
   mixins: [mix],
-  props: ['id', 'user', 'mySearch', 'provider'],
+  props: ['id', 'user', 'mySearch', 'provider', 'photoURL'],
   components: { Loader },
   data () {
     return {
@@ -172,6 +172,7 @@ export default {
         this.root = {
           name: this.user.providerData[0].displayName,
           id: this.id,
+          photoURL: this.photoURL || '',
           note: ''
         }
       }

@@ -1,6 +1,6 @@
 <template lang="jade">
   .hello
-    h1 {{msg}} {{user.displayName}}
+    h1.ui.header {{msg}} {{user && user.providerData[0].displayName}}
     .ui.huge.buttons(v-if="!user")
       button.ui.blue.button(@click="loginFB")
         i.facebook.icon
@@ -11,11 +11,8 @@
         | 登入 
     router-link.ui.massive.blue.button(to="/myFlag", v-else)
       img.ui.avatar(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
-    h1.ui.header {{msg}} {{user && user.providerData[0].displayName}}
-    h4.ui.header(v-if = "hands.length") 和 {{ hands.length }} 位朋友相互認識吧
-    router-link.ui.massive.blue.button(to="/myFlag", v-else)
-      img(:src = "'http://graph.facebook.com/' + id + '/picture'", alt="^_^")
       | 我的旗幟
+    h4.ui.header(v-if = "hands && hands.length") 和 {{ hands.length }} 位朋友相互認識吧
     a.ui.massive.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
       | 按右上的...用瀏覽器開啟
     .ui.divider

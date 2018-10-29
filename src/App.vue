@@ -11,7 +11,7 @@
         | 社團
       .right.menu
         router-link.item(to="/myFlag", v-if="user")
-          img#me.icon(:src = "'http://graph.facebook.com/' + id + '/picture'")
+          img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我
     nav#menu.ui.fixed.top.labeled.icon.inverted.menu.fat-only
       router-link.item(to="/", exact='') 
@@ -33,7 +33,7 @@
         router-link.item(to="/myFlag", v-if="user")
           img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
-    chatbox(v-if="id", :id="id", :user="user")
+    chatbox(v-if="id", :id="id", :user="user", :photoURL="photoURL")
     main
       router-view(:id = "id", :user="user", :provider="provider", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", @locate="locate")
       .ui.form.container(v-if="doSearch($route.path)")
