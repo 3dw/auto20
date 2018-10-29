@@ -15,7 +15,7 @@
       .content
         p.description.gray 
           span(v-html="highlight(h.address, mySearch)")
-          | - {{countDateDiff(h.lastUpdate)}}已更新
+          |&nbsp;&nbsp; - {{countDateDiff(h.lastUpdate)}}已更新
         p.description(v-if="h.learner_habit && full" v-html="'興趣： ' + highlight(h.learner_habit, mySearch)")
         p.description(v-if="h.share" v-html="'可分享： ' + highlight(h.share, mySearch)")
         p.description(v-if="h.ask" v-html="'需要： ' + highlight(h.ask, mySearch)")
@@ -26,6 +26,7 @@
         .ui.divider
         p.descrtpion(v-if="!full" v-html="highlight(part(h.note), mySearch) + '...'")
         p.descrtpion(v-else v-html="highlight(h.note, mySearch)")
+    .filler
     .ui.bottom.attached.buttons
       .ui.green.basic.button(@click="addBook(h.id)" v-if="book.indexOf(h.id) == -1")
         i.book.icon
@@ -70,16 +71,32 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.hello {
+  position: relative;
+  height: 100%;
+}
+
 .image {
   background-color: #c9c9c9;
 }
 
-.gary {
+.gray {
   color: gray;
 }
 
 p {
   white-space: pre-line;
+}
+
+.ui.bottom.attached.buttons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100% !important;
+}
+
+.filler {
+  height: 100px;
 }
 
 </style>

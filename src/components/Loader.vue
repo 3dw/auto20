@@ -1,7 +1,7 @@
 <template lang="jade">
   .hello
     .ui.active.inverted.dimmer
-      .ui.big.text.loader Loading
+      .ui.big.text.loader Loading...
         
 </template>
 
