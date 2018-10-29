@@ -28,7 +28,8 @@
       router-link.item(to="/groups", exact='') 
         i.users.icon
         | 自學社團
-      a.item(href="http://map.alearn.org.tw", target="_blank")
+      router-link.item(to="/faq", exact='')
+        // a.item(href="http://map.alearn.org.tw", target="_blank")
         i.phone.icon
         | 自學FAQ
       .right.menu
@@ -80,7 +81,7 @@ export default {
   },
   methods: {
     doSearch: function (p) {
-      return (!(p.match(/^\/(myFlag|groups|flag\/\d+)?$/)))
+      return (!(p.match(/^\/(myFlag|groups|faq|flag|\/\d+)?$/)))
     },
     locate: function (h) {
       this.zoom = 13

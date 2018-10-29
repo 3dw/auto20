@@ -8,6 +8,7 @@ import MyFlag from '@/components/MyFlag'
 import Groups from '@/components/Groups'
 import Book from '@/components/Book'
 import MyMap from '@/components/MyMap'
+import Faq from '@/components/Faq'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/',
       name: 'Hello',
       component: Hello
+    },
+    {
+      path: '/faq',
+      name: 'Faq',
+      component: Faq
     },
     {
       path: '/cards',
