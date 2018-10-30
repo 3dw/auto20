@@ -9,7 +9,6 @@ import Groups from '@/components/Groups'
 import Book from '@/components/Book'
 import MyMap from '@/components/MyMap'
 import Faq from '@/components/Faq'
-import Ans from '@/components/Ans'
 
 Vue.use(Router)
 
@@ -24,11 +23,6 @@ export default new Router({
       path: '/faq',
       name: 'Faq',
       component: Faq
-    },
-    {
-      path: '/ans/:id',
-      name: 'Ans',
-      component: Ans
     },
     {
       path: '/cards',

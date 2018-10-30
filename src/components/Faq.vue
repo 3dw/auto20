@@ -1,54 +1,44 @@
 <template lang="jade">
   .hello
     section
-      h1.ui.center.aligned.header 選擇一項 
-      h4.ui.center.aligned.header 分類：
-          a.ui.circular.label(v-for="c in catagories",
-            v-bind:style="{'background-color': c.color}",
-            @click="myC = c.t") {{c.t}}
+      h1.ui.center.aligned.header 自學FAQ
 
-          a.ui.circular.grey.basic.label(@click="myC = undefined") 全部
-    .ui.divider
-    br   
-    #main.ui.two.column.doubling.stackable.relaxed.grid.container
-      .column(v-for="(f, index) in faqs", v-show="(!myC || f.c == myC) && (!myKey || f.q.indexOf(myKey)>-1)")
-        .inner.bordered.bottom.right.left
+    .ui.segment.container(v-for="c in catagories")
+      h1(v-bind:style="{'color': c.color}")
+        i.circular.icon(v-bind:class="cataIcon(c.t)")
+        | {{c.t}}
 
-          h4.ui.center.aligned.icon.header
-            router-link(@click="myF=f", :to="'/ans/' + index")
-              i.circular.icon(v-bind:class="cataIcon(f.c)")
-              .description(v-html = "highlightAndMakeBr(f.q,myKey)" v-bind:class="{orange:index % 2 == 0}")
-              br
+      .ui.list
+        .item(v-for = "(f, index) in faqs" v-if = "f.c == c.t")
+          h2
+            a(v-bind:style="{'color': c.color}" @click = "show = !show") {{f.q}}
+          .ui(v-show="show")
+            p.description(v-for = "a in f.as") {{a}}
+            span(v-for = "(e,index) in f.es" v-if = "f.es && f.es.length")
+                .ui.divider
+                | 參考:&nbsp;&nbsp;
+                a(:href = "e.h" target="_blank")
+                  i.globe.icon
+                  | {{e.t}}
+            .ui.divider
 
-        a.ui.top.left.attached.ribbon.label(
-          v-bind:style = "{'background-color': cataColor(f.c)}",
-          @click="myC=(!myC && f.c)||0")
-          | {{f.c}}
+    .ui.segment.container
+      h1
+       a(href="http://map.alearn.org.tw/#/contact" target="_blank") 有其他問題嗎? 請聯絡諮詢專線
 
-      .column(ng-show = "!myC")
-        .inner.bordered.bottom.right.left
-          h4.ui.center.aligned.icon.header
-            a(href="http://map.alearn.org.tw/#contact" target="_blank")
-              i.circular.phone.icon.orange
-              .description.orange
-                | 有其他問題嗎？請聯絡諮詢專線
-              br
-        .ui.top.left.attached.ribbon.label
-          | 其他
- 
 </template>
 
 <script>
 export default {
-  name: 'hello',
-  props: ['mymyKey'],
+  name: 'faq',
+  props: ['mySearch'],
   data () {
     return {
       myC: '',
-      myKey: '',
       handbook: {},
       catagories: [],
-      faqs: []
+      faqs: [],
+      show: false
     }
   },
   methods: {
@@ -90,25 +80,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
 
 a {
   color: #35495E;
-}
-
-.bordered {
-  border-radius: 0 0 15px 15px;
-}
-.bordered.right {
-    border-right: 2px solid #aaa;
-  }
-.bordered.left {
-  border-left: 2px solid #aaa;
-}
-.bordered.bottom {
-  border-bottom: 2px solid #aaa;
 }
 
 </style>
