@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     doSearch: function (p) {
-      return (!(p.match(/^\/(myFlag|groups|faq|flag|\/\d+)?$/)))
+      return (!(p.match(/^\/(myFlag|groups|faq|flag|\/\d+|ans\/\d+)?$/)))
     },
     locate: function (h) {
       this.zoom = 13
