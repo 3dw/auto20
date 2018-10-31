@@ -40,4 +40,8 @@ a {
   color: #35495E;
 }
 
+.card {
+  min-height: 80vh;
+}
+
 </style>

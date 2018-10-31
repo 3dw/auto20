@@ -22,6 +22,7 @@
       .content(v-if="h.connect_me && full")
         .ui.divider
         p.descrtpion 連絡方式： {{h.connect_me}}
+        p.descrtpion(v-if="h.freetime") 有空時間： {{h.freetime}}
       .content
         .ui.divider
         p.descrtpion(v-if="!full" v-html="highlight(part(h.note), mySearch) + '...'")
@@ -74,7 +75,7 @@ export default {
 .hello {
   position: relative;
   height: 100%;
-  min-height: 150px;
+  min-height: 300px;
 }
 
 .image {
