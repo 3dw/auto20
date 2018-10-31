@@ -4,14 +4,14 @@
       router-link.item(to="/", exact='') 
         i.home.icon
       router-link.item(to="/cards", exact='') 
-        | 朋友
+        i.users.icon
       router-link.item(to="/maps", exact='') 
-        | 地圖
+        i.map.icon
       router-link.item(to="/groups", exact='') 
-        | 社團
+        i.globe.icon
       .right.menu
-        router-link.item(to="/mymap", v-if="user")
-          i.map.icon
+        router-link.item(to="/book")
+          i.book.icon
         router-link.item(to="/myFlag", v-if="user")
           img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我
@@ -20,13 +20,13 @@
         i.home.icon
         | 自學2.0
       router-link.item(to="/cards", exact='') 
-        i.comments.icon
+        i.users.icon
         | 自學朋友
       router-link.item(to="/maps", exact='') 
         i.map.icon
         | 地圖
       router-link.item(to="/groups", exact='') 
-        i.users.icon
+        i.globe.icon
         | 自學社團
       router-link.item(to="/faq", exact='')
         // a.item(href="http://map.alearn.org.tw", target="_blank")
