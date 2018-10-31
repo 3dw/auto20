@@ -17,7 +17,7 @@ import mix from '../mixins/mix.js'
 import Loader from './Loader'
 
 export default {
-  name: 'map',
+  name: 'maps',
   mixins: [mix],
   props: ['mySearch', 'zoom', 'center'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
