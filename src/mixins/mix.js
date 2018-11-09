@@ -33,7 +33,7 @@ export default {
         return ''
       }
       if (h.photoURL) { return h.photoURL }
-      return 'http://graph.facebook.com/' + (h.fbid || h.id || h.username || h.username) + '/picture'
+      return 'https://graph.facebook.com/' + (h.fbid || h.id || h.username || h.username) + '/picture'
     },
     countDateDiff: function (num) {
       var ans
