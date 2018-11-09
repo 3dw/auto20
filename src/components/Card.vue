@@ -3,7 +3,7 @@
     router-link(:to="'/flag/'+h.id")
       .image
         h4.ui.header
-          img.main(src='../assets/handshake0.png', :src='getIcon(h)' alt='^_^')
+          img.main(:src='getIcon(h)' alt='^_^')
           | {{h.name}}
           span(v-if="h.learner_birth")
             | -

@@ -15,12 +15,16 @@
             img.ui.avatar(:src="c.photoURL || 'http://graph.facebook.com/' + c.id + '/picture'", alt="^_^")
           span {{c.n}} : {{c.t}}
           span.gray(v-show="isFull") &nbsp;&nbsp;-{{ countDateDiff(c.time) }}
-        .item
+        .item(v-if="id")
           .ui.form
             .field
               img.ui.avatar(:src="photoURL || 'http://graph.facebook.com/' + id + '/picture'")
               input#input(v-model="msg" placeholder="在想什麼嗎?" autofocus)
               a.ui.green.small.button(@click="addChat") 留言
+        .item(v-else)
+          router-link.item(to="/", exact='') 
+            i.home.icon
+            | 登入以留言
 </template>
 
 <script>

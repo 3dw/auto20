@@ -14,6 +14,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "firebase": "^5.5.5",
     "jade": "^1.11.0",
     "jade-loader": "^0.8.0",
