@@ -1,5 +1,7 @@
 <template lang="jade">
   .hello
+    h1
+      router-link(to="/cards", v-if="book && !book.length") 您的名簿目前沒有人，按此找朋友
     loader(v-show="!hands.length")
     .ui.divider
     .ui.two.doubling.cards.container

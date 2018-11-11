@@ -1,5 +1,7 @@
 <template lang="jade">
   .hello
+    h1
+      router-link(to="/cards", v-if="book && !book.length") 您的名簿目前沒有人，按此找朋友
     loader(v-show="!hands.length")
     .ui.divider
     l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="myZoom", :center="center")
