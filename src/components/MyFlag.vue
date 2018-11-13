@@ -1,7 +1,15 @@
 <template lang="jade">
   .hello
     loader(v-show="!hands.length")
-    .ui.massive.blue.button(v-if="!root.name && hands.length" @click="setMe()") 同步
+    .ui.massive.blue.button(v-if="id && !root.name && hands.length" @click="setMe()") 按此開始
+    .ui.huge.buttons(v-if="!user")
+      button.ui.blue.button(@click="loginFB")
+        i.facebook.icon
+        | 登入 
+      .or
+      button.ui.orange.button(@click="loginGoogle")
+        i.google.icon
+        | 登入 
     .ui.container(v-if="id && root.name && hands.length")
       form#main-form.ui.form.error.warning.success
         h2.ui.header 請填表
@@ -242,6 +250,12 @@ export default {
         db.ref('hands/' + this.myIndex).set(JSON.parse(JSON.stringify(this.root).replace('.key', 'key').replace('undefined', 'null')))
         alert('登錄成功!')
       }
+    },
+    loginFB: function () {
+      this.$emit('loginFB')
+    },
+    loginGoogle: function () {
+      this.$emit('loginGoogle')
     }
   }
 }

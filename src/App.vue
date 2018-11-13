@@ -19,6 +19,9 @@
       router-link.item(to="/", exact='') 
         i.home.icon
         | 自學2.0
+      router-link.item(to="/intro", exact='') 
+        i.question.icon
+        | 使用說明
       router-link.item(to="/cards", exact='') 
         i.users.icon
         | 自學朋友
@@ -81,7 +84,7 @@ export default {
   },
   methods: {
     doSearch: function (p) {
-      return (!(p.match(/^\/(myFlag|groups|faq|flag\/\d+|ans\/\d+)?$/)))
+      return (!(p.match(/^\/(myFlag|groups|intro|faq|flag\/\d+|ans\/\d+)?$/)))
     },
     locate: function (h) {
       this.zoom = 13

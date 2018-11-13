@@ -8,6 +8,9 @@
       span(v-if = "hands && hands.length") {{ hands.length }}
       span(v-else) 各
       | 位朋友相互認識
+    h4.ui.header
+      router-link(to="/intro").ui.purple.button 瞭解更多
+
     .ui.huge.buttons(v-if="!user")
       button.ui.blue.button(@click="loginFB")
         i.facebook.icon
@@ -18,7 +21,7 @@
         | 登入 
     router-link.ui.massive.blue.button(to="/myFlag", v-else)
       img.ui.avatar(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
-      | 我的旗幟
+      | 前往我的旗幟
     a.ui.massive.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
       | 按右上的...用瀏覽器開啟
     .ui.divider

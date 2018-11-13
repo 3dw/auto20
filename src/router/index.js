@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
+import Intro from '@/components/Intro'
 import Cards from '@/components/Cards'
 import Maps from '@/components/Maps'
 import Flag from '@/components/Flag'
@@ -19,6 +20,11 @@ export default new Router({
       path: '/',
       name: 'Hello',
       component: Hello
+    },
+    {
+      path: '/intro',
+      name: 'Intro',
+      component: Intro
     },
     {
       path: '/faq',

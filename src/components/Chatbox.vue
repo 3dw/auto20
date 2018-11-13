@@ -1,6 +1,6 @@
 <template lang="jade">
   .chats(v-bind:class = "{ full : isFull, mini: isMini }")
-    #menu.ui.menu
+    #menu.ui.inverted.menu
       .right.menu
         a.item(v-if="!isFull" @click="isFull = true; isMini = false")
           i.comments.icon
@@ -21,10 +21,15 @@
               img.ui.avatar(:src="photoURL || 'http://graph.facebook.com/' + id + '/picture'")
               input#input(v-model="msg" placeholder="在想什麼嗎?" autofocus)
               a.ui.green.small.button(@click="addChat") 留言
-        .item(v-else)
-          router-link.item(to="/", exact='') 
-            i.home.icon
-            | 登入以留言
+        .item(v-else) 
+          .ui.big.buttons(v-if="!user")
+            button.ui.blue.button(@click="loginFB")
+              i.facebook.icon
+              | 登入以留言 
+            .or
+            button.ui.orange.button(@click="loginGoogle")
+              i.google.icon
+              | 登入以留言 
 </template>
 
 <script>
@@ -59,6 +64,12 @@ export default {
         this.$firebaseRefs.chats.push(o)
         this.msg = ''
       }
+    },
+    loginFB: function () {
+      this.$emit('loginFB')
+    },
+    loginGoogle: function () {
+      this.$emit('loginGoogle')
     }
   }
 }
@@ -85,7 +96,7 @@ export default {
 
   .chats.mini {
     width: 50vh;
-    height: 200px;    
+    height: 0;    
   }
 
   img.ui.avatar {
