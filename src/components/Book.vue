@@ -17,7 +17,7 @@ import Loader from './Loader'
 import Card from './Card'
 
 export default {
-  name: 'hello',
+  name: 'book',
   mixins: [mix],
   props: ['mySearch', 'book'],
   components: { Loader, Card },

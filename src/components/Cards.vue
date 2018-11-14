@@ -2,8 +2,8 @@
   .hello
     loader(v-show="!hands.length")
     .ui.divider
-    .ui.two.doubling.cards.container
-      .ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index")
+    .ui.two.doubling.cards.container(v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10")
+      .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0,n)", :key="index")
         card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
 </template>
 
@@ -15,12 +15,14 @@ import Loader from './Loader'
 import Card from './Card'
 
 export default {
-  name: 'hello',
+  name: 'cards',
   mixins: [mix],
   props: ['mySearch', 'id', 'book'],
   components: { Loader, Card },
   data () {
     return {
+      n: 20,
+      busy: false
     }
   },
   firebase: {
@@ -37,6 +39,14 @@ export default {
     removeBook: function (index) {
       console.log(index)
       this.$emit('removeBook', index)
+    },
+    loadMore: function () {
+      this.busy = true
+
+      setTimeout(() => {
+        this.n += 20
+        this.busy = false
+      }, 1)
     }
   }
 }

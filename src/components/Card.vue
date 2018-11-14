@@ -34,7 +34,7 @@
         | 加入名簿
       .ui.red.basic.button(@click="removeBook(book.indexOf(h.id))" v-else)
         i.book.icon
-        | 移除
+        | 從名簿移除
       .ui.pink.basic.button(@click="locate(h)")
         i.map.icon
         | 地圖檢視
@@ -45,7 +45,7 @@
 import mix from '../mixins/mix.js'
 
 export default {
-  name: 'hello',
+  name: 'card',
   mixins: [mix],
   props: ['h', 'mySearch', 'full', 'id', 'book'],
   data () {

@@ -146,7 +146,7 @@ import mix from '../mixins/mix.js'
 import Loader from './Loader'
 
 export default {
-  name: 'hello',
+  name: 'myflag',
   mixins: [mix],
   props: ['id', 'user', 'mySearch', 'provider', 'photoURL'],
   components: { Loader },

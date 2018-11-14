@@ -48,7 +48,7 @@ import mix from '../mixins/mix.js'
 import Card from './Card'
 
 export default {
-  name: 'hello',
+  name: 'intro',
   components: { Card },
   props: ['id', 'user', 'mySearch', 'photoURL', 'book'],
   mixins: [mix],

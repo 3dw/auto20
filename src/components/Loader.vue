@@ -8,7 +8,7 @@
 <script>
 
 export default {
-  name: 'loder',
+  name: 'loader',
   data () {
     return {
     }

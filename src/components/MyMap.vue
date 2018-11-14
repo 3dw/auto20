@@ -19,7 +19,7 @@ import mix from '../mixins/mix.js'
 import Loader from './Loader'
 
 export default {
-  name: 'map',
+  name: 'mymap',
   mixins: [mix],
   props: ['mySearch', 'zoom', 'center', 'book'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},

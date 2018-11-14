@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'faq',
   props: ['mymyKey'],
   data () {
     return {
