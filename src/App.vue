@@ -45,7 +45,7 @@
         router-link.item(to="/myFlag", v-if="user")
           img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我的旗幟
-    chatbox(:id="id", :user="user", :photoURL="photoURL")
+    chatbox(:id="id", :user="user", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
     main
       .ui.form.container(v-if="doSearch($route.path)")
         input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
