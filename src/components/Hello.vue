@@ -27,8 +27,19 @@
     .ui.divider
     h2(v-if="hands.length") 最近更新 
     .ui.two.doubling.cards.container
-      .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 4)", :key="index")
+      .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 2)", :key="index")
         card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
+    .ui.container(v-if="hands.length")
+      .ui.dividder
+      h2 地圖
+      .ui.grid
+        .ui.six.column.doubling.row
+          .column(v-for="c in cities")
+            a.ui.green.button(@click="locateCity(c)") {{c.t}}
+      l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
+        l-tile-layer(:url="url", :attribution="attribution")
+        l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.id })", :icon="getAnIcon(h)")
+          l-popup {{h.name}}
 
 </template>
 
@@ -37,21 +48,28 @@
 import { handsRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Card from './Card'
+import * as L from 'leaflet'
+import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
 
 export default {
   name: 'hello',
-  components: { Card },
-  props: ['id', 'user', 'mySearch', 'photoURL', 'book'],
+  components: {Card, LMap, LTileLayer, LMarker, LPopup},
+  props: ['id', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'cities'],
   mixins: [mix],
   data () {
     return {
-      msg: '歡迎'
+      msg: '歡迎',
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }
   },
   firebase: {
     hands: handsRef
   },
   methods: {
+    locateCity: function (c) {
+      this.$emit('locateCity', c)
+    },
     loginFB: function () {
       this.$emit('loginFB')
     },
@@ -72,18 +90,38 @@ export default {
     removeBook: function (index) {
       console.log(index)
       this.$emit('removeBook', index)
+    },
+    countLatLng: function (h) {
+      if (!h.latlngColumn) { return {lat: 0, lng: 0} }
+      return {lat: h.latlngColumn.split(',')[0], lng: h.latlngColumn.split(',')[1]}
+    },
+    getAnIcon: function (h) {
+      return L.icon({
+        iconUrl: this.getIcon(h),
+        shadowUrl: '',
+        iconSize: [50, 50], // size of the icon
+        shadowSize: [0, 0], // size of the shadow
+        iconAnchor: [25, 25], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0], // the same for the shadow
+        popupAnchor: [0, 0] // point from which the po
+      })
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
 .ui.avatar {
   max-height: 100px;
   max-width: 100px;
   border-radius: 50%;
+}
+
+img.leaflet-marker-icon {
+  border-radius: 50% !important;
+  border: 1px solid purple !important;
 }
 
 </style>

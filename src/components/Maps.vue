@@ -2,6 +2,11 @@
   .hello
     loader(v-show="!hands.length")
     .ui.divider
+
+    .ui.grid
+      .ui.six.column.doubling.row
+        .column(v-for="c in cities")
+          a.ui.green.button(@click="locateCity(c)") {{c.t}}
     l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
       l-tile-layer(:url="url", :attribution="attribution")
       l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.id })", :icon="getAnIcon(h)")
@@ -19,7 +24,7 @@ import Loader from './Loader'
 export default {
   name: 'maps',
   mixins: [mix],
-  props: ['mySearch', 'zoom', 'center'],
+  props: ['mySearch', 'zoom', 'center', 'cities'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
   data () {
     return {
@@ -31,6 +36,9 @@ export default {
     hands: handsRef
   },
   methods: {
+    locateCity: function (c) {
+      this.$emit('locateCity', c)
+    },
     countLatLng: function (h) {
       if (!h.latlngColumn) { return {lat: 0, lng: 0} }
       return {lat: h.latlngColumn.split(',')[0], lng: h.latlngColumn.split(',')[1]}

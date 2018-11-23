@@ -49,8 +49,8 @@
     main
       .ui.form.container(v-if="doSearch($route.path)")
         input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
-      router-view(:id = "id", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
-      @locate="locate", @addBook="addBook", @removeBook="removeBook")
+      router-view(:id = "id", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
+      @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
 </template>
 
 <script>
@@ -79,7 +79,21 @@ export default {
       id: '',
       provider: '',
       photoURL: '',
-      book: []
+      book: [],
+      cities: [
+        {t: '臺北市', c: [25.038410, 121.563698]},
+        {t: '新北市', c: [25.011709, 121.465881], z: 10},
+        {t: '桃園市', c: [24.993923, 121.301680]},
+        {t: '臺中市', c: [24.163162, 120.647828]},
+        {t: '臺南市', c: [22.991235, 120.184982]},
+        {t: '高雄市', c: [22.627277, 120.301437]},
+        {t: '宜蘭縣', c: [24.69295, 121.7195], z: 10},
+        {t: '南投縣', c: [23.83876, 120.9876], z: 10},
+        {t: '嘉義市', c: [23.47545, 120.4473], z: 10},
+        {t: '花蓮縣', c: [23.7569, 121.3542], z: 10},
+        {t: '臺東縣', c: [22.98461, 120.9876], z: 10},
+        {t: '澎湖縣', c: [23.56548, 119.6151], z: 9}
+      ]
     }
   },
   methods: {
@@ -90,6 +104,10 @@ export default {
       this.zoom = 13
       this.center = h.latlngColumn.split(',')
       this.$router.push({path: '/maps'})
+    },
+    locateCity: function (c) {
+      this.zoom = c.z || 13
+      this.center = c.c
     },
     getLocal: function (n) {
       console.log('get:' + n)
