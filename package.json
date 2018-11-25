@@ -18,6 +18,8 @@
     "firebase": "^5.5.5",
     "jade": "^1.11.0",
     "jade-loader": "^0.8.0",
+    "node-sass": "^4.10.0",
+    "sass-loader": "^7.1.0",
     "semantic-ui-css": "^2.4.1",
     "vue": "^2.5.17",
     "vue-infinite-scroll": "^2.0.2",

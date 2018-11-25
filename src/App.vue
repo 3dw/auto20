@@ -49,7 +49,8 @@
     main
       .ui.form.container(v-if="doSearch($route.path)")
         input(v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
-      router-view(:id = "id", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
+      transition(name='fade', mode='out-in')
+        router-view(:id = "id", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
       @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
 </template>
 
@@ -188,7 +189,66 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};      
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin transform($transforms) {
+     -moz-transform: $transforms;
+       -o-transform: $transforms;
+      -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+          transform: $transforms;
+}
+
+.fade-leave {  }
+
+.fade-leave-active {
+  @include transition(all .3s ease);
+  opacity: 0;
+}
+
+.fade-enter {
+  opacity: 0;
+  @include transform(rotateY(45deg));
+}
+
+.fade-enter-active {
+  @include transition(all .5s ease-in);
+}
+
 body {
   margin: 0;
 }
