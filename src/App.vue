@@ -142,6 +142,7 @@ export default {
         for (var i = 0; i < vm.hands.length; i++) {
           if (vm.hands[i].id === vm.id) {
             vm.center = vm.hands[i].latlngColumn.split(',')
+            vm.zoom = 13
           }
         }
         // ...
@@ -165,6 +166,7 @@ export default {
         for (var i = 0; i < vm.hands.length; i++) {
           if (vm.hands[i].id === vm.id) {
             vm.center = vm.hands[i].latlngColumn.split(',')
+            vm.zoom = 13
           }
         }
         // ...
