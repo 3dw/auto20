@@ -7,7 +7,8 @@
     h4.ui.header 升上互助旗，和
       span(v-if = "hands && hands.length") {{ hands.length }}
       span(v-else) 各
-      | 位朋友相互認識
+      | 位朋友相互認
+      span(v-if ="!user") (請先登入)
     h4.ui.header
       router-link(to="/intro").ui.purple.button 瞭解更多
 
