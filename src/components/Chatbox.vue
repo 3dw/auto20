@@ -5,11 +5,12 @@
         a.item(v-if="!isFull" @click="isFull = true; isMini = false")
           i.comments.icon
           | 聊聊
+          .red.note {{ chats.length }}
         a.item(v-if="!isMini" @click="isFull = false; isMini = true")
           i.compress.icon
           | 縮小
     #box
-      .ui.list(v-if = "chats.length")
+      .ui.list
         .item(v-for="c in chats")
           router-link(:to="'/flag/'+c.id")
             img.ui.avatar(:src="c.photoURL || 'http://graph.facebook.com/' + c.id + '/picture'", alt="^_^")

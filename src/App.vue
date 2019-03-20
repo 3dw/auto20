@@ -39,6 +39,7 @@
         router-link.item(to="/book")
           i.book.icon
           | 我的名簿
+          .red.note {{ book.length }}
         router-link.item(to="/mymap", v-if="user")
           i.map.icon
           | 我的地圖
@@ -343,6 +344,20 @@ a, button, .clickable {
 #me {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.red.note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
 }
 
 </style>
