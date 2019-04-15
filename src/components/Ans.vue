@@ -11,7 +11,7 @@
             p.description(v-for = "line in myQ.as" v-html = "highlightAndMakeBr(line, myKey)")
         
         .row
-          .eighteen.wide.right.aligned.column(v-show="myQ.es[0]")
+          .eighteen.wide.right.aligned.column(v-show="myQ.es && myQ.es[0]")
             .ui.divider
             span(v-for = "(e,index) in myQ.es")
               .ui.divider(v-show="index")
