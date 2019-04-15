@@ -11,6 +11,10 @@ import VueResource from 'vue-resource'
 import VueLocalStorage from 'vue-localstorage'
 import infiniteScroll from 'vue-infinite-scroll'
 
+import VueMarkdown from 'vue-markdown'
+
+Vue.use(VueMarkdown)
+
 delete L.Icon.Default.prototype._getIconUrl
 // eslint-disable-next-line
 L.Icon.Default.mergeOptions({
