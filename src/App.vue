@@ -139,11 +139,13 @@ export default {
         vm.token = result.credential.accessToken
         // The signed-in user info.
         vm.user = result.user
-        vm.id = result.user.uid.split(':')[1]
+        vm.id = result.user.uid
+        vm.photoURL = vm.user.photoURL
         for (var i = 0; i < vm.hands.length; i++) {
           if (vm.hands[i].id === vm.id) {
             vm.center = vm.hands[i].latlngColumn.split(',')
             vm.zoom = 13
+            console.log(vm.id)
           }
         }
         // ...
