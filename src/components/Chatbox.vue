@@ -34,7 +34,7 @@
         .item.preview(v-if="p.t")
           router-link(:to="'/flag/'+p.id")
             img.ui.avatar(:src="p.photoURL || 'http://graph.facebook.com/' + p.id + '/picture'", alt="^_^")
-          a(@click = "key = p.l" v-bind:class = "p.l") [{{p.l}}]
+          a(@click = "key = p.l" v-bind:class = "p.l") [{{p.l}}] (預覽)
           vue-markdown
             | {{p.n}} : {{p.t}}
           span.gray(v-show="isFull") &nbsp;&nbsp;-
@@ -130,6 +130,7 @@ export default {
       if (this.msg) {
         this.$firebaseRefs.chats.push(o)
         this.msg = ''
+        this.p = ''
       }
     },
     loginFB: function () {
