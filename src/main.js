@@ -10,8 +10,10 @@ import L from 'leaflet'
 import VueResource from 'vue-resource'
 import VueLocalStorage from 'vue-localstorage'
 import infiniteScroll from 'vue-infinite-scroll'
-
+import autofocus from 'vue-autofocus-directive'
 import VueMarkdown from 'vue-markdown'
+
+Vue.directive('autofocus', autofocus)
 
 Vue.use(VueMarkdown)
 
