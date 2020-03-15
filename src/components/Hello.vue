@@ -4,11 +4,11 @@
       img(src="../assets/handshake0.png")
       | {{msg}} {{user && user.providerData[0].displayName}}
       img(src="../assets/handshake0.png")
-    h4.ui.header 升上互助旗，和
+    h4.ui.header 請先登入，和
       span(v-if = "hands && hands.length") {{ hands.length }}
       span(v-else) 各
-      | 位朋友相互認
-      span(v-if ="!user") (請先登入)
+      | 位朋友相互認識，升起互助旗
+      span(v-if ="!user")
     h4.ui.header
       router-link(to="/intro").ui.purple.button 瞭解更多
 
