@@ -35,19 +35,7 @@
     <!-- Add to home screen for Windows -->
     <meta name="msapplication-TileImage" content="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/msicon-144x144.png">
     <meta name="msapplication-TileColor" content="#000000">
-    <% for (var chunk of webpack.chunks) {
-        for (var file of chunk.files) {
-          if (file.match(/\.(js|css)$/)) { %>
-    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26178243-9"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-26178243-9');
-    </script>
+    
   </head>
   <body>
     <noscript>

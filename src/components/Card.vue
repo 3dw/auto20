@@ -26,11 +26,9 @@
       .content
         .ui.divider
         p.descrtpion(v-if="!full")
-          vue-markdown
-            div(v-html="highlight(part(h.note), mySearch) + '...'")
+          vue-simple-markdown.text(:source="highlight(part(h.note), mySearch) + '...'")
         p.descrtpion(v-else)
-          vue-markdown
-            div(v-html="highlight(h.note, mySearch)")
+          vue-simple-markdown.text(:source="highlight(h.note, mySearch)")
     .filler
     .ui.bottom.attached.buttons
       .ui.green.basic.button(@click="addBook(h.id)" v-if="book.indexOf(h.id) == -1")

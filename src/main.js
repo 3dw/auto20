@@ -11,11 +11,16 @@ import VueResource from 'vue-resource'
 import VueLocalStorage from 'vue-localstorage'
 import infiniteScroll from 'vue-infinite-scroll'
 import autofocus from 'vue-autofocus-directive'
-import VueMarkdown from 'vue-markdown'
+import VueGtag from 'vue-gtag'
+import VueSimpleMarkdown from 'vue-simple-markdown'
+
+Vue.use(VueSimpleMarkdown)
+
+Vue.use(VueGtag, {
+  config: { id: 'UA-26178243-9' }
+})
 
 Vue.directive('autofocus', autofocus)
-
-Vue.use(VueMarkdown)
 
 delete L.Icon.Default.prototype._getIconUrl
 // eslint-disable-next-line

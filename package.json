@@ -23,11 +23,13 @@
     "semantic-ui-css": "^2.4.1",
     "vue": "^2.5.17",
     "vue-autofocus-directive": "^1.0.4",
+    "vue-gtag": "^1.6.2",
     "vue-infinite-scroll": "^2.0.2",
     "vue-localstorage": "^0.6.2",
     "vue-markdown": "^2.2.4",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
+    "vue-simple-markdown": "^1.1.1",
     "vue2-leaflet": "^1.0.2",
     "vuefire": "^1.4.5"
   },
