@@ -16,10 +16,10 @@
       .ui.list
         .item(v-for="(c, idx) in fil(chats).slice(fil(chats).length - 5, fil(chats).length)" v-bind:key="c.t")
           .ui(v-show = "edit !== c") 
-              router-link(:to="'/flag/'+c.id")
-                img.ui.avatar(:src="c.photoURL || 'http://graph.facebook.com/' + c.id + '/picture'", alt="^_^")
+              router-link(:to="'/flag/'+c.uid")
+                img.ui.avatar(:src="c.photoURL || 'http://graph.facebook.com/' + c.uid + '/picture'", alt="^_^")
               a(@click = "key = c.l" v-bind:class = "c.l") [{{c.l}}]
-              a(@click = "edit = c", v-show="c.id == id")
+              a(@click = "edit = c", v-show="c.uid == uid")
                 i.edit.icon(title = "edit")
               vue-markdown
                 | {{c.n}} : {{c.t}}
@@ -32,18 +32,18 @@
               a.ui.green.small.button(@click="edit = ''; updateChat(c)") 更新
 
         .item.preview(v-if="p.t")
-          router-link(:to="'/flag/'+p.id")
-            img.ui.avatar(:src="p.photoURL || 'http://graph.facebook.com/' + p.id + '/picture'", alt="^_^")
+          router-link(:to="'/flag/'+p.uid")
+            img.ui.avatar(src="/static/img/handshake0.png")
           a(@click = "key = p.l" v-bind:class = "p.l") [{{p.l}}] (預覽)
           vue-markdown
             | {{p.n}} : {{p.t}}
           span.gray(v-show="isFull") &nbsp;&nbsp;-
             vue-markdown 
               |{{ countDateDiff(p.time) }}
-        .item(v-if="id")
+        .item(v-if="uid")
           .ui.form
             .field
-              img.ui.avatar(:src="photoURL || 'http://graph.facebook.com/' + id + '/picture'")
+              img.ui.avatar(:src="photoURL || 'http://graph.facebook.com/' + uid + '/picture'")
               input#input(v-model="msg" placeholder="在想什麼嗎?" autofocus)
             .inline.fields
               .field(v-for = "l in labels")
@@ -75,7 +75,7 @@ export default {
   name: 'chats',
   mixins: [mix],
   components: { VueMarkdown },
-  props: ['id', 'user', 'photoURL'],
+  props: ['uid', 'user', 'photoURL'],
   data () {
     return {
       p: '',
@@ -95,7 +95,7 @@ export default {
   methods: {
     preview: function () {
       var o = {
-        id: this.id,
+        uid: this.uid,
         n: this.user.providerData[0].displayName,
         t: this.msg,
         l: this.label,
@@ -107,7 +107,7 @@ export default {
     },
     updateChat: function (c) {
       var o = {
-        id: c.id,
+        uid: c.uid,
         n: c.n,
         t: c.t,
         l: c.l,
@@ -120,7 +120,7 @@ export default {
     },
     addChat: function () {
       var o = {
-        id: this.id,
+        uid: this.uid,
         n: this.user.providerData[0].displayName,
         t: this.msg,
         l: this.label,

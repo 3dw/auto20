@@ -5,7 +5,7 @@
     loader(v-show="!hands.length")
     .ui.divider
     .ui.two.doubling.cards.container
-      .ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index" v-if="book && book.indexOf(h.id) > -1")
+      .ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index" v-if="book && book.indexOf(h.uid) > -1")
         card(:h="h", :full="false",:book="book", :mySearch="mySearch", @locate="locate", @addBook="addBook", @removeBook="removeBook")
 </template>
 
@@ -32,9 +32,9 @@ export default {
     locate: function (h) {
       this.$emit('locate', h)
     },
-    addBook: function (id) {
-      console.log(id)
-      this.$emit('addBook', id)
+    addBook: function (uid) {
+      console.log(uid)
+      this.$emit('addBook', uid)
     },
     removeBook: function (index) {
       console.log(index)

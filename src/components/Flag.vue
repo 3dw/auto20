@@ -2,7 +2,7 @@
   .hello
     loader(v-show="!hands.length")
     .ui.segment.container
-      .ui.fluid.card(v-for="(h, index) in hands" v-if="h.id == $route.params.id")
+      .ui.fluid.card(v-for="(h, index) in hands" v-if="h.uid == $route.params.uid")
         card(:h="h", :full="true", :book="book", :mySearch="mySearch", @locate="locate", @addBook="addBook")
 
       iframe(:src="'https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwe.alearn.org.tw%2F%23%2Fflag%2F' + $route.params.id + '&layout=button_count&size=small&mobile_iframe=true&appId=485195848253155&width=63&height=20'" width="104" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media")
@@ -31,9 +31,9 @@ export default {
     locate: function (h) {
       this.$emit('locate', h)
     },
-    addBook: function (id) {
-      console.log(id)
-      this.$emit('addBook', id)
+    addBook: function (uid) {
+      console.log(uid)
+      this.$emit('addBook', uid)
     }
   }
 }

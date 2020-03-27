@@ -13,7 +13,6 @@
         router-link.item(to="/book")
           i.book.icon
         router-link.item(to="/myFlag", v-if="user")
-          img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
           | 我
     nav#menu.ui.fixed.top.labeled.icon.inverted.menu.fat-only
       router-link.item(to="/", exact='') 
@@ -44,7 +43,7 @@
           i.map.icon
           | 我的地圖
         router-link.item(to="/myFlag", v-if="user")
-          img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + uid + '/picture'")
+          i.user.icon
           | 我的旗幟
     chatbox(:uid="uid", :user="user", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
     main

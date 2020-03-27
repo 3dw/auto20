@@ -21,7 +21,6 @@
         i.google.icon
         | 登入 
     router-link.ui.massive.blue.button(to="/myFlag", v-else)
-      img.ui.avatar(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
       | 前往我的旗幟
     a.ui.massive.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
       | 按右上的...用瀏覽器開啟
@@ -29,7 +28,7 @@
     h2(v-if="hands.length") 最近更新 
     .ui.two.doubling.cards.container
       .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0, 2)", :key="index")
-        card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
+        card(:h="h", :full="false", :mySearch="mySearch", :uid="uid", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
     .ui.container(v-if="hands.length")
       .ui.dividder
       h2 地圖
@@ -57,7 +56,7 @@ import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
 export default {
   name: 'hello',
   components: {Card, LMap, LTileLayer, LMarker, LPopup},
-  props: ['id', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'cities'],
+  props: ['uid', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'cities'],
   mixins: [mix],
   data () {
     return {
@@ -86,9 +85,9 @@ export default {
     locate: function (h) {
       this.$emit('locate', h)
     },
-    addBook: function (id) {
-      console.log(id)
-      this.$emit('addBook', id)
+    addBook: function (uid) {
+      console.log(uid)
+      this.$emit('addBook', uid)
     },
     removeBook: function (index) {
       console.log(index)

@@ -47,7 +47,7 @@ export default new Router({
       component: Maps
     },
     {
-      path: '/flag/:id',
+      path: '/flag/:uid',
       name: 'Flag',
       component: Flag
     },

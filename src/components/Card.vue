@@ -1,6 +1,6 @@
 <template lang="jade">
   .hello
-    router-link(:to="'/flag/'+h.id")
+    router-link(:to="'/flag/'+h.uid")
       .image
         h4.ui.header
           img.main(:src='getIcon(h)' alt='^_^')
@@ -31,10 +31,10 @@
           vue-simple-markdown.text(:source="highlight(h.note, mySearch)")
     .filler
     .ui.bottom.attached.buttons
-      .ui.green.basic.button(@click="addBook(h.id)" v-if="book.indexOf(h.id) == -1")
+      .ui.green.basic.button(@click="addBook(h.uid)" v-if="book.indexOf(h.uid) == -1")
         i.book.icon
         | 加入名簿
-      .ui.red.basic.button(@click="removeBook(book.indexOf(h.id))" v-else)
+      .ui.red.basic.button(@click="removeBook(book.indexOf(h.uid))" v-else)
         i.book.icon
         | 從名簿移除
       .ui.pink.basic.button(@click="locate(h)")
@@ -49,7 +49,7 @@ import mix from '../mixins/mix.js'
 export default {
   name: 'card',
   mixins: [mix],
-  props: ['h', 'mySearch', 'full', 'id', 'book'],
+  props: ['h', 'mySearch', 'full', 'uid', 'book'],
   data () {
     return {
     }
@@ -59,9 +59,9 @@ export default {
       console.log(h)
       this.$emit('locate', h)
     },
-    addBook: function (id) {
-      console.log(id)
-      this.$emit('addBook', id)
+    addBook: function (uid) {
+      console.log(uid)
+      this.$emit('addBook', uid)
     },
     removeBook: function (index) {
       console.log(index)

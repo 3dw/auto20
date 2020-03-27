@@ -50,7 +50,7 @@ import Card from './Card'
 export default {
   name: 'intro',
   components: { Card },
-  props: ['id', 'user', 'mySearch', 'photoURL', 'book'],
+  props: ['uid', 'user', 'mySearch', 'photoURL', 'book'],
   mixins: [mix],
   data () {
     return {
@@ -74,9 +74,9 @@ export default {
     locate: function (h) {
       this.$emit('locate', h)
     },
-    addBook: function (id) {
-      console.log(id)
-      this.$emit('addBook', id)
+    addBook: function (uid) {
+      console.log(uid)
+      this.$emit('addBook', uid)
     },
     removeBook: function (index) {
       console.log(index)
