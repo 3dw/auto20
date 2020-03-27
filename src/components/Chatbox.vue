@@ -56,10 +56,10 @@
                 a.ui.green.small.button(@click="addChat") 留言
         .item(v-else) 
           .ui.big.buttons(v-if="!user")
-            button.ui.blue.button(@click="loginFB")
+            //button.ui.blue.button(@click="loginFB")
               i.facebook.icon
               | 登入以留言 
-            .or
+            //.or
             button.ui.orange.button(@click="loginGoogle")
               i.google.icon
               | 登入以留言 

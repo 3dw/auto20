@@ -11,10 +11,10 @@
       | 位朋友相互認識
 
     .ui.huge.buttons(v-if="!user")
-      button.ui.blue.button(@click="loginFB")
+      //button.ui.blue.button(@click="loginFB")
         i.facebook.icon
         | 登入 
-      .or
+      //.or
       button.ui.orange.button(@click="loginGoogle")
         i.google.icon
         | 登入 

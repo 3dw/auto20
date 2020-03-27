@@ -44,14 +44,14 @@
           i.map.icon
           | 我的地圖
         router-link.item(to="/myFlag", v-if="user")
-          img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + id + '/picture'")
+          img#me.icon(:src = "photoURL || 'http://graph.facebook.com/' + uid + '/picture'")
           | 我的旗幟
-    chatbox(:id="id", :user="user", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
+    chatbox(:uid="uid", :user="user", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
     main
       .ui.form.container(v-if="doSearch($route.path)")
         input(v-autofocus="dynamicvalue", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
       transition(name='fade', mode='out-in')
-        router-view(:id = "id", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
+        router-view(:uid = "uid", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
       @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
 </template>
 
@@ -78,7 +78,7 @@ export default {
       center: [22.613220, 121.219482],
       user: '',
       token: '',
-      id: '',
+      uid: '',
       provider: '',
       photoURL: '',
       book: [],
@@ -120,9 +120,9 @@ export default {
       this.$localStorage.set(n, JSON.stringify(this[n]))
       // console.log(this.$localStorage.get(n))
     },
-    addBook: function (id) {
-      if (this.book.indexOf(id) === -1) {
-        this.book.push(id)
+    addBook: function (uid) {
+      if (this.book.indexOf(uid) === -1) {
+        this.book.push(uid)
         this.setLocal('book')
       }
     },
@@ -139,13 +139,13 @@ export default {
         vm.token = result.credential.accessToken
         // The signed-in user info.
         vm.user = result.user
-        vm.id = result.user.uid
+        vm.uid = result.user.uid
         vm.photoURL = vm.user.photoURL
         for (var i = 0; i < vm.hands.length; i++) {
-          if (vm.hands[i].id === vm.id) {
+          if (vm.hands[i].uid === vm.uid) {
             vm.center = vm.hands[i].latlngColumn.split(',')
             vm.zoom = 13
-            console.log(vm.id)
+            console.log(vm.uid)
           }
         }
         // ...
@@ -163,11 +163,16 @@ export default {
         vm.provider = 'google'
         vm.token = result.credential.accessToken
         // The signed-in user info.
-        vm.id = result.user.uid
+        vm.uid = result.user.uid
+        console.log(vm.uid)
         vm.user = result.user
-        vm.photoURL = vm.user.photoURL
+        console.log(decodeURI(result.user.photoURL))
+        decodeURI(result.user.photoURL)
+        vm.photoURL = decodeURI(result.user.photoURL)
         for (var i = 0; i < vm.hands.length; i++) {
-          if (vm.hands[i].id === vm.id) {
+          console.log(vm.uid)
+          console.log(vm.hands[i].uid)
+          if (vm.hands[i].uid === vm.uid) {
             vm.center = vm.hands[i].latlngColumn.split(',')
             vm.zoom = 13
           }

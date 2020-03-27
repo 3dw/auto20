@@ -1,16 +1,16 @@
 <template lang="jade">
   .hello
     loader(v-show="!hands.length")
-    .ui.massive.blue.button(v-if="id && !root.name && hands.length" @click="setMe()") 按此開始
+    .ui.massive.blue.button(v-if="uid && !root.name && hands.length" @click="setMe()") 按此開始
     .ui.huge.buttons(v-if="!user")
-      button.ui.blue.button(@click="loginFB")
+      //button.ui.blue.button(@click="loginFB")
         i.facebook.icon
         | 登入 
-      .or
+      //.or
       button.ui.orange.button(@click="loginGoogle")
         i.google.icon
         | 登入 
-    .ui.container(v-if="id && root.name && hands.length")
+    .ui.container(v-if="uid && root.name && hands.length")
       form#main-form.ui.form.error.warning.success
         h2.ui.header 請填表
         .sub.header
@@ -148,7 +148,7 @@ import Loader from './Loader'
 export default {
   name: 'myflag',
   mixins: [mix],
-  props: ['id', 'user', 'mySearch', 'provider', 'photoURL'],
+  props: ['uid', 'user', 'mySearch', 'provider', 'photoURL'],
   components: { Loader },
   data () {
     return {
@@ -169,17 +169,17 @@ export default {
         return
       }
       for (var i = 0; i < l; i++) {
-        if (this.hands[i].id === this.id) {
+        if (this.hands[i].uid === this.uid) {
           this.myIndex = i
           this.root = this.hands[i]
         }
       }
-      if (this.id && this.myIndex === -1) {
+      if (this.uid && this.myIndex === -1) {
         console.log('new')
         this.myIndex = l
         this.root = {
           name: this.user.providerData[0].displayName,
-          id: this.id,
+          uid: this.uid,
           photoURL: this.photoURL || '',
           note: ''
         }
