@@ -5,13 +5,10 @@
 
     .ui.grid
       .ui.stackable.row
-        .six.wide.column
-          .ui.button.group
-            a.ui.green.button(v-for="c in cities", @click="locateCity(c)") {{c.t}}
-        .ten.wide.column
+        .sixteen.wide.column
           l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
             l-tile-layer(:url="url", :attribution="attribution")
-            l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.id })", :icon="getAnIcon(h)")
+            l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)")
               l-popup {{h.name}}
 </template>
 
