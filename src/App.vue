@@ -382,4 +382,10 @@ a, button, .clickable {
   background-color: red;
 }
 
+img.leaflet-marker-icon {
+  border-radius: 50% !important;
+  border: 1px solid purple !important;
+  background-color: white !important;
+}
+
 </style>

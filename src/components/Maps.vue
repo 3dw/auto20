@@ -45,6 +45,7 @@ export default {
     getAnIcon: function (h) {
       return L.icon({
         iconUrl: this.getIcon(h),
+        alt: h.name,
         shadowUrl: '',
         iconSize: [50, 50], // size of the icon
         shadowSize: [0, 0], // size of the shadow
@@ -59,10 +60,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
-img.leaflet-marker-icon {
-  border-radius: 50% !important;
-  border: 1px solid purple !important;
-}
 
 </style>

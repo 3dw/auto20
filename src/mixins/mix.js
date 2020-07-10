@@ -29,12 +29,15 @@ export default {
       return text
     },
     getIcon: function (h) {
-      return '/static/img/handshake0.png'
-      /*
+      if (h && h.photoURL) {
+        return h.photoURL
+      } else {
+        return 'https://www.moedict.tw/' + h.name + '.png'
+        // return '/static/img/handshake0.png'
+      }/*
       if (!h) {
         return ''
       }
-      if (h.photoURL) { return h.photoURL }
       return 'https://graph.facebook.com/' + (h.fbid || h.id || h.username || h.username) + '/picture'
       */
     },

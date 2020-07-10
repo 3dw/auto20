@@ -6,7 +6,7 @@
     .ui.divider
     l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="myZoom", :center="center")
       l-tile-layer(:url="url", :attribution="attribution")
-      l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.id })", :icon="getAnIcon(h)", v-if="book && book.indexOf(h.id) > -1")
+      l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)", v-if="book && book.indexOf(h.id) > -1")
         l-popup {{h.name}}
 </template>
 
