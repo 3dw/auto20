@@ -1,6 +1,6 @@
 <template lang="jade">
   .hello
-    h1.ui.header
+    //h1.ui.header
       img(src="../assets/handshake0.png")
       | {{msg}} {{user && user.providerData[0].displayName}}
       img(src="../assets/handshake0.png")
@@ -9,21 +9,15 @@
       span(v-else) 各
       | 位朋友相互認識，升起互助旗
       span(v-if ="!user")
-    h4.ui.header
+    .ui.huge.buttons
       router-link(to="/intro").ui.purple.button 瞭解更多
-
-    .ui.huge.buttons(v-if="!user")
-      //button.ui.blue.button(@click="loginFB")
-        i.facebook.icon
-        | 登入 
-      //.or
-      button.ui.orange.button(@click="loginGoogle")
+      button.ui.orange.button(@click="loginGoogle", v-if="!user")
         i.google.icon
-        | 登入 
-    router-link.ui.massive.blue.button(to="/myFlag", v-else)
-      | 前往我的旗幟
-    a.ui.massive.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
-      | 按右上的...用瀏覽器開啟
+        | 登入
+      router-link.ui.blue.button(to="/myFlag", v-else)
+        | 前往我的旗幟
+      a.ui.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
+        | 按右上的...用瀏覽器開啟
     .ui.divider
     h2(v-if="hands.length") 最近更新 
     .ui.two.doubling.cards.container

@@ -33,7 +33,7 @@
 
         .item.preview(v-if="p.t")
           router-link(:to="'/flag/'+p.uid")
-            img.ui.avatar(src="/static/img/handshake0.png")
+            img.ui.avatar(:src="photoURL || '/static/img/handshake0.png'")
           a(@click = "key = p.l" v-bind:class = "p.l") [{{p.l}}] (預覽)
           vue-markdown
             | {{p.n}} : {{p.t}}
