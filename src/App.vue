@@ -9,6 +9,8 @@
         i.map.icon
       router-link.item(to="/groups", exact='') 
         i.globe.icon
+      router-link.item(to="/faq", exact='')
+        i.phone.icon
       .right.menu
         router-link.item(to="/book")
           i.book.icon
@@ -33,7 +35,7 @@
       router-link.item(to="/faq", exact='')
         // a.item(href="http://map.alearn.org.tw", target="_blank")
         i.phone.icon
-        | 自學FAQ
+        | 聊天機器人
       .right.menu
         router-link.item(to="/book")
           i.book.icon
