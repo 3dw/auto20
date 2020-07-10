@@ -64,7 +64,7 @@ export default {
   },
   mounted () {
     // GET /someUrl
-    this.$http.get('http://map.alearn.org.tw/static/api/domain.json').then(response => {
+    this.$http.get('https://map.alearn.org.tw/static/api/domain.json').then(response => {
       console.log(response.body)
       this.domain = response.body
       this.intents = this.domain.intents
