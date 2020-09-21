@@ -13,6 +13,7 @@ import infiniteScroll from 'vue-infinite-scroll'
 import autofocus from 'vue-autofocus-directive'
 import VueGtag from 'vue-gtag'
 import VueSimpleMarkdown from 'vue-simple-markdown'
+import alts from 'html-img-alt'
 
 Vue.use(VueSimpleMarkdown)
 
