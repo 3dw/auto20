@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     .ui.active.inverted.dimmer
       .ui.big.text.loader Loading...

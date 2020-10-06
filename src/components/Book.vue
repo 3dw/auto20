@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     h1
       router-link(to="/cards", v-if="book && !book.length") 您的名簿目前沒有人，按此找朋友
@@ -23,6 +23,7 @@ export default {
   components: { Loader, Card },
   data () {
     return {
+      hands: []
     }
   },
   firebase: {

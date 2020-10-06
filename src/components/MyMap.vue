@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     h1
       router-link(to="/cards", v-if="book && !book.length") 您的名簿目前沒有人，按此找朋友
@@ -27,7 +27,8 @@ export default {
     return {
       myZoom: 13,
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      hands: []
     }
   },
   firebase: {

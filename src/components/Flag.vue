@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     loader(v-show="!hands.length")
     .ui.segment.container
@@ -22,6 +22,7 @@ export default {
   props: ['mySearch', 'book'],
   data () {
     return {
+      hands: []
     }
   },
   firebase: {

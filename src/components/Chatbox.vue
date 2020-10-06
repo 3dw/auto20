@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .chats(v-bind:class = "{ full : isFull, mini: isMini }")
     #menu.ui.inverted.big.menu
       .item.ui.form(v-show="isFull")
@@ -28,7 +28,7 @@
                   |{{ countDateDiff(c.time) }}
           .ui.form(v-show="edit == c")
             .ui.input
-              input#input(v-model="c.t", placeholder="更新")
+              input.input(v-model="c.t", placeholder="更新")
               a.ui.green.small.button(@click="edit = ''; updateChat(c)") 更新
 
         .item.preview(v-if="p.t")
@@ -44,7 +44,7 @@
           .ui.form
             .field
               img.ui.avatar(:src="photoURL || 'http://graph.facebook.com/' + uid + '/picture'")
-              input#input(v-model="msg" placeholder="在想什麼嗎?" autofocus)
+              input.input(v-model="msg" placeholder="在想什麼嗎?" autofocus)
             .inline.fields
               .field(v-for = "l in labels")
                 .ui.radio.checkbox
@@ -82,6 +82,7 @@ export default {
       msg: '',
       key: '',
       edit: '',
+      chats: [],
       read: 0,
       isFull: false,
       isMini: true,
@@ -196,7 +197,7 @@ export default {
     height: 50px;
   }
 
-  #input {
+  .input {
     width: 60% !important;
     vertical-align: bottom !important;
   }
@@ -217,7 +218,7 @@ export default {
       height: 0;    
     }
 
-    #input {
+    .input {
       width: 150px !important;
       vertical-align: bottom !important;
     }

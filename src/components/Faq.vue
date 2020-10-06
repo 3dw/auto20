@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     h1
     .ui.comments.container
@@ -80,6 +80,7 @@ export default {
       // success callback
     }, response => {
       console.log('error')
+      console.log(response)
       // error callback
     })
   }

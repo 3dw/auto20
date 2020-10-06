@@ -4,7 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import './firebase'
-import VueFire from 'vuefire'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import VueResource from 'vue-resource'
@@ -13,7 +12,10 @@ import infiniteScroll from 'vue-infinite-scroll'
 import autofocus from 'vue-autofocus-directive'
 import VueGtag from 'vue-gtag'
 import VueSimpleMarkdown from 'vue-simple-markdown'
-import alts from 'html-img-alt'
+import { rtdbPlugin } from 'vuefire'
+
+Vue.use(rtdbPlugin)
+// import alts from 'html-img-alt'
 
 Vue.use(VueSimpleMarkdown)
 
@@ -31,7 +33,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
-Vue.use(VueFire)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
 Vue.use(infiniteScroll)

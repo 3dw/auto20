@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #app
     nav#menu.ui.fixed.top.inverted.menu.thin-only
       router-link.item(to="/", exact='') 
@@ -50,7 +50,7 @@
     chatbox(:uid="uid", :user="user", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
     main
       .ui.form.container(v-if="doSearch($route.path)")
-        input(v-autofocus="dynamicvalue", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
+        input(v-autofocus="", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
       transition(name='fade', mode='out-in')
         router-view(:uid = "uid", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
       @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
@@ -60,6 +60,7 @@
 
 import { handsRef } from './firebase'
 import firebase from 'firebase/app'
+import 'firebase/auth';
 import mix from './mixins/mix.js'
 import Chatbox from './components/Chatbox'
 

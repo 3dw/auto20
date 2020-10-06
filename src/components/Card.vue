@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     router-link(:to="'/flag/'+h.uid")
       .image

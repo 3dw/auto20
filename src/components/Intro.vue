@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     h1.ui.header
       img(src="../assets/handshake0.png")
@@ -54,7 +54,8 @@ export default {
   mixins: [mix],
   data () {
     return {
-      msg: '自學2.0使用說明'
+      msg: '自學2.0使用說明',
+      hands: []
     }
   },
   firebase: {

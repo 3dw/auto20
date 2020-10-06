@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     loader(v-show="!hands.length")
     .ui.divider
@@ -22,7 +22,8 @@ export default {
   data () {
     return {
       n: 20,
-      busy: false
+      busy: false,
+      hands: []
     }
   },
   firebase: {

@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     loader(v-show="!hands.length")
     .ui.massive.blue.button(v-if="uid && !root.name && hands.length" @click="setMe()") 按此開始
@@ -154,7 +154,8 @@ export default {
     return {
       myIndex: -1,
       root: {},
-      local: {}
+      local: {},
+      hands: []
     }
   },
   firebase: {

@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .hello
     //h1.ui.header
       img(src="../assets/handshake0.png")
@@ -55,6 +55,7 @@ export default {
   data () {
     return {
       msg: '歡迎',
+      hands: [],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }
