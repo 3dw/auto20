@@ -13,6 +13,7 @@ import autofocus from 'vue-autofocus-directive'
 import VueGtag from 'vue-gtag'
 import VueSimpleMarkdown from 'vue-simple-markdown'
 import { rtdbPlugin } from 'vuefire'
+import './registerServiceWorker'
 
 Vue.use(rtdbPlugin)
 // import alts from 'html-img-alt'
