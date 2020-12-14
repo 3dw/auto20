@@ -54,6 +54,7 @@
       transition(name='fade', mode='out-in')
         router-view(:uid = "uid", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
       @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
+      ad
 </template>
 
 <script>
@@ -63,11 +64,12 @@ import firebase from 'firebase/app'
 import 'firebase/auth';
 import mix from './mixins/mix.js'
 import Chatbox from './components/Chatbox'
+import Ad from './components/Ad-Be'
 
 export default {
   name: 'app',
   mixins: [mix],
-  components: { Chatbox },
+  components: { Chatbox, Ad },
   props: {
     mySearch: { type: String, default: '' }
   },
