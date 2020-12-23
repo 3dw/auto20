@@ -8,6 +8,8 @@
         .sixteen.wide.column
           l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
             l-tile-layer(:url="url", :attribution="attribution")
+            l-marker(v-for = "(h, index) in searchBy(places, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/place/' + index })", :icon="getAnIcon(h)")
+              l-popup {{h.name}}
             l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)")
               l-popup {{h.name}}
 </template>
@@ -16,7 +18,7 @@
 
 import * as L from 'leaflet'
 import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
-import { handsRef } from '../firebase'
+import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
 
@@ -30,10 +32,12 @@ export default {
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       hands: [],
+      places: []
     }
   },
   firebase: {
-    hands: handsRef
+    hands: handsRef,
+    places: placesRef
   },
   methods: {
     locateCity: function (c) {

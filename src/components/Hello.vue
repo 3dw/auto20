@@ -19,8 +19,10 @@
       a.ui.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
         | 按右上的...用瀏覽器開啟
     .ui.divider
-    h2(v-if="hands.length") 最近更新 
+    h2(v-if="hands.length") 最近更新
     .ui.two.doubling.cards.container
+      .ui.card(v-for="(h, index) in places.slice().reverse().slice(0, 2)", :key="index")
+        card(:h="h", :full="false", :mySearch="mySearch", :uid="uid", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
       .ui.card(v-for="(h, index) in hands.slice().reverse().slice(0, 2)", :key="index")
         card(:h="h", :full="false", :mySearch="mySearch", :uid="uid", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
     .ui.container(v-if="hands.length")
@@ -41,7 +43,7 @@
 
 <script>
 
-import { handsRef } from '../firebase'
+import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Card from './Card'
 import * as L from 'leaflet'
@@ -56,12 +58,14 @@ export default {
     return {
       msg: '歡迎',
       hands: [],
+      places: [],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }
   },
   firebase: {
-    hands: handsRef
+    hands: handsRef,
+    places: placesRef
   },
   methods: {
     locateCity: function (c) {

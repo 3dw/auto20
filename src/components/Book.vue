@@ -5,13 +5,15 @@
     loader(v-show="!hands.length")
     .ui.divider
     .ui.two.doubling.cards.container
+      .ui.card(v-for="(h, index) in searchBy(places, mySearch)", :key="index" v-if="book && book.indexOf(h.idx) > -1")
+        card(:h="h", :full="false",:book="book", :mySearch="mySearch", @locate="locate", @addBook="addBook", @removeBook="removeBook")
       .ui.card(v-for="(h, index) in searchBy(hands, mySearch)", :key="index" v-if="book && book.indexOf(h.uid) > -1")
         card(:h="h", :full="false",:book="book", :mySearch="mySearch", @locate="locate", @addBook="addBook", @removeBook="removeBook")
 </template>
 
 <script>
 
-import { handsRef } from '../firebase'
+import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
 import Card from './Card'
@@ -23,11 +25,13 @@ export default {
   components: { Loader, Card },
   data () {
     return {
-      hands: []
+      hands: [],
+      places: []
     }
   },
   firebase: {
-    hands: handsRef
+    hands: handsRef,
+    places: placesRef
   },
   methods: {
     locate: function (h) {

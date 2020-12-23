@@ -16,6 +16,8 @@
           i.book.icon
         router-link.item(to="/myFlag", v-if="user")
           | 我
+        router-link.item(to="/myFlag", v-if="user")
+          i.map.pin.icon
     nav#menu.ui.fixed.top.labeled.icon.inverted.menu.fat-only
       router-link.item(to="/", exact='') 
         i.home.icon
@@ -46,6 +48,9 @@
         router-link.item(to="/myFlag", v-if="user")
           i.user.icon
           | 我的旗幟
+        router-link.item(to="/myplace", v-if="user")
+          i.map.pin.icon
+          | 場地
     chatbox(:uid="uid", :user="user", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
     main
       .ui.form.container(v-if="doSearch($route.path)")
@@ -103,7 +108,7 @@ export default {
   },
   methods: {
     doSearch: function (p) {
-      return (!(p.match(/^\/(myFlag|groups|intro|faq|flag\/\d+|ans\/\d+)?$/)))
+      return (!(p.match(/^\/(myFlag|place|groups|intro|faq|flag\/\d+|ans\/\d+)?$/)))
     },
     locate: function (h) {
       this.zoom = 13

@@ -31,10 +31,10 @@
           vue-simple-markdown.text(:source="highlight(h.note, mySearch)")
     .filler
     .ui.bottom.attached.buttons
-      .ui.green.basic.button(@click="addBook(h.uid)" v-if="book.indexOf(h.uid) == -1")
+      .ui.green.basic.button(@click="addBook(h.uid || h.idx)" v-if="book.indexOf(h.uid || h.idx) == -1")
         i.book.icon
         | 加入名簿
-      .ui.red.basic.button(@click="removeBook(book.indexOf(h.uid))" v-else)
+      .ui.red.basic.button(@click="removeBook(book.indexOf(h.uid || h.idx))" v-else)
         i.book.icon
         | 從名簿移除
       .ui.pink.basic.button(@click="locate(h)")

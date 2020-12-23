@@ -14,7 +14,9 @@
       form#main-form.ui.form.error.warning.success
         h2.ui.header 請填表
         .sub.header
-          | 為了讓人真的能找到夥伴，有標記紅色星號
+          | 為了讓人真的能找到夥伴
+          br
+          | 有標記紅色星號
           i.red.star
           | 的欄位為必填
         h4.ui.dividing.header 關於我
@@ -52,7 +54,7 @@
               input(v-model='root.site', placeholder='個人網址')
               span(v-show='root.site')
                 a(:href='root.site', target='_blank')
-                  img(:src="'http://www.google.com/s2/favicons?domain=' + root.site" title='社群網址' alt='社群網址')
+                  img(:src="'http://www.google.com/s2/favicons?domain=' + root.site" title='個人網址' alt='個人網址')
                   | 測試連結
             .field
               input(v-model='root.site2', placeholder='參與的社群網址')

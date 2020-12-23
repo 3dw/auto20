@@ -5,10 +5,12 @@ import Intro from '@/components/Intro'
 import Cards from '@/components/Cards'
 import Maps from '@/components/Maps'
 import Flag from '@/components/Flag'
+import Place from '@/components/Place'
 import MyFlag from '@/components/MyFlag'
 import Groups from '@/components/Groups'
 import Book from '@/components/Book'
 import MyMap from '@/components/MyMap'
+import MyPlace from '@/components/MyPlace'
 import Faq from '@/components/Faq'
 import Ans from '@/components/Ans'
 
@@ -52,6 +54,11 @@ export default new Router({
       component: Flag
     },
     {
+      path: '/place/:idx',
+      name: 'Place',
+      component: Place
+    },
+    {
       path: '/myFlag',
       name: 'MyFlag',
       component: MyFlag
@@ -70,6 +77,11 @@ export default new Router({
       path: '/mymap',
       name: 'MyMap',
       component: MyMap
+    },
+    {
+      path: '/myplace',
+      name: 'MyPlace',
+      component: MyPlace
     }
   ]
 })
