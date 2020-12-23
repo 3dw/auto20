@@ -9,7 +9,7 @@
         i.map.icon
       router-link.item(to="/groups", exact='') 
         i.globe.icon
-      router-link.item(to="/faq", exact='')
+      a.item(href="https://map.alear.org.tw", target="_blank")
         i.phone.icon
       .right.menu
         router-link.item(to="/book")
@@ -32,10 +32,9 @@
       router-link.item(to="/groups", exact='') 
         i.globe.icon
         | 自學社團
-      router-link.item(to="/faq", exact='')
-        // a.item(href="http://map.alearn.org.tw", target="_blank")
+      a.item(href="http://map.alearn.org.tw", target="_blank")
         i.phone.icon
-        | 聊天機器人
+        | 自學資源
       .right.menu
         router-link.item(to="/book")
           i.book.icon
