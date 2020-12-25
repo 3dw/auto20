@@ -3,9 +3,7 @@
     loader(v-show="!hands.length")
     .ui.divider
     .ui.two.doubling.cards.container(v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10")
-      .ui.card(v-for="(h, index) in searchBy(places, mySearch).slice(0,2)", :key="index")
-        card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
-      .ui.card(v-for="(h, index) in searchBy(hands, mySearch).slice(0,n)", :key="index")
+      .ui.card(v-for="(h, index) in searchBy(list, mySearch).slice(0,n)", :key="index")
         card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
 </template>
 
@@ -27,6 +25,13 @@ export default {
       busy: false,
       hands: [],
       places: []
+    }
+  },
+  computed: {
+    list: function () {
+      return this.hands.concat(this.places).sort(function(a,b) {
+        return a.lastUpdated - b.lastUpdated
+      })
     }
   },
   firebase: {

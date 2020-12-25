@@ -9,7 +9,7 @@
         i.map.icon
       router-link.item(to="/groups", exact='') 
         i.globe.icon
-      a.item(href="https://map.alear.org.tw", target="_blank")
+      a.item(href="https://map.alearn.org.tw", target="_blank")
         i.phone.icon
       .right.menu
         router-link.item(to="/book")
