@@ -30,7 +30,7 @@ export default {
   computed: {
     list: function () {
       return this.hands.concat(this.places).sort(function(a,b) {
-        return a.lastUpdated - b.lastUpdated
+        return b.lastUpdate - a.lastUpdate
       })
     }
   },
