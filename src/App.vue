@@ -9,7 +9,7 @@
         i.map.icon
       router-link.item(to="/groups", exact='') 
         i.globe.icon
-      a.item(href="https://map.alearn.org.tw", target="_blank")
+      a.item(href="https://map.alearn.org.tw", target="_blank", rel="noopener noreferrer")
         i.phone.icon
       .right.menu
         router-link.item(to="/book")
@@ -34,7 +34,7 @@
       router-link.item(to="/groups", exact='') 
         i.globe.icon
         | 自學社團
-      a.item(href="http://map.alearn.org.tw", target="_blank")
+      a.item(href="http://map.alearn.org.tw", target="_blank", rel="noopener noreferrer")
         i.phone.icon
         | 自學資源
       .right.menu

@@ -2,7 +2,7 @@
   .hello
     router-link(:to="'/flag/'+h.uid")
       .image
-        h4.ui.header
+        h3.ui.header
           img.main(:src='getIcon(h)' alt='^_^')
           | {{h.name}}
           span(v-if="h.learner_birth")
