@@ -34,7 +34,7 @@
       router-link.item(to="/groups", exact='') 
         i.globe.icon
         | 自學社團
-      a.item(href="http://map.alearn.org.tw", target="_blank", rel="noopener noreferrer")
+      a.item(href="https://map.alearn.org.tw", target="_blank", rel="noopener noreferrer")
         i.phone.icon
         | 自學資源
       .right.menu
