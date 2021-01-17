@@ -34,7 +34,7 @@
       h4 可以，只要再次登入，點選[我的旗幟]即可修改
       h2.ui.header 升起互助旗後可以移除嗎?
       h4 可以，您可以
-        a(href="mailto:bestian@gmail.com") e-mail給管理員
+        a(href="mailto:bestian@gmail.com") e-mail給管理員bestian@gmail.com
         | 手動移除
       h2.ui.header 地圖介面的用意?
       h4 讓您可以就近尋找夥伴，例如:[宜蘭附近有沒有自學朋友呢]? 看地圖就很清楚了
