@@ -52,6 +52,10 @@ export default {
   components: { Card },
   props: ['uid', 'user', 'mySearch', 'photoURL', 'book'],
   mixins: [mix],
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '使用說明',
+  },
   data () {
     return {
       msg: '自學2.0使用說明',

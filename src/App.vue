@@ -83,6 +83,12 @@ export default {
   firebase: {
     hands: handsRef
   },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '',
+    // all titles will be injected into this template
+    titleTemplate: '%s | 自學2.0'
+  },
   data () {
     return {
       zoom: 7,

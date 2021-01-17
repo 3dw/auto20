@@ -19,6 +19,10 @@ export default {
   mixins: [mix],
   props: ['mySearch', 'id', 'book'],
   components: { Loader, Card },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '朋友',
+  },
   data () {
     return {
       n: 20,

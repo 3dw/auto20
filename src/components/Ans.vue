@@ -26,6 +26,10 @@
 export default {
   name: 'ans',
   props: ['myKey'],
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '問答',
+  },
   data () {
     return {
       myQ: {q: '', as: [], es: []},

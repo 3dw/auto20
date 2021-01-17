@@ -19,6 +19,10 @@ export default {
   mixins: [mix],
   props: ['mySearch', 'id', 'book'],
   components: { Loader, Card, Timeline },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '歷史',
+  },
   data () {
     return {
       n: 20,

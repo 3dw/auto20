@@ -52,6 +52,10 @@ export default {
   components: {Card, LMap, LTileLayer, LMarker, LPopup},
   props: ['uid', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'cities'],
   mixins: [mix],
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '歡迎',
+  },
   data () {
     return {
       msg: '歡迎',
