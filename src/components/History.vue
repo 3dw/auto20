@@ -2,9 +2,8 @@
   .hello
     loader(v-show="!hands.length")
     .ui.divider
-    .ui.two.doubling.cards.container(v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10")
-      .ui.card(v-for="(h, index) in searchBy(list, mySearch).slice(0,n)", :key="index")
-        card(:h="h", :full="false", :mySearch="mySearch", :id="id", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
+    
+    Timeline(:timeline-items="timelineItems", :message-when-no-items="messageWhenNoItems")
 </template>
 
 <script>
@@ -13,18 +12,20 @@ import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
 import Card from './Card'
+import Timeline from 'timeline-vuejs'
 
 export default {
   name: 'cards',
   mixins: [mix],
   props: ['mySearch', 'id', 'book'],
-  components: { Loader, Card },
+  components: { Loader, Card, Timeline },
   data () {
     return {
       n: 20,
       busy: false,
       hands: [],
-      places: []
+      places: [],
+      messageWhenNoItems: '歡迎您好'
     }
   },
   computed: {
@@ -34,6 +35,16 @@ export default {
         return b.lastUpdate - a.lastUpdate
       })
       return l
+    },
+    timelineItems: function () {
+      return this.list.map((h) => {
+        var obj = {}
+        var src = this.getIcon(h)
+        obj.from = new Date(h.lastUpdate)
+        obj.title = h.name + '登入'
+        obj.description = '<img class = "history" src="'+ src + '"/> ' + (''+h.note).substr(0,100) + '...'
+        return obj
+      })
     }
   },
   firebase: {
@@ -66,5 +77,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.timeline {
+  max-width: 720px !important;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 420px) {
+  .timeline {
+    position: relative;
+    left: -2em;
+  }
+}
 
 </style>

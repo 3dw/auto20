@@ -20,6 +20,7 @@
     "sass": "^1.26.12",
     "sass-loader": "^10.0.2",
     "semantic-ui-css": "^2.4.1",
+    "timeline-vuejs": "^1.1.7",
     "vue": "^2.6.11",
     "vue-autofocus-directive": "^1.0.4",
     "vue-gtag": "^1.9.1",

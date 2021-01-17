@@ -63,9 +63,11 @@ export default {
   },
   computed: {
     list: function () {
-      return this.hands.concat(this.places).sort(function(a,b) {
+      var l = this.hands.concat(this.places).slice().sort(function(a,b) {
+        if (!b.lastUpdate || isNaN(b.lastUpdate)) { return -1}
         return b.lastUpdate - a.lastUpdate
       })
+      return l
     }
   },
   firebase: {

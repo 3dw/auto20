@@ -14,6 +14,7 @@ import VueGtag from 'vue-gtag'
 import VueSimpleMarkdown from 'vue-simple-markdown'
 import { rtdbPlugin } from 'vuefire'
 import './registerServiceWorker'
+import '../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
 
 Vue.use(rtdbPlugin)
 // import alts from 'html-img-alt'
