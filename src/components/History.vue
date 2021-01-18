@@ -44,9 +44,10 @@ export default {
       return this.list.map((h) => {
         var obj = {}
         var src = this.getIcon(h)
+        var href = '#/flag/' + h.uid
         obj.from = new Date(h.lastUpdate)
         obj.title = h.name + '登入'
-        obj.description = '<img class = "history" src="'+ src + '"/> ' + (''+h.note).substr(0,100) + '...'
+        obj.description = '<a href ="' + href + '"><img class = "history" src="'+ src + '"/> ' + (''+h.note).substr(0,100) + '...</a>'
         return obj
       })
     }
