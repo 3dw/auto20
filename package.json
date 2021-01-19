@@ -29,6 +29,7 @@
     "vue-resource": "^1.5.1",
     "vue-router": "^3.2.0",
     "vue-simple-markdown": "^1.1.4",
+    "vue-social-sharing": "^3.0.4",
     "vue2-leaflet": "^2.5.2",
     "vuefire": "^2.2.4"
   },

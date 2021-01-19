@@ -14,10 +14,11 @@ import VueGtag from 'vue-gtag'
 import VueSimpleMarkdown from 'vue-simple-markdown'
 import { rtdbPlugin } from 'vuefire'
 import './registerServiceWorker'
+import VueSocialSharing from 'vue-social-sharing'
 
+Vue.use(VueSocialSharing)
 Vue.use(rtdbPlugin)
 // import alts from 'html-img-alt'
-
 Vue.use(VueSimpleMarkdown)
 
 Vue.use(VueGtag, {
