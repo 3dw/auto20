@@ -23,6 +23,10 @@ export default {
   mixins: [mix],
   props: ['mySearch', 'zoom', 'center', 'book'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '地圖',
+  },
   data () {
     return {
       myZoom: 13,

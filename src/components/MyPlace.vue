@@ -67,6 +67,10 @@ export default {
   mixins: [mix],
   props: ['uid', 'user', 'mySearch', 'provider', 'photoURL'],
   components: { Loader },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '地點',
+  },
   data () {
     return {
       myIndex: -1,

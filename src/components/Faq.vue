@@ -31,6 +31,10 @@ export default {
   components: {
     VueMarkdown
   },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '聊天機器人',
+  },
   data () {
     return {
       userSay: '',

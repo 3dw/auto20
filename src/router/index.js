@@ -13,6 +13,7 @@ import MyMap from '@/components/MyMap'
 import MyPlace from '@/components/MyPlace'
 import Faq from '@/components/Faq'
 import Ans from '@/components/Ans'
+import History from '@/components/History'
 
 Vue.use(Router)
 
@@ -82,6 +83,11 @@ export default new Router({
       path: '/myplace',
       name: 'MyPlace',
       component: MyPlace
+    },
+    {
+      path: '/history',
+      name: 'History',
+      component: History
     }
   ]
 })

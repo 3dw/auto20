@@ -27,6 +27,10 @@ export default {
   mixins: [mix],
   props: ['mySearch', 'zoom', 'center', 'cities'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '地圖',
+  },
   data () {
     return {
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',

@@ -37,11 +37,14 @@
       a.item(href="https://map.alearn.org.tw", target="_blank", rel="noopener noreferrer")
         i.phone.icon
         | 自學資源
+      router-link.item(to="/history", exact='') 
+        i.book.icon
+        | 歷史軌跡
       .right.menu
         router-link.item(to="/book")
           i.book.icon
           | 我的名簿
-          .red.note {{ book.length }}
+        .red.note {{ book.length }}
         router-link.item(to="/mymap", v-if="user")
           i.map.icon
           | 我的地圖
@@ -79,6 +82,12 @@ export default {
   },
   firebase: {
     hands: handsRef
+  },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '',
+    // all titles will be injected into this template
+    titleTemplate: '%s | 自學2.0'
   },
   data () {
     return {
@@ -395,6 +404,36 @@ img.leaflet-marker-icon {
   border-radius: 50% !important;
   border: 1px solid purple !important;
   background-color: white !important;
+}
+
+img.history {
+  width: 100px;
+}
+
+.timeline-item .title-item {
+  font-size: 22px !important;
+}
+
+.timeline-item .description-item {
+  font-size: 18px !important;
+  color: #333 !important;
+  font-weight: normal !important;
+}
+
+img.history {
+  width: 110px !important;
+  float: left !important;
+  margin-right: 1em !important;
+}
+
+@media screen and (max-width: 420px) {
+  img.history {
+    width: 100px !important;
+  }
+}
+
+.timeline .wrapper-item .section-year .year {
+  font-size: 20px !important;
 }
 
 </style>

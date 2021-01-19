@@ -15,8 +15,11 @@ import VueSimpleMarkdown from 'vue-simple-markdown'
 import { rtdbPlugin } from 'vuefire'
 import './registerServiceWorker'
 import VueSocialSharing from 'vue-social-sharing'
+import '../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
+import VueMeta from 'vue-meta'
 
 Vue.use(VueSocialSharing)
+Vue.use(VueMeta)
 Vue.use(rtdbPlugin)
 // import alts from 'html-img-alt'
 Vue.use(VueSimpleMarkdown)

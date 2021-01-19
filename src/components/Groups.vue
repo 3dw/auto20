@@ -15,6 +15,10 @@
 
 export default {
   name: 'groups',
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '自學社團',
+  },
   data () {
     return {
 

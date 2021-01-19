@@ -23,6 +23,10 @@ export default {
   mixins: [mix],
   props: ['mySearch', 'book'],
   components: { Loader, Card },
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '名簿',
+  },
   data () {
     return {
       hands: [],

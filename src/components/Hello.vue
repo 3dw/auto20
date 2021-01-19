@@ -52,6 +52,10 @@ export default {
   components: {Card, LMap, LTileLayer, LMarker, LPopup},
   props: ['uid', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'cities'],
   mixins: [mix],
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: '歡迎',
+  },
   data () {
     return {
       msg: '歡迎',
@@ -63,9 +67,11 @@ export default {
   },
   computed: {
     list: function () {
-      return this.hands.concat(this.places).sort(function(a,b) {
+      var l = this.hands.concat(this.places).slice().sort(function(a,b) {
+        if (!b.lastUpdate || isNaN(b.lastUpdate)) { return -1}
         return b.lastUpdate - a.lastUpdate
       })
+      return l
     }
   },
   firebase: {
