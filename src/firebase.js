@@ -14,4 +14,5 @@ const app = firebase.initializeApp({
 export const db = app.database()
 export const handsRef = db.ref('hands')
 export const chatsRef = db.ref('chats')
+export const msgsRef = db.ref('msgs')
 export const placesRef = db.ref('places')
