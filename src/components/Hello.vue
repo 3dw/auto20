@@ -21,8 +21,8 @@
     .ui.divider
     h2(v-if="hands.length") 最近更新
     .ui.two.doubling.cards.container
-      .ui.card(v-for="(h, index) in list.slice(0, 2)", :key="index")
-        card(:h="h", :full="false", :mySearch="mySearch", :uid="uid", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
+      .ui.card(v-for="(h, index) in list.slice(0, 1)", :key="index")
+        card(:h="h", :full="true", :mySearch="mySearch", :uid="uid", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
     .ui.container(v-if="hands.length")
       .ui.dividder
       h2 地圖
