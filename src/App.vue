@@ -40,6 +40,9 @@
       router-link.item(to="/history", exact='') 
         i.book.icon
         | 歷史軌跡
+      router-link.item(to="/drawing", exact='') 
+        i.pencil.icon
+        | 圖鴨
       .right.menu
         router-link.item(to="/book")
           i.book.icon
@@ -117,7 +120,7 @@ export default {
   },
   methods: {
     doSearch: function (p) {
-      return (!(p.match(/^\/(myFlag|place|groups|intro|faq|flag\/\d+|ans\/\d+)?$/)))
+      return (!(p.match(/^\/(drawing|myFlag|place|groups|intro|faq|flag\/\d+|ans\/\d+)?$/)))
     },
     locate: function (h) {
       this.zoom = 13

@@ -14,6 +14,7 @@ import MyPlace from '@/components/MyPlace'
 import Faq from '@/components/Faq'
 import Ans from '@/components/Ans'
 import History from '@/components/History'
+import Drawing from '@/components/Drawing'
 
 Vue.use(Router)
 
@@ -88,6 +89,11 @@ export default new Router({
       path: '/history',
       name: 'History',
       component: History
+    },
+    {
+      path: '/drawing',
+      name: 'Drawing',
+      component: Drawing
     }
   ]
 })
