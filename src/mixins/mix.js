@@ -118,7 +118,11 @@ export default {
           })
         } else {
           ans = ans.filter(function (o) {
-            return (o.name + o.address + o.note + o.freetime + o.learner_habit + o.share + o.ask + o.id).indexOf(k) > -1
+            if (o.name) {
+              return (o.name + o.address + o.note + o.freetime + o.learner_habit + o.share + o.ask + o.id).indexOf(k) > -1
+            } else {
+              return false
+            }
           })
         }
       }
