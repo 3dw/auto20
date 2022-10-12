@@ -19,6 +19,7 @@
         p.description(v-if="h.learner_habit && full" v-html="'興趣： ' + highlight(h.learner_habit, mySearch)")
         p.description(v-if="h.share" v-html="'可分享： ' + highlight(h.share, mySearch)")
         p.description(v-if="h.ask" v-html="'需要： ' + highlight(h.ask, mySearch)")
+        p.description(v-if="h.price" v-html="'可支付： ' + highlight(h.price, mySearch)")
       .content(v-if="h.connect_me && full")
         .ui.divider
         p.descrtpion 連絡方式： {{h.connect_me}}

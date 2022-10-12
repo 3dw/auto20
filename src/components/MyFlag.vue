@@ -121,6 +121,9 @@
             .field
               label 尋找
               input(v-model='root.ask', placeholder='讓人知道可以協助你什麼?')
+            .field
+              label 可支付
+              input(v-model='root.price', placeholder='你願意支付多少錢或換工來得到協助?')
           .field
             label.required 自我介紹
             textarea#note(v-model='root.note', rows='5', cols='30', placeholder='自我介紹很重要，請寫20字以上，謝謝')
