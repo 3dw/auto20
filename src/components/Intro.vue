@@ -6,7 +6,7 @@
       img(src="../assets/handshake0.png")
 
     h4.ui.header 升上互助旗，和
-      span(v-if = "hands && hands.length") {{ hands.length }}
+      span(v-if = "users") {{ toList(users).length }}
       span(v-else) 各
       | 位朋友相互認識
 
@@ -43,14 +43,13 @@
 
 <script>
 
-import { handsRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Card from './Card'
 
 export default {
   name: 'intro',
   components: { Card },
-  props: ['uid', 'user', 'mySearch', 'photoURL', 'book'],
+  props: ['uid', 'user', 'mySearch', 'photoURL', 'book', 'users'],
   mixins: [mix],
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -58,14 +57,16 @@ export default {
   },
   data () {
     return {
-      msg: '自學2.0使用說明',
-      hands: []
+      msg: '自學2.0使用說明'
     }
   },
-  firebase: {
-    hands: handsRef
-  },
   methods: {
+    toList (obj) {
+      const ks = Object.keys(obj)
+      return ks.map(function (k) {
+        return obj[k]
+      })
+    },
     loginFB: function () {
       this.$emit('loginFB')
     },

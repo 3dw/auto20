@@ -1,8 +1,8 @@
 <template lang="pug">
   .hello
-    loader(v-show="!hands.length")
+    loader(v-show="!users.length")
     .ui.segment.container
-      .ui.fluid.card(v-for="(h, index) in hands" v-if="h.uid == $route.params.uid")
+      .ui.fluid.card(v-for="(h, index) in users" v-if="h.uid == $route.params.uid")
         card(:h="h", :full="true", :book="book", :mySearch="mySearch", @locate="locate", @addBook="addBook")
 
         ShareNetwork.ui.huge.blue.button(network="facebook", :url="'https://we.alearn.org.tw/#/flag/' + h.uid", :title="h.name", :description="h.name + ': ' + h.note", :quote="h.name + ': ' + h.note")
@@ -12,7 +12,7 @@
 
 <script>
 
-import { handsRef } from '../firebase'
+import { usersRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Card from './Card'
 import Loader from './Loader'
@@ -28,11 +28,11 @@ export default {
   },
   data () {
     return {
-      hands: []
+      users: []
     }
   },
   firebase: {
-    hands: handsRef
+    users: usersRef
   },
   methods: {
     locate: function (h) {

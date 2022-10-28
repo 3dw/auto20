@@ -5,7 +5,7 @@
       | {{msg}} {{user && user.providerData[0].displayName}}
       img(src="../assets/usershake0.png")
     h4.ui.header 請先登入，和
-      span(v-if = "users && users.length") {{ users.length }}
+      span(v-if = "users") {{ toList(users).length }}
       span(v-else) 各
       | 位朋友相互認識，升起互助旗
       span(v-if ="!user")
@@ -23,7 +23,7 @@
     .ui.two.doubling.cards.container(v-if="users")
       .ui.card(v-for="(h, index) in list.slice(0, 2)", :key="index")
         card(:h="h", :full="true", :mySearch="mySearch", :uid="uid || ''", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
-    .ui.container(v-if="users && users.length")
+    .ui.container(v-if="users")
       .ui.dividder
       h2 地圖
       .ui.grid
@@ -32,7 +32,7 @@
             .ui.button.group
               a.ui.green.button(v-for="c in cities", @click="locateCity(c)") {{c.t}}
           .ten.wide.column
-            // l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
+            l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
               l-tile-layer(:url="url", :attribution="attribution")
               l-marker(v-for = "(h, index) in searchBy(users, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)")
                 l-popup {{h.name}}
@@ -64,7 +64,13 @@ export default {
   },
   computed: {
     list: function () {
-      var l = (this.users || []).concat(this.places).slice().sort(function(a,b) {
+      function toList (obj) {
+        const ks = Object.keys(obj)
+        return ks.map(function (k) {
+          return obj[k]
+        })
+      }
+      var l = toList(this.users).concat(toList(this.places)).slice().sort(function(a,b) {
         if (!b.lastUpdate || isNaN(b.lastUpdate)) { return -1}
         return b.lastUpdate - a.lastUpdate
       })
@@ -76,6 +82,12 @@ export default {
   //   places: placesRef
   // },
   methods: {
+    toList (obj) {
+      const ks = Object.keys(obj)
+      return ks.map(function (k) {
+        return obj[k]
+      })
+    },
     locateCity: function (c) {
       this.$emit('locateCity', c)
     },

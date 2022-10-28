@@ -81,7 +81,11 @@ export default {
     asValid: function (root) {
       return root && root.name && root.note && root.note.length >= 20 && root.address && !(root.latlngColumn === 'undefined,undefined') && !(root.latlngColumn === '36.778261,-119.4179324')
     },
-    searchBy: function (list, key) {
+    searchBy: function (obj, key) {
+      const ks = Object.keys(obj)
+      const list = ks.map(function (k) {
+        return obj[k]
+      })
       if (!list) { return [] }
       if (!key) { key = '' }
       var toAge = function (y) {

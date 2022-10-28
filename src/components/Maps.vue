@@ -1,8 +1,7 @@
 <template lang="pug">
   .hello
-    loader(v-show="!hands.length")
+    loader(v-show="!users")
     .ui.divider
-
     .ui.grid
       .ui.stackable.row
         .sixteen.wide.column
@@ -10,7 +9,7 @@
             l-tile-layer(:url="url", :attribution="attribution")
             l-marker(v-for = "(h, index) in searchBy(places, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/place/' + index })", :icon="getAnIcon(h)")
               l-popup {{h.name}}
-            l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)")
+            l-marker(v-for = "(h, index) in searchBy(users, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)")
               l-popup {{h.name}}
 </template>
 
@@ -18,14 +17,13 @@
 
 import * as L from 'leaflet'
 import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
-import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
 
 export default {
   name: 'maps',
   mixins: [mix],
-  props: ['mySearch', 'zoom', 'center', 'cities'],
+  props: ['mySearch', 'zoom', 'center', 'cities', 'users', 'places'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -34,14 +32,8 @@ export default {
   data () {
     return {
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      hands: [],
-      places: []
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }
-  },
-  firebase: {
-    hands: handsRef,
-    places: placesRef
   },
   methods: {
     locateCity: function (c) {
@@ -69,5 +61,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
 </style>

@@ -1,7 +1,7 @@
 <template lang="pug">
   .hello
-    loader(v-show="!hands.length")
-    .ui.massive.blue.button(v-if="uid && !root.name && hands.length" @click="setMe()") 按此開始
+    loader(v-show="!users")
+    .ui.massive.blue.button(v-if="uid && !root.name && users" @click="setMe()") 按此開始
     .ui.huge.buttons(v-if="!user")
       //button.ui.blue.button(@click="loginFB")
         i.facebook.icon
@@ -10,7 +10,7 @@
       button.ui.orange.button(@click="loginGoogle")
         i.google.icon
         | 登入 
-    .ui.container(v-if="uid && root.name && hands.length")
+    .ui.container(v-if="root.name")
       form#main-form.ui.form.error.warning.success
         h2.ui.header 請填表
         .sub.header
@@ -146,14 +146,15 @@
 
 <script>
 
-import { handsRef, db } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
+import { db } from '../firebase'
+import { set, ref } from 'firebase/database'
 
 export default {
   name: 'myflag',
   mixins: [mix],
-  props: ['uid', 'user', 'mySearch', 'provider', 'photoURL'],
+  props: ['uid', 'user', 'mySearch', 'provider', 'photoURL', 'users'],
   components: { Loader },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -163,30 +164,21 @@ export default {
     return {
       myIndex: -1,
       root: {},
-      local: {},
-      hands: []
+      local: {}
     }
   },
-  firebase: {
-    hands: handsRef
-  },
+  // firebase: {
+  //  users: usersRef
+  // },
   methods: {
-    setMe: function () {
-      var l = this.hands.length
-      console.log(l)
-      if (!this.hands) {
-        setTimeout(this.setMe, 2000)
-        return
-      }
-      for (var i = 0; i < l; i++) {
-        if (this.hands[i].uid === this.uid) {
-          this.myIndex = i
-          this.root = this.hands[i]
-        }
-      }
+    setMe () {
+      console.log(this.users)
+      const keys = Object.keys(this.users)
+      this.root = this.users[this.uid]
+      this.myIndex = keys.indexOf(this.uid)
       if (this.uid && this.myIndex === -1) {
         console.log('new')
-        this.myIndex = l
+        this.myIndex = this.uid
         this.root = {
           name: this.user.providerData[0].displayName,
           uid: this.uid,
@@ -196,6 +188,7 @@ export default {
       }
       console.log(this.root.name)
       console.log(this.root)
+      this.$forceUpdate()
     },
     checkLatLng: function (add) {
       var vm = this
@@ -224,9 +217,15 @@ export default {
       })
     },
     usedAddr: function (hand) {
+      const vm = this
+      console.log(this.users)
+      const keys = Object.keys(this.users)
+      const usersList = keys.map(function (k) {
+        return vm.users[k]
+      })
       var ans, i$, ref$, len$, h
       ans = false
-      for (i$ = 0, len$ = (ref$ = this.hands.filter(fn$)).length; i$ < len$; ++i$) {
+      for (i$ = 0, len$ = (ref$ = usersList.filter(fn$)).length; i$ < len$; ++i$) {
         h = ref$[i$]
         if (h.latlngColumn === hand.latlngColumn) {
           ans = true
@@ -252,13 +251,15 @@ export default {
     },
     updateFlag: function () {
       this.root.lastUpdate = (new Date()).getTime()
-      if (this.myIndex < this.hands.length) {
-        db.ref('hands/' + this.myIndex).update(JSON.parse(JSON.stringify(this.root).replace('.key', 'key').replace('undefined', 'null')))
-        alert('更新成功!')
+      if (this.myIndex > -1) {
+        set(ref(db, 'users/' + this.uid), this.root).then(
+          alert('更新成功!')
+        )
       } else {
         console.log('new2')
-        db.ref('hands/' + this.myIndex).set(JSON.parse(JSON.stringify(this.root).replace('.key', 'key').replace('undefined', 'null')))
-        alert('登錄成功!')
+        set(ref(db, 'users/' + this.uid), this.root).then(
+          alert('登錄成功!')
+        )
       }
     },
     loginFB: function () {

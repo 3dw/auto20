@@ -1,6 +1,6 @@
 <template lang="pug">
   .hello
-    loader(v-show="!hands.length")
+    loader(v-show="!users")
     .ui.divider
     .ui.two.doubling.cards.container(v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10")
       .ui.card(v-for="(h, index) in searchBy(list, mySearch).slice(0,n)", :key="index")
@@ -9,7 +9,6 @@
 
 <script>
 
-import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
 import Card from './Card'
@@ -17,7 +16,7 @@ import Card from './Card'
 export default {
   name: 'cards',
   mixins: [mix],
-  props: ['mySearch', 'id', 'book'],
+  props: ['mySearch', 'id', 'book', 'users', 'places'],
   components: { Loader, Card },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -26,23 +25,23 @@ export default {
   data () {
     return {
       n: 20,
-      busy: false,
-      hands: [],
-      places: []
+      busy: false
     }
   },
   computed: {
     list: function () {
-      var l = this.hands.concat(this.places).slice().sort(function(a,b) {
+      function toList (obj) {
+        const ks = Object.keys(obj)
+        return ks.map(function (k) {
+          return obj[k]
+        })
+      }
+      var l = toList(this.users).concat(toList(this.places)).slice().sort(function(a,b) {
         if (!b.lastUpdate || isNaN(b.lastUpdate)) { return -1}
         return b.lastUpdate - a.lastUpdate
       })
       return l
     }
-  },
-  firebase: {
-    hands: handsRef,
-    places: placesRef
   },
   methods: {
     locate: function (h) {

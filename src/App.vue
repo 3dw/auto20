@@ -7,36 +7,47 @@
         a.item(v-if="!uid", @click="loginGoogle()") Google登入
         .item(v-else)
           img.ui.avatar(:src="photoURL")
+          sui-dropdown(icon="angle down")
+            sui-dropdown-menu(button, inverted="true")
+              sui-dropdown-item
+                router-link.ui(to="/myFlag") 我的旗幟
+              sui-dropdown-item
+                router-link.ui(to="/book") 我的名簿
+              sui-dropdown-item
+                router-link.ui(to="/myGroup") 我的社團
+              sui-dropdown-item
+                a.ui(@click="logout()") 登出
+                  img.ui.small(:src="photoURL")
+    sui-menu(is='sui-sidebar', :visible='visible', animation='overlay', width='thin', icon='labeled', inverted='' vertical='', fixed='')
+      sui-menu-item
+        router-link(to='/')
+          sui-icon(name='home')
+          | 首頁
+      sui-menu-item
+        router-link(to='/intro')
+          sui-icon(name='info')
+          | 說明
+      sui-menu-item
+        router-link(to='/maps')
+          sui-icon(name='map')
+          | 地圖
+      sui-menu-item
+        router-link(to='/cards')
+          sui-icon(name='users')
+          | 自學朋友
+      sui-menu-item
+        router-link(to='/myFlag')
+          sui-icon(name='edit')
+          | 我的旗幟
+      sui-menu-item
+        router-link(to='/groups')
+          sui-icon(name='globe')
+          | 社團
+      sui-menu-item
+        router-link(to='/book')
+          sui-icon(name='book')
+          | 我的名簿
     sui-sidebar-pushable
-      sui-menu(is='sui-sidebar', :visible='visible', animation='overlay', width='thin', icon='labeled', inverted='' vertical='')
-        sui-menu-item
-          router-link(to='/')
-            sui-icon(name='home')
-            | 首頁
-        sui-menu-item
-          router-link(to='/intro')
-            sui-icon(name='info')
-            | 說明
-        sui-menu-item
-          router-link(to='/maps')
-            sui-icon(name='map')
-            | 地圖
-        sui-menu-item
-          router-link(to='/cards')
-            sui-icon(name='users')
-            | 自學朋友
-        sui-menu-item
-          router-link(to='/myFlag')
-            sui-icon(name='edit')
-            | 我的旗幟
-        sui-menu-item
-          router-link(to='/groups')
-            sui-icon(name='globe')
-            | 社團
-        sui-menu-item
-          router-link(to='/book')
-            sui-icon(name='book')
-            | 我的名簿
       sui-sidebar-pusher
         main
           .ui.form.container(v-if="doSearch($route.path)")
@@ -160,6 +171,14 @@ export default {
         console.log(errorCode + errorMessage)
       })
     }, */
+    logout () {
+      const vm = this
+      auth.signOut().then(function() {
+        vm.user = null
+        vm.uid = null
+        vm.photoURL = null
+      })
+    },
     loginGoogle: function () {
       const vm = this
       signInWithPopup(auth, provider)
@@ -429,21 +448,26 @@ img.history {
   font-size: 20px !important;
 }
 
-.ui.left.visible.sidebar, .ui.right.visible.sidebar {
-  position: absolute;
+.ui.left.sidebar, .ui.left.visible.sidebar, .ui.right.visible.sidebar {
   z-index: 9999999;
-  top: -0.2em;
+  margin-top: 2.68em !important;
 }
 
 .ui.avatar {
-  width: 40px;
+  width: 1em;
   margin: 0;
+}
+
+.ui.small {
+  width: 3em;
+  border-radius: 50%;
 }
 
 .ui.inverted.menu {
   border-radius: 0;
   padding: 0;
   margin: 0;
+  color: white;
 }
 
 </style>
