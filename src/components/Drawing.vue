@@ -15,7 +15,7 @@
 <script>
 
 import ColorPicker from 'vue-color-picker-wheel';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 // import db from '../db'
 
 export default {
@@ -30,7 +30,7 @@ export default {
     ColorPicker,
   },
   methods: {
-    toBlob() {
+    /* toBlob() {
       const storageRef = firebase.storage().ref();
       const mountainsRef = storageRef.child('drawing.jpg');
       const canvas = document.getElementById('canvas');
@@ -87,7 +87,7 @@ export default {
       this.ctx.stroke();
       this.ctx.beginPath();
       this.ctx.moveTo(e.clientX, e.clientY - 70);
-    },
+    }, */
   },
   mounted() {
     this.canvas = document.getElementById('canvas');

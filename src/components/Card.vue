@@ -32,7 +32,7 @@
           span.text(v-html="highlight(h.note, mySearch)")
     .filler
     .ui.bottom.attached.buttons
-      .ui.green.basic.button(@click="addBook(h.uid || h.idx)" v-if="book.indexOf(h.uid || h.idx) == -1")
+      .ui.green.basic.button(@click="addBook(h.uid || h.idx)" v-if="!book || book.indexOf(h.uid || h.idx) == -1")
         i.book.icon
         | 加入名簿
       .ui.red.basic.button(@click="removeBook(book.indexOf(h.uid || h.idx))" v-else)

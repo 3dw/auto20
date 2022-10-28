@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import './firebase'
+// import './firebase'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import VueResource from 'vue-resource'
@@ -17,7 +17,9 @@ import './registerServiceWorker'
 import VueSocialSharing from 'vue-social-sharing'
 import '../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
 import VueMeta from 'vue-meta'
+import SuiVue from 'semantic-ui-vue'
 
+Vue.use(SuiVue)
 Vue.use(VueSocialSharing)
 Vue.use(VueMeta)
 Vue.use(rtdbPlugin)

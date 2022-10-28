@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
+// import Work from '@/components/Work'
 import Intro from '@/components/Intro'
 import Cards from '@/components/Cards'
 import Maps from '@/components/Maps'

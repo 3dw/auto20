@@ -1,8 +1,9 @@
-import firebase from 'firebase/app';
-import 'firebase/database';
+import { initializeApp } from 'firebase/app'
+import { ref, getDatabase } from 'firebase/database' 
+import { getAuth } from 'firebase/auth'
 
 // Initialize Firebase
-const app = firebase.initializeApp({
+const fb = initializeApp({
   apiKey: 'AIzaSyDd4sKc1eN4qtprCxiKLWy8D_wK7rJURAI',
   authDomain: 'shackhand-autolearn.firebaseapp.com',
   databaseURL: 'https://shackhand-autolearn.firebaseio.com',
@@ -11,8 +12,9 @@ const app = firebase.initializeApp({
   messagingSenderId: '270389952986'
 })
 
-export const db = app.database()
-export const handsRef = db.ref('hands')
-export const chatsRef = db.ref('chats')
-export const msgsRef = db.ref('msgs')
-export const placesRef = db.ref('places')
+export const db = getDatabase(fb)
+export const auth = getAuth(fb)
+export const placesRef = ref(db, 'places')
+// export const handsRef = ref(db, 'hands')
+export const usersRef = ref(db, 'hands')
+export const chatsRef = ref(db, 'chats')

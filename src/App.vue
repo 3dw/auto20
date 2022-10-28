@@ -1,91 +1,72 @@
 <template lang="pug">
   #app
-    nav#menu.ui.fixed.top.inverted.menu.thin-only
-      router-link.item(to="/", exact='') 
-        i.home.icon
-      router-link.item(to="/cards", exact='') 
-        i.users.icon
-      router-link.item(to="/maps", exact='') 
-        i.map.icon
-      router-link.item(to="/groups", exact='') 
-        i.globe.icon
-      a.item(href="https://map.alearn.org.tw", target="_blank", rel="noopener noreferrer")
-        i.phone.icon
+    nav.fixed.top.ui.menu.inverted
+      a.item(@click="visible = !visible")
+        i.bars.icon
       .right.menu
-        router-link.item(to="/book")
-          i.book.icon
-        router-link.item(to="/myFlag", v-if="user")
-          | 我
-        router-link.item(to="/myFlag", v-if="user")
-          i.map.pin.icon
-    nav#menu.ui.fixed.top.labeled.icon.inverted.menu.fat-only
-      router-link.item(to="/", exact='') 
-        i.home.icon
-        | 自學2.0
-      router-link.item(to="/intro", exact='') 
-        i.question.icon
-        | 使用說明
-      router-link.item(to="/cards", exact='') 
-        i.users.icon
-        | 自學朋友
-      router-link.item(to="/maps", exact='') 
-        i.map.icon
-        | 地圖
-      router-link.item(to="/groups", exact='') 
-        i.globe.icon
-        | 自學社團
-      a.item(href="https://map.alearn.org.tw", target="_blank", rel="noopener noreferrer")
-        i.phone.icon
-        | 自學資源
-      router-link.item(to="/history", exact='') 
-        i.book.icon
-        | 歷史軌跡
-      router-link.item(to="/drawing", exact='') 
-        i.pencil.icon
-        | 圖鴨
-      .right.menu
-        router-link.item(to="/book")
-          i.book.icon
-          | 我的名簿
-        .red.note {{ book.length }}
-        router-link.item(to="/mymap", v-if="user")
-          i.map.icon
-          | 我的地圖
-        router-link.item(to="/myFlag", v-if="user")
-          i.user.icon
-          | 我的旗幟
-        router-link.item(to="/myplace", v-if="user")
-          i.map.pin.icon
-          | 場地
-    chatbox(:uid="uid", :user="user", :photoURL="photoURL", @loginFB="loginFB", @loginGoogle="loginGoogle")
-    main
-      .ui.form.container(v-if="doSearch($route.path)")
-        input(v-autofocus="", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
-      transition(name='fade', mode='out-in')
-        router-view(:uid = "uid", :user="user", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginFB="loginFB", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", 
-      @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
-      ad
+        a.item(v-if="!uid", @click="loginGoogle()") Google登入
+        .item(v-else)
+          img.ui.avatar(:src="photoURL")
+    sui-sidebar-pushable
+      sui-menu(is='sui-sidebar', :visible='visible', animation='overlay', width='thin', icon='labeled', inverted='' vertical='')
+        sui-menu-item
+          router-link(to='/')
+            sui-icon(name='home')
+            | 首頁
+        sui-menu-item
+          router-link(to='/intro')
+            sui-icon(name='info')
+            | 說明
+        sui-menu-item
+          router-link(to='/maps')
+            sui-icon(name='map')
+            | 地圖
+        sui-menu-item
+          router-link(to='/cards')
+            sui-icon(name='users')
+            | 自學朋友
+        sui-menu-item
+          router-link(to='/myFlag')
+            sui-icon(name='edit')
+            | 我的旗幟
+        sui-menu-item
+          router-link(to='/groups')
+            sui-icon(name='globe')
+            | 社團
+        sui-menu-item
+          router-link(to='/book')
+            sui-icon(name='book')
+            | 我的名簿
+      sui-sidebar-pusher
+        main
+          .ui.form.container(v-if="doSearch($route.path)")
+            input(v-autofocus="", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
+          router-view(:uid = "uid", :user="user", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
+      // ad
 </template>
 
 <script>
 
-import { handsRef } from './firebase'
-import firebase from 'firebase/app'
-import 'firebase/auth';
+import { onValue } from 'firebase/database'
+import { auth, usersRef, placesRef } from './firebase'
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+const provider = new GoogleAuthProvider()
+// import firebase from 'firebase/app'
+// import 'firebase/auth';
 import mix from './mixins/mix.js'
-import Chatbox from './components/Chatbox'
-import Ad from './components/Ad-Be'
+// import Chatbox from './components/Chatbox'
+// import Ad from './components/Ad-Be'
 
 export default {
   name: 'app',
   mixins: [mix],
-  components: { Chatbox, Ad },
+  // components: { Chatbox, Ad },
   props: {
     mySearch: { type: String, default: '' }
   },
-  firebase: {
-    hands: handsRef
-  },
+  // firebase: {
+  //  users: usersRef
+  // },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: '',
@@ -94,6 +75,7 @@ export default {
   },
   data () {
     return {
+      visible: false,
       zoom: 7,
       center: [22.613220, 121.219482],
       user: '',
@@ -102,6 +84,8 @@ export default {
       provider: '',
       photoURL: '',
       book: [],
+      users: [],
+      places: [],
       cities: [
         {t: '臺北市', c: [25.046337, 121.517444]},
         {t: '新北市', c: [25.011709, 121.465881], z: 10},
@@ -128,6 +112,7 @@ export default {
       this.$router.push({path: '/maps'})
     },
     locateCity: function (c) {
+      console.log(c)
       this.zoom = c.z || 13
       this.center = c.c
     },
@@ -150,7 +135,7 @@ export default {
       this.book.splice(index, 1)
       this.setLocal('book')
     },
-    loginFB: function () {
+    /* loginFB: function () {
       var vm = this
       var provider = new firebase.auth.FacebookAuthProvider()
       firebase.auth().signInWithPopup(provider).then(function (result) {
@@ -161,9 +146,9 @@ export default {
         vm.user = result.user
         vm.uid = result.user.uid
         vm.photoURL = vm.user.photoURL
-        for (var i = 0; i < vm.hands.length; i++) {
-          if (vm.hands[i].uid === vm.uid) {
-            vm.center = vm.hands[i].latlngColumn.split(',')
+        for (var i = 0; i < vm.users.length; i++) {
+          if (vm.users[i].uid === vm.uid) {
+            vm.center = vm.users[i].latlngColumn.split(',')
             vm.zoom = 13
             console.log(vm.uid)
           }
@@ -174,43 +159,54 @@ export default {
         var errorMessage = error.message
         console.log(errorCode + errorMessage)
       })
-    },
+    }, */
     loginGoogle: function () {
-      var vm = this
-      var provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithPopup(provider).then(function (result) {
+      const vm = this
+      signInWithPopup(auth, provider)
+      .then((result) => {
+          console.log(result)
         // This gives you a Google Access Token. You can use it to access the Google API.
-        vm.provider = 'google'
-        vm.token = result.credential.accessToken
-        // The signed-in user info.
-        vm.uid = result.user.uid
-        console.log(vm.uid)
-        vm.user = result.user
-        console.log(decodeURI(result.user.photoURL))
-        decodeURI(result.user.photoURL)
-        vm.photoURL = decodeURI(result.user.photoURL)
-        for (var i = 0; i < vm.hands.length; i++) {
-          console.log(vm.uid)
-          console.log(vm.hands[i].uid)
-          if (vm.hands[i].uid === vm.uid) {
-            vm.center = vm.hands[i].latlngColumn.split(',')
-            vm.zoom = 13
-          }
-        }
-        // ...
-      }).catch(function (error) {
+          const credential = GoogleAuthProvider.credentialFromResult(result)
+          const token = credential.accessToken
+          // The signed-in user info.
+          const user = result.user
+
+          console.log(credential)
+          console.log(token)
+
+          vm.user = user
+          vm.token = token
+          // The signed-in user info.
+          vm.uid = result.user.uid
+          vm.photoURL = decodeURI(result.user.photoURL)
+          console.log(vm.photoURL)
+          console.log(user)
+
+      }).catch((error) => {
         // Handle Errors here.
-        var errorCode = error.code
-        var errorMessage = error.message
+        const errorCode = error.code;
+        const errorMessage = error.message;
         // The email of the user's account used.
-        var email = error.email
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential
-        console.log(errorCode + errorMessage + email + credential)
-      })
+        // const email = error.customData.email;
+        // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
     }
   },
   mounted () {
+    const vm = this
+    onValue(usersRef, (snapshot) => {
+      const data = snapshot.val()
+      console.log(data)
+      vm.users = data
+    })
+    onValue(placesRef, (snapshot) => {
+      const data = snapshot.val()
+      console.log(data)
+      vm.places = data
+    })
     // console.log(this.$localStorage.get(n))
     if (this.$localStorage.get('book')) {
       this.getLocal('book')
@@ -305,11 +301,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
   height: 100vh;
-  overflow-y: scroll;
 }
 
 #menu {
-  z-index: 999999;
+  z-index: 1;
 }
 
 p {
@@ -321,7 +316,6 @@ p {
 main {
   text-align: center;
   margin-top: 80px;
-  margin-bottom: 100px;
 }
 
 .print-only {
@@ -370,10 +364,6 @@ a, button, .clickable {
   .thin-only {
     display: none !important;
   }
-}
-
-.router-link-active {
-  background-color: #acf !important;
 }
 
 .invisible {
@@ -437,6 +427,23 @@ img.history {
 
 .timeline .wrapper-item .section-year .year {
   font-size: 20px !important;
+}
+
+.ui.left.visible.sidebar, .ui.right.visible.sidebar {
+  position: absolute;
+  z-index: 9999999;
+  top: -0.2em;
+}
+
+.ui.avatar {
+  width: 40px;
+  margin: 0;
+}
+
+.ui.inverted.menu {
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
 }
 
 </style>

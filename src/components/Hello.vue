@@ -1,11 +1,11 @@
 <template lang="pug">
   .hello
     //h1.ui.header
-      img(src="../assets/handshake0.png")
+      img(src="../assets/usershake0.png")
       | {{msg}} {{user && user.providerData[0].displayName}}
-      img(src="../assets/handshake0.png")
+      img(src="../assets/usershake0.png")
     h4.ui.header 請先登入，和
-      span(v-if = "hands && hands.length") {{ hands.length }}
+      span(v-if = "users && users.length") {{ users.length }}
       span(v-else) 各
       | 位朋友相互認識，升起互助旗
       span(v-if ="!user")
@@ -19,11 +19,11 @@
       a.ui.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
         | 按右上的...用瀏覽器開啟
     .ui.divider
-    h2(v-if="hands.length") 最近更新
-    .ui.two.doubling.cards.container
-      .ui.card(v-for="(h, index) in list.slice(0, 1)", :key="index")
-        card(:h="h", :full="true", :mySearch="mySearch", :uid="uid", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
-    .ui.container(v-if="hands.length")
+    h2(v-if="users && users.length") 最近更新
+    .ui.two.doubling.cards.container(v-if="users")
+      .ui.card(v-for="(h, index) in list.slice(0, 2)", :key="index")
+        card(:h="h", :full="true", :mySearch="mySearch", :uid="uid || ''", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
+    .ui.container(v-if="users && users.length")
       .ui.dividder
       h2 地圖
       .ui.grid
@@ -32,16 +32,15 @@
             .ui.button.group
               a.ui.green.button(v-for="c in cities", @click="locateCity(c)") {{c.t}}
           .ten.wide.column
-            l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
+            // l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="zoom", :center="center")
               l-tile-layer(:url="url", :attribution="attribution")
-              l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)")
+              l-marker(v-for = "(h, index) in searchBy(users, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)")
                 l-popup {{h.name}}
 
 </template>
 
 <script>
 
-import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Card from './Card'
 import * as L from 'leaflet'
@@ -50,7 +49,7 @@ import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
 export default {
   name: 'hello',
   components: {Card, LMap, LTileLayer, LMarker, LPopup},
-  props: ['uid', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'cities'],
+  props: ['uid', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'users', 'places', 'cities'],
   mixins: [mix],
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -59,25 +58,23 @@ export default {
   data () {
     return {
       msg: '歡迎',
-      hands: [],
-      places: [],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }
   },
   computed: {
     list: function () {
-      var l = this.hands.concat(this.places).slice().sort(function(a,b) {
+      var l = (this.users || []).concat(this.places).slice().sort(function(a,b) {
         if (!b.lastUpdate || isNaN(b.lastUpdate)) { return -1}
         return b.lastUpdate - a.lastUpdate
       })
       return l
     }
   },
-  firebase: {
-    hands: handsRef,
-    places: placesRef
-  },
+  // firebase: {
+  //   users: usersRef,
+  //   places: placesRef
+  // },
   methods: {
     locateCity: function (c) {
       this.$emit('locateCity', c)
@@ -89,7 +86,7 @@ export default {
       this.$emit('loginGoogle')
     },
     isFacebookApp: function () {
-      var ua = navigator.userAgent || navigator.vendor || window.opera
+      var ua = navigator.userAgent || navigator.vendor || window.opera || ''
       return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
     },
     locate: function (h) {
@@ -118,6 +115,8 @@ export default {
         popupAnchor: [0, 0] // point from which the po
       })
     }
+  },
+  mounted () {
   }
 }
 </script>
