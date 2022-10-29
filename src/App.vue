@@ -62,8 +62,7 @@ import { onValue } from 'firebase/database'
 import { auth, usersRef, placesRef } from './firebase'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 const provider = new GoogleAuthProvider()
-provider.addScope('profile')
-provider.addScope('email');
+provider.addScope('https://www.googleapis.com/auth/userinfo.email')
 // import firebase from 'firebase/app'
 // import 'firebase/auth';
 import mix from './mixins/mix.js'
@@ -197,7 +196,7 @@ export default {
           console.log(token)
 
           vm.user = user
-          vm.email = user.email
+          vm.email = user.providerData[0].email
           console.log(vm.email)
           vm.token = token
           // The signed-in user info.

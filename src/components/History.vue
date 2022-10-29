@@ -1,6 +1,6 @@
 <template lang="pug">
   .hello
-    loader(v-show="!hands.length")
+    loader(v-show="!users")
     .ui.divider
     
     Timeline(:timeline-items="timelineItems", :message-when-no-items="messageWhenNoItems")
@@ -8,7 +8,6 @@
 
 <script>
 
-import { handsRef, placesRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
 import Card from './Card'
@@ -17,7 +16,7 @@ import Timeline from 'timeline-vuejs'
 export default {
   name: 'cards',
   mixins: [mix],
-  props: ['mySearch', 'id', 'book'],
+  props: ['mySearch', 'id', 'book', 'users', 'places'],
   components: { Loader, Card, Timeline },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -27,14 +26,12 @@ export default {
     return {
       n: 20,
       busy: false,
-      hands: [],
-      places: [],
       messageWhenNoItems: '歡迎您好'
     }
   },
   computed: {
     list: function () {
-      var l = this.hands.concat(this.places).slice().sort(function(a,b) {
+      var l = this.users.concat(this.places).slice().sort(function(a,b) {
         if (!b.lastUpdate || isNaN(b.lastUpdate)) { return -1}
         return b.lastUpdate - a.lastUpdate
       })
@@ -51,10 +48,6 @@ export default {
         return obj
       })
     }
-  },
-  firebase: {
-    hands: handsRef,
-    places: placesRef
   },
   methods: {
     locate: function (h) {

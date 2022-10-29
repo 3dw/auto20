@@ -2,11 +2,11 @@
   .hello
     h1
       router-link(to="/cards", v-if="book && !book.length") 您的名簿目前沒有人，按此找朋友
-    loader(v-show="!hands.length")
+    loader(v-show="!users")
     .ui.divider
     l-map(style="width: 100%; height: 600px;" ref="myMap", :zoom="myZoom", :center="center")
       l-tile-layer(:url="url", :attribution="attribution")
-      l-marker(v-for = "(h, index) in searchBy(hands, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)", v-if="book && book.indexOf(h.id) > -1")
+      l-marker(v-for = "(h, index) in searchBy(users, mySearch)", :key="index" , :lat-lng="countLatLng(h)", @click="$router.push({ path: '/flag/' + h.uid })", :icon="getAnIcon(h)", v-if="book && book.indexOf(h.id) > -1")
         l-popup {{h.name}}
 </template>
 
@@ -14,14 +14,13 @@
 
 import * as L from 'leaflet'
 import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
-import { handsRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
 
 export default {
   name: 'mymap',
   mixins: [mix],
-  props: ['mySearch', 'zoom', 'center', 'book'],
+  props: ['mySearch', 'zoom', 'center', 'book', 'users', 'user', 'uid'],
   components: {LMap, LTileLayer, LMarker, LPopup, Loader},
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -31,12 +30,8 @@ export default {
     return {
       myZoom: 13,
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      hands: []
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }
-  },
-  firebase: {
-    hands: handsRef
   },
   methods: {
     countLatLng: function (h) {

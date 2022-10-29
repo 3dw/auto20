@@ -58,14 +58,15 @@
 
 <script>
 
-import { placesRef, handsRef, db } from '../firebase'
+import { db } from '../firebase'
 import mix from '../mixins/mix.js'
 import Loader from './Loader'
+import { set, ref } from 'firebase/database'
 
 export default {
   name: 'myflag',
   mixins: [mix],
-  props: ['uid', 'user', 'mySearch', 'provider', 'photoURL'],
+  props: ['uid', 'user', 'mySearch', 'provider', 'photoURL', 'users', 'places'],
   components: { Loader },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -76,15 +77,31 @@ export default {
       myIndex: -1,
       root: {},
       local: {},
-      hands: [],
-      places: []
     }
   },
-  firebase: {
-    places: placesRef,
-    hands: handsRef
-  },
   methods: {
+    setMe () {
+      console.log(this.users)
+      const keys = Object.keys(this.users)
+      this.root = this.users[this.uid]
+      this.root.email = this.email
+      console.log(this.root.email)
+      this.myIndex = keys.indexOf(this.uid)
+      if (this.uid && this.myIndex === -1) {
+        console.log('new')
+        this.myIndex = this.uid
+        this.root = {
+          name: this.user.providerData[0].displayName,
+          uid: this.uid,
+          email: this.email,
+          photoURL: this.photoURL || '',
+          note: ''
+        }
+      }
+      console.log(this.root.name)
+      console.log(this.root)
+      this.$forceUpdate()
+    },
     checkLatLng: function (add) {
       var vm = this
       console.log('checkLatLng:' + add)
@@ -112,9 +129,15 @@ export default {
       })
     },
     usedAddr: function (hand) {
+      const vm = this
+      console.log(this.users)
+      const keys = Object.keys(this.users)
+      const usersList = keys.map(function (k) {
+        return vm.users[k]
+      })
       var ans, i$, ref$, len$, h
       ans = false
-      for (i$ = 0, len$ = (ref$ = this.hands.filter(fn$)).length; i$ < len$; ++i$) {
+      for (i$ = 0, len$ = (ref$ = usersList.filter(fn$)).length; i$ < len$; ++i$) {
         h = ref$[i$]
         if (h.latlngColumn === hand.latlngColumn) {
           ans = true
@@ -140,15 +163,15 @@ export default {
     },
     updateFlag: function () {
       this.root.lastUpdate = (new Date()).getTime()
-      this.root.idx = this.myIndex
-      this.myIndex = this.places.length
-      if (this.myIndex < this.places.length) {
-        db.ref('places/' + this.myIndex).update(JSON.parse(JSON.stringify(this.root).replace('.key', 'key').replace('undefined', 'null')))
-        alert('更新成功!')
+      if (this.myIndex > -1) {
+        set(ref(db, 'users/' + this.uid), this.root).then(
+          alert('更新成功!')
+        )
       } else {
         console.log('new2')
-        db.ref('places/' + this.myIndex).set(JSON.parse(JSON.stringify(this.root).replace('.key', 'key').replace('undefined', 'null')))
-        alert('登錄成功!')
+        set(ref(db, 'users/' + this.uid), this.root).then(
+          alert('登錄成功!')
+        )
       }
     },
     loginFB: function () {
