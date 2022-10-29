@@ -52,7 +52,7 @@
         main
           .ui.form.container(v-if="doSearch($route.path)")
             input(v-autofocus="", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
-          router-view(:uid = "uid", :user="user", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
+          router-view(:uid = "uid", :user="user", :email="email", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
       // ad
 </template>
 
@@ -62,6 +62,8 @@ import { onValue } from 'firebase/database'
 import { auth, usersRef, placesRef } from './firebase'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 const provider = new GoogleAuthProvider()
+provider.addScope('profile')
+provider.addScope('email');
 // import firebase from 'firebase/app'
 // import 'firebase/auth';
 import mix from './mixins/mix.js'
@@ -94,6 +96,7 @@ export default {
       uid: '',
       provider: '',
       photoURL: '',
+      email: '',
       book: [],
       users: [],
       places: [],
@@ -194,6 +197,8 @@ export default {
           console.log(token)
 
           vm.user = user
+          vm.email = user.email
+          console.log(vm.email)
           vm.token = token
           // The signed-in user info.
           vm.uid = result.user.uid

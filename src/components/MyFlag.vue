@@ -154,7 +154,7 @@ import { set, ref } from 'firebase/database'
 export default {
   name: 'myflag',
   mixins: [mix],
-  props: ['uid', 'user', 'mySearch', 'provider', 'photoURL', 'users'],
+  props: ['uid', 'user', 'email', 'mySearch', 'provider', 'photoURL', 'users'],
   components: { Loader },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -175,6 +175,8 @@ export default {
       console.log(this.users)
       const keys = Object.keys(this.users)
       this.root = this.users[this.uid]
+      this.root.email = this.email
+      console.log(this.root.email)
       this.myIndex = keys.indexOf(this.uid)
       if (this.uid && this.myIndex === -1) {
         console.log('new')
@@ -182,6 +184,7 @@ export default {
         this.root = {
           name: this.user.providerData[0].displayName,
           uid: this.uid,
+          email: this.email,
           photoURL: this.photoURL || '',
           note: ''
         }
