@@ -3,6 +3,18 @@
     nav.fixed.top.ui.menu.inverted
       a.item(@click="visible = !visible")
         i.bars.icon
+      router-link.item.fat-only(to='/')
+        sui-icon(name='home')
+        | 首頁
+      router-link.item.fat-only(to='/intro')
+        sui-icon(name='info')
+        | 說明
+      router-link.item.fat-only(to='/maps')
+        sui-icon(name='map')
+        | 地圖
+      router-link.item.fat-only(to='/cards')
+        sui-icon(name='users')
+        | 自學朋友
       .right.menu
         a.item(href="https://github.com/3dw/auto20/issues", target="_blank", rel="noopener noreferrer")
           i.github.icon
