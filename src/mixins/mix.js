@@ -1,5 +1,4 @@
 export default {
-  props: ['mySearch'],
   methods: {
     part: function (str) {
       return String(str).substring(0, 50)

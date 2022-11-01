@@ -72,10 +72,7 @@ import mix from './mixins/mix.js'
 export default {
   name: 'app',
   mixins: [mix],
-  // components: { Chatbox, Ad },
-  props: {
-    mySearch: { type: String, default: '' }
-  },
+  // components: { Chatbox, Ad }
   // firebase: {
   //  users: usersRef
   // },
@@ -87,6 +84,7 @@ export default {
   },
   data () {
     return {
+      mySearch: '',
       visible: false,
       zoom: 7,
       center: [22.613220, 121.219482],
@@ -117,7 +115,7 @@ export default {
   },
   methods: {
     doSearch: function (p) {
-      return (!(p.match(/^\/(drawing|myFlag|place|groups|intro|faq|flag\/\d+|ans\/\d+)?$/)))
+      return (!(p.match(/^\/(drawing|myFlag|place|intro|faq|flag\/\d+|ans\/\d+)?$/)))
     },
     locate: function (h) {
       this.zoom = 13
@@ -125,7 +123,7 @@ export default {
       this.$router.push({path: '/maps'})
     },
     locateCity: function (c) {
-      console.log(c)
+      // console.log(c)
       this.zoom = c.z || 13
       this.center = c.c
     },
@@ -185,7 +183,7 @@ export default {
       const vm = this
       signInWithPopup(auth, provider)
       .then((result) => {
-          console.log(result)
+          // console.log(result)
         // This gives you a Google Access Token. You can use it to access the Google API.
           const credential = GoogleAuthProvider.credentialFromResult(result)
           const token = credential.accessToken
@@ -193,17 +191,17 @@ export default {
           const user = result.user
 
           console.log(credential)
-          console.log(token)
+          // console.log(token)
 
           vm.user = user
           vm.email = user.providerData[0].email
-          console.log(vm.email)
+          // console.log(vm.email)
           vm.token = token
           // The signed-in user info.
           vm.uid = result.user.uid
           vm.photoURL = decodeURI(result.user.photoURL)
-          console.log(vm.photoURL)
-          console.log(user)
+          // console.log(vm.photoURL)
+          // console.log(user)
 
       }).catch((error) => {
         // Handle Errors here.
@@ -222,12 +220,12 @@ export default {
     const vm = this
     onValue(usersRef, (snapshot) => {
       const data = snapshot.val()
-      console.log(data)
+      // console.log(data)
       vm.users = data
     })
     onValue(placesRef, (snapshot) => {
       const data = snapshot.val()
-      console.log(data)
+      // console.log(data)
       vm.places = data
     })
     // console.log(this.$localStorage.get(n))
