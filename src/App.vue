@@ -210,41 +210,49 @@ export default {
         vm.photoURL = null
       })
     },
+    isFacebookApp: function () {
+      var ua = navigator.userAgent || navigator.vendor || window.opera || ''
+      return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
+    },
     loginGoogle: function () {
       const vm = this
-      signInWithPopup(auth, provider)
-      .then((result) => {
-          // console.log(result)
-        // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = GoogleAuthProvider.credentialFromResult(result)
-          const token = credential.accessToken
-          // The signed-in user info.
-          const user = result.user
+      if (this.isFacebookApp()) {
+        window.open('https://we.alearn.org.tw/')
+      } else {
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            // console.log(result)
+          // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result)
+            const token = credential.accessToken
+            // The signed-in user info.
+            const user = result.user
 
-          console.log(credential)
-          // console.log(token)
+            console.log(credential)
+            // console.log(token)
 
-          vm.user = user
-          vm.email = user.providerData[0].email
-          // console.log(vm.email)
-          vm.token = token
-          // The signed-in user info.
-          vm.uid = result.user.uid
-          vm.photoURL = decodeURI(result.user.photoURL)
-          // console.log(vm.photoURL)
-          // console.log(user)
+            vm.user = user
+            vm.email = user.providerData[0].email
+            // console.log(vm.email)
+            vm.token = token
+            // The signed-in user info.
+            vm.uid = result.user.uid
+            vm.photoURL = decodeURI(result.user.photoURL)
+            // console.log(vm.photoURL)
+            // console.log(user)
 
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        // const email = error.customData.email;
-        // The AuthCredential type that was used.
-        // const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          // const email = error.customData.email;
+          // The AuthCredential type that was used.
+          // const credential = GoogleAuthProvider.credentialFromError(error);
+          console.log(errorCode);
+          console.log(errorMessage);
+        });
+      }
     }
   },
   mounted () {

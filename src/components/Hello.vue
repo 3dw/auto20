@@ -16,8 +16,6 @@
         | 登入
       router-link.ui.blue.button(to="/myFlag", v-else)
         | 前往我的旗幟
-      a.ui.red.button(v-if="isFacebookApp()", href="https://www.playpcesor.com/2014/11/facebook-app-15.html", target="_blank")
-        | 按右上的...用瀏覽器開啟
     .ui.divider
     h2(v-if="users && users.length") 最近更新
     .ui.two.doubling.cards.container(v-if="users")
