@@ -67,6 +67,7 @@
 
 <script>
 
+import { onValue } from 'firebase/database'
 import { chatsRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import VueMarkdown from 'vue-markdown'
@@ -89,9 +90,6 @@ export default {
       label: '閒聊',
       labels: ['諮詢', '故障', '找伴', '閒聊']
     }
-  },
-  firebase: {
-    chats: chatsRef
   },
   methods: {
     preview: function () {
@@ -152,6 +150,11 @@ export default {
     }
   },
   mounted () {
+    onValue(chatsRef, (snapshot) => {
+      const data = snapshot.val()
+      console.log(data)
+      vm.chats = data
+    })
     this.read = this.$localStorage.get('read') || 0
   }
 }
