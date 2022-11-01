@@ -4,6 +4,9 @@
       a.item(@click="visible = !visible")
         i.bars.icon
       .right.menu
+        a.item(href="https://github.com/3dw/auto20/issues", target="_blank", rel="noopener noreferrer")
+          i.github.icon
+          | 錯誤回報
         a.item(v-if="!uid", @click="loginGoogle()")
           i.google.icon
           | Google登入
