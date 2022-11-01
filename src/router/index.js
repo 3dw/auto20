@@ -9,6 +9,7 @@ import Flag from '@/components/Flag'
 import Place from '@/components/Place'
 import MyFlag from '@/components/MyFlag'
 import Groups from '@/components/Groups'
+import Group from '@/components/Group'
 import Book from '@/components/Book'
 import MyMap from '@/components/MyMap'
 import MyPlace from '@/components/MyPlace'
@@ -60,6 +61,11 @@ export default new Router({
       path: '/place/:idx',
       name: 'Place',
       component: Place
+    },
+    {
+      path: '/group/:idx',
+      name: 'Group',
+      component: Group
     },
     {
       path: '/myFlag',

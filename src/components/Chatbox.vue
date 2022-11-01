@@ -4,6 +4,10 @@
       .item.ui.form(v-show="isFull")
         .ui.input
           input(v-model="key", placeholder="搜索")
+        .ui.buttons(v-if="!user")
+          button.ui.orange.button(@click="loginGoogle()")
+            i.google.icon
+            | 登入以留言
       .right.menu
         a.item(v-if="!isFull" @click="isFull = true; isMini = false; reCount()")
           i.comments.icon
@@ -60,15 +64,15 @@
               i.facebook.icon
               | 登入以留言 
             //.or
-            button.ui.orange.button(@click="loginGoogle")
+            button.ui.orange.button(@click="loginGoogle()")
               i.google.icon
               | 登入以留言 
 </template>
 
 <script>
 
-import { onValue } from 'firebase/database'
-import { chatsRef } from '../firebase'
+import { onValue, set, ref } from 'firebase/database'
+import { db, chatsRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import VueMarkdown from 'vue-markdown'
 
@@ -113,8 +117,9 @@ export default {
         photoURL: c.photoURL || '',
         time: (new Date()).getTime()
       }
-      chatsRef.child(c['.key']).set(
-        o
+      this.chats[c['.key']] = o
+      set(ref(db, 'chats'), this.chats).then(
+        console.log('chats更新成功')
       )
     },
     addChat: function () {
@@ -127,22 +132,33 @@ export default {
         time: (new Date()).getTime()
       }
       if (this.msg) {
-        this.$firebaseRefs.chats.push(o)
+        const rid = (Math.random() + '').substr(0, 8).replace('.', '')
+        this.chats[rid] = o
         this.msg = ''
         this.p = ''
       }
-    },
-    loginFB: function () {
-      this.$emit('loginFB')
+      set(ref(db, 'chats'), this.chats).then(
+        console.log('chats更新成功')
+      )
     },
     loginGoogle: function () {
       this.$emit('loginGoogle')
     },
     fil: function (list) {
+      console.log(list)
       var k = this.key
-      return list.filter(function (o) { return (o.t + o.l).indexOf(k) > -1 || !k }).map(function (o) {
+      const ks = Object.keys(list)
+      var l = []
+      for (var i = 0; i < ks.length; i++) {
+        l.push(list[ks[i]])
+      }
+      l =  l.filter(function (o) { return (o.t + o.l).indexOf(k) > -1 || !k }).map(function (o) {
         o.edit = false; return o
       })
+      l.sort(function (a, b) {
+        return a.time - b.time
+      })
+      return l
     },
     reCount: function () {
       this.read = this.chats.length
@@ -150,6 +166,7 @@ export default {
     }
   },
   mounted () {
+    const vm = this
     onValue(chatsRef, (snapshot) => {
       const data = snapshot.val()
       console.log(data)

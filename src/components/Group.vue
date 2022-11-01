@@ -1,31 +1,23 @@
 <template lang="pug">
   .hello
-    .ui.container
+    .ui.container(v-if="groups[0]")
       .ui.grid
-        .row.ui.form(v-show="uid")
-          .field
-            .ui.labeled.input
-              label.ui.label 輸入名字
-              input(type="text", v-model="newName")
-          .field
-            a.ui.green.button(@click="addGroup()")
-              | 創建社團
         .row
           .ui.list
-            .item.ui.segment(v-for = "(g, idx) in searchBy(groups, mySearch)", :key="g.idx")
+            .item
               h3 〈{{g.n}}〉
               .ui.grid
                 .row
-                  p(v-id="users[0]") 成員：
+                  .div 成員：
                     span(v-for="m in g.members")
                       router-link(:to = "'/flag/' + m")
                         img.ui.avatar(:src="users[m].photoURL", alt="users[m].n")
                     span(v-show="uid")
-                      a.ui.green.button(v-show="!isMember(g.idx)", @click="join(g.idx)") 加入
-                      a.ui.red.button(v-show="isMember(g.idx)", @click="out(g.idx)") 退出
+                      a.ui.green.button(v-show="!isMember()", @click="join()") 加入
+                      a.ui.red.button(v-show="!isMember()", @click="out()") 退出
                 .two.column.stackable.row
                   .column
-                    .ui.divided.list 
+                    .ui.divided.list
                       .item(v-for = "(r, index) in g.res", :key="index + r.n + r.href")
                         a(:href="r.href", target="_blank", rel="noopener noreferrer")
                           img(:src="'http://www.google.com/s2/favicons?domain=' + r.href", alt="r.n")
@@ -40,13 +32,13 @@
                             label.ui.label 輸入資源網址
                             input(type="text", v-model="newHref", placeholder="網址")
                         .field
-                          a.ui.green.button(@click="addRes(idx)")
+                          a.ui.green.button(@click="addRes()")
                             | 新增資源
                   .column
                     .ui.divided.list
                       .item(v-for = "(c, index) in g.chats", :key="index")
                         | {{c.n}} : {{c.t}}
-                      .item.ui.form(v-if="uid")
+                      .item.ui.form(v-show="uid")
                         .field
                           img.ui.avatar(:src="photoURL")
                           .ui.labeled.input
@@ -54,21 +46,18 @@
                             a.ui.label.green.button(@click="addChat(idx)") 留言
         .row
           .column
-            iframe(width="100%" height="600" src="https://docs.google.com/spreadsheets/d/1BbdFTBmHNehZIRoqpzaFmd1E5HE2qTdvnaQUWnB5m50/edit?usp=sharing")
-        .row
-          .column
-            iframe(width="100%" height="600" src="https://docs.google.com/forms/d/e/1FAIpQLSdWQf1xFlugOLL1cQwlMc-od06wHSTLLwlpjYTqli5bHAHgcw/viewform")
+            router-link.ui.blue.button(to="/groups") 查看所有社團
         
 </template>
 
 <script>
 
-import { onValue, set, ref } from 'firebase/database'
-import { db, groupsRef } from '../firebase'
+import { set, ref } from 'firebase/database'
+import { db } from '../firebase'
 
 export default {
-  name: 'groups',
-  props: ['photoURL', 'users', 'user', 'uid', 'mySearch'],
+  name: 'group',
+  props: ['photoURL', 'users', 'user', 'uid', 'mySearch', 'groups'],
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: '自學社團',
@@ -79,39 +68,34 @@ export default {
       newResName: '',
       newHref: '',
       msg: '',
-      groups: []
+      g: {}
     }
   },
   methods: {
-    isMember (idx) {
-      return (this.groups[idx].members || []).indexOf(this.uid) > -1
+    isMember () {
+      console.log(this.groups)
+      console.log(this.$route.params.idx)
+      console.log(this.groups[this.$route.params.idx])
+      return (this.groups[this.$route.params.idx].members || []).indexOf(this.uid) > -1
     },
-    join (idx) {
-      this.groups[idx].members = this.groups[idx].members || []
-      this.groups[idx].members.push(this.uid)
+    join () {
+      this.groups[this.$route.params.idx].members = this.groups[this.$route.params.idx].members || []
+      this.groups[this.$route.params.idx].members.push(this.uid)
       set(ref(db, 'groups'), this.groups).then(
         console.log('groups更新成功')
       )
     },
-    out (idx) {
+    out () {
       const vm = this
-      this.groups[idx].members = this.groups[idx].members || []
-      this.groups[idx].members = this.groups[idx].members.filter(function (i) {
+      this.groups[this.$route.params.idx].members = this.groups[this.$route.params.idx].members || []
+      this.groups[this.$route.params.idx].members = this.groups[this.$route.params.idx].members.filter(function (i) {
         return i !== vm.uid
       })
       set(ref(db, 'groups'), this.groups).then(
         console.log('groups更新成功')
       )
     },
-    searchBy (list, k) {
-      if (!k) {
-        return list
-      }
-      return list.filter(function (g) {
-        return JSON.stringify(g).indexOf(k) > -1
-      })
-    },
-    addChat (idx) {
+    addChat () {
       var o = {
         uid: this.uid,
         n: (this.user.providerData || [ {displayName: '匿名'} ])[0].displayName,
@@ -119,48 +103,48 @@ export default {
         photoURL: this.photoURL || '',
         time: (new Date()).getTime()
       }
-      this.groups[idx].chats = 
-        this.groups[idx].chats || []
+      this.g.chats = 
+        this.g.chats || []
       if (this.msg) {
-        this.groups[idx].chats.push(o)
+        this.g.chats.push(o)
         this.msg = ''
       }
-      set(ref(db, 'groups/' + idx), this.g).then(
+      set(ref(db, 'groups/' + this.$route.params.idx), this.g).then(
         console.log('groups更新成功')
       )
     },
     addGroup () {
-      this.groups.push(
+      this.g.push(
         { n: this.newName,
           res: [],
           chats: [],
-          idx: this.groups.length
+          members: [this.uid]
         }
       )
       this.newName = ''
-      set(ref(db, 'groups'), this.groups).then(
+      set(ref(db, 'groups/' + this.$route.params.idx), this.g).then(
         console.log('groups更新成功')
       )
     },
-    addRes (idx) {
-      this.groups[idx].res = this.groups[idx].res || []
-      this.groups[idx].res.push(
+    addRes () {
+      this.g.res = 
+        this.g.res || []
+      this.g.res.push(
         { n: this.newResName, href: this.newHref })
       this.newResName = ''
       this.newHref = ''
-      set(ref(db, 'groups'), this.groups).then(
+      set(ref(db, 'groups/' + this.$route.params.idx), this.g).then(
         console.log('groups更新成功')
       )
-      console.log(this.groups)
+    }
+  },
+  watch: {
+    groups (newGs) {
+      this.g = newGs[this.$route.params.idx]
     }
   },
   mounted () {
-    const vm = this
-    onValue(groupsRef, (snapshot) => {
-      const data = snapshot.val()
-      console.log(data)
-      vm.groups = data || []
-    })
+    this.g = this.groups[this.$route.params.idx] || {}
   }
 }
 </script>
@@ -172,7 +156,4 @@ export default {
   width: 100%;
 }
 
-.row p {
-  margin-left: 2em;
-}
 </style>

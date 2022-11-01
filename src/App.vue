@@ -4,7 +4,9 @@
       a.item(@click="visible = !visible")
         i.bars.icon
       .right.menu
-        a.item(v-if="!uid", @click="loginGoogle()") Google登入
+        a.item(v-if="!uid", @click="loginGoogle()")
+          i.google.icon
+          | Google登入
         .item(v-else)
           img.ui.avatar(:src="photoURL")
           sui-dropdown(icon="angle down")
@@ -13,8 +15,8 @@
                 router-link.ui(to="/myFlag") 我的旗幟
               sui-dropdown-item
                 router-link.ui(to="/book") 我的名簿
-              sui-dropdown-item
-                router-link.ui(to="/myGroup") 我的社團
+              sui-dropdown-item(v-for="i in myGroupIdx()", :key="i")
+                router-link.ui(:to="'/group/' + i") {{ groups[i].n }}
               sui-dropdown-item
                 a.ui(@click="logout()") 登出
                   img.ui.small(:src="photoURL")
@@ -35,10 +37,14 @@
         router-link(to='/cards')
           sui-icon(name='users')
           | 自學朋友
-      sui-menu-item
+      sui-menu-item(v-if="uid")
         router-link(to='/myFlag')
           sui-icon(name='edit')
           | 我的旗幟
+      sui-menu-item(v-if="uid")
+        router-link(to='/myPlace')
+          sui-icon(name='flag checkered')
+          | 新增地點旗
       sui-menu-item
         router-link(to='/groups')
           sui-icon(name='globe')
@@ -52,27 +58,28 @@
         main
           .ui.form.container(v-if="doSearch($route.path)")
             input(v-autofocus="", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
-          router-view(:uid = "uid", :user="user", :email="email", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
+          router-view(:uid = "uid", :user="user", :groups="groups", :email="email", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
+        chatbox(@loginGoogle = "loginGoogle", :uid = "uid", :user="user", :photoURL="photoURL")
       // ad
 </template>
 
 <script>
 
 import { onValue } from 'firebase/database'
-import { auth, usersRef, placesRef } from './firebase'
+import { auth, usersRef, placesRef, groupsRef } from './firebase'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 const provider = new GoogleAuthProvider()
 provider.addScope('https://www.googleapis.com/auth/userinfo.email')
 // import firebase from 'firebase/app'
 // import 'firebase/auth';
 import mix from './mixins/mix.js'
-// import Chatbox from './components/Chatbox'
+import Chatbox from './components/Chatbox'
 // import Ad from './components/Ad-Be'
 
 export default {
   name: 'app',
   mixins: [mix],
-  // components: { Chatbox, Ad }
+  components: { Chatbox },
   // firebase: {
   //  users: usersRef
   // },
@@ -97,6 +104,7 @@ export default {
       book: [],
       users: [],
       places: [],
+      groups: [],
       cities: [
         {t: '臺北市', c: [25.046337, 121.517444]},
         {t: '新北市', c: [25.011709, 121.465881], z: 10},
@@ -114,8 +122,16 @@ export default {
     }
   },
   methods: {
+    myGroupIdx () {
+      const vm = this
+      return this.groups.filter(function (g) {
+        return (g.members || []).indexOf(vm.uid || '') > -1
+      }).map(function (g) {
+        return g.idx
+      })
+    },
     doSearch: function (p) {
-      return (!(p.match(/^\/(drawing|myFlag|place|intro|faq|flag\/\d+|ans\/\d+)?$/)))
+      return !(p.match(/(drawing|myPlace|myFlag|group\/|place|intro|faq|flag\/\d+|ans\/\d+)/))
     },
     locate: function (h) {
       this.zoom = 13
@@ -227,6 +243,11 @@ export default {
       const data = snapshot.val()
       // console.log(data)
       vm.places = data
+    })
+    onValue(groupsRef, (snapshot) => {
+      const data = snapshot.val()
+      // console.log(data)
+      vm.groups = data
     })
     // console.log(this.$localStorage.get(n))
     if (this.$localStorage.get('book')) {

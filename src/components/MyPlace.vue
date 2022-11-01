@@ -52,7 +52,7 @@
             label.required 介紹
             textarea#note(v-model='root.note', rows='5', cols='30', placeholder='介紹很重要，請寫20字以上，謝謝')
       .ui.divider
-      a.ui.large.blue.button(@click="updateFlag")
+      a.ui.large.blue.button(@click="updatePlace")
         span 升起旗幟!!
 </template>
 
@@ -80,28 +80,6 @@ export default {
     }
   },
   methods: {
-    setMe () {
-      console.log(this.users)
-      const keys = Object.keys(this.users)
-      this.root = this.users[this.uid]
-      this.root.email = this.email
-      console.log(this.root.email)
-      this.myIndex = keys.indexOf(this.uid)
-      if (this.uid && this.myIndex === -1) {
-        console.log('new')
-        this.myIndex = this.uid
-        this.root = {
-          name: this.user.providerData[0].displayName,
-          uid: this.uid,
-          email: this.email,
-          photoURL: this.photoURL || '',
-          note: ''
-        }
-      }
-      console.log(this.root.name)
-      console.log(this.root)
-      this.$forceUpdate()
-    },
     checkLatLng: function (add) {
       var vm = this
       console.log('checkLatLng:' + add)
@@ -144,7 +122,7 @@ export default {
           break
         }
       }
-      if (hand.latlngColumn === 'undefined,undefined' || hand.latlngColumn === '36.778261,-119.4179324') {
+      if (hand.latlngColumn === 'undefined,undefined' || hand.latlngColumn === '36.778261,-119.4179324' || !hand.latlngColumn) {
         ans = false
       }
       return ans
@@ -161,18 +139,11 @@ export default {
       }
       return false
     },
-    updateFlag: function () {
+    updatePlace: function () {
       this.root.lastUpdate = (new Date()).getTime()
-      if (this.myIndex > -1) {
-        set(ref(db, 'users/' + this.uid), this.root).then(
-          alert('更新成功!')
-        )
-      } else {
-        console.log('new2')
-        set(ref(db, 'users/' + this.uid), this.root).then(
-          alert('登錄成功!')
-        )
-      }
+      set(ref(db, 'places/' + this.places.length), this.root).then(
+        alert('登錄成功!')
+      )
     },
     loginFB: function () {
       this.$emit('loginFB')

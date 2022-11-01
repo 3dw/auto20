@@ -1,6 +1,6 @@
 <template lang="pug">
   .hello
-    loader(v-show="!users.length")
+    loader(v-show="!users")
     .ui.segment.container
       .ui.fluid.card(v-for="(h, index) in users" v-if="h.uid == $route.params.uid")
         card(:h="h", :full="true", :book="book", :mySearch="mySearch", @locate="locate", @addBook="addBook")
@@ -12,7 +12,6 @@
 
 <script>
 
-import { usersRef } from '../firebase'
 import mix from '../mixins/mix.js'
 import Card from './Card'
 import Loader from './Loader'
@@ -21,18 +20,14 @@ export default {
   name: 'flag',
   components: { Card, Loader },
   mixins: [mix],
-  props: ['mySearch', 'book'],
+  props: ['mySearch', 'book', 'users'],
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: '旗幟',
   },
   data () {
     return {
-      users: []
     }
-  },
-  firebase: {
-    users: usersRef
   },
   methods: {
     locate: function (h) {
