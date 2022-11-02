@@ -27,7 +27,7 @@ Vue.use(rtdbPlugin)
 Vue.use(VueSimpleMarkdown)
 
 Vue.use(VueGtag, {
-  config: { id: 'UA-26178243-9' }
+  config: { id: 'G-GNTJVRF63Z' }
 }, router)
 
 Vue.directive('autofocus', autofocus)

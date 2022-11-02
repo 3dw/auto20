@@ -7,7 +7,7 @@
         .ui.buttons(v-if="!user")
           button.ui.orange.button(@click="loginGoogle()")
             i.google.icon
-            | 登入以留言
+            | 登入
       .right.menu
         a.item(v-if="!isFull" @click="isFull = true; isMini = false; reCount()")
           i.comments.icon

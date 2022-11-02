@@ -74,7 +74,7 @@
           .ui.form.container(v-if="doSearch($route.path)")
             input(v-autofocus="", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
           router-view(:uid = "uid", :user="user", :groups="groups", :email="email", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
-        chatbox(@loginGoogle = "loginGoogle", :uid = "uid", :user="user", :photoURL="photoURL")
+    chatbox#ch(@loginGoogle = "loginGoogle", :uid = "uid", :user="user", :photoURL="photoURL")
       // ad
 </template>
 
@@ -514,6 +514,12 @@ img.history {
   padding: 0;
   margin: 0;
   color: white;
+}
+
+#ch {
+  position: fixed;
+  right: 0;
+  bottom: 0;
 }
 
 </style>
