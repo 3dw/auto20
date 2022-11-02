@@ -17,6 +17,7 @@ import Faq from '@/components/Faq'
 import Ans from '@/components/Ans'
 import History from '@/components/History'
 import Drawing from '@/components/Drawing'
+import Outer from '@/components/Outer'
 
 Vue.use(Router)
 
@@ -31,6 +32,11 @@ export default new Router({
       path: '/intro',
       name: 'Intro',
       component: Intro
+    },
+    {
+      path: '/outer',
+      name: 'Outer',
+      component: Outer
     },
     {
       path: '/faq',

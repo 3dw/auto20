@@ -68,6 +68,10 @@
         router-link(to='/book')
           sui-icon(name='book')
           | 我的名簿
+      sui-menu-item
+        router-link(to='/outer')
+          sui-icon(name='paperclip')
+          | 外部連結
     sui-sidebar-pushable
       sui-sidebar-pusher
         main
@@ -146,7 +150,7 @@ export default {
       })
     },
     doSearch: function (p) {
-      return !(p.match(/(drawing|myPlace|myFlag|group\/|place|intro|faq|flag\/\d+|ans\/\d+)/))
+      return !(p.match(/(drawing|myPlace|outer|myFlag|group\/|place|intro|faq|flag\/\d+|ans\/\d+)/))
     },
     locate: function (h) {
       this.zoom = 13
