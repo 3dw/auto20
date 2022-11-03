@@ -145,7 +145,7 @@ export default {
       this.$emit('loginGoogle')
     },
     fil: function (list) {
-      console.log(list)
+      // console.log(list)
       var k = this.key
       const ks = Object.keys(list)
       var l = []
@@ -169,7 +169,7 @@ export default {
     const vm = this
     onValue(chatsRef, (snapshot) => {
       const data = snapshot.val()
-      console.log(data)
+      // console.log(data)
       vm.chats = data
     })
     this.read = this.$localStorage.get('read') || 0

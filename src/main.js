@@ -18,6 +18,8 @@ import VueSocialSharing from 'vue-social-sharing'
 import '../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
 import VueMeta from 'vue-meta'
 import SuiVue from 'semantic-ui-vue'
+import VueExcelXlsx from 'vue-excel-xlsx'
+Vue.use(VueExcelXlsx)
 
 Vue.use(SuiVue)
 Vue.use(VueSocialSharing)
