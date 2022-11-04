@@ -32,7 +32,7 @@
     "vue-localstorage": "^0.6.2",
     "vue-markdown": "^2.1.2",
     "vue-meta": "^2.4.0",
-    "vue-resource": "^1.5.1",
+    "vue-resource": "^1.5.3",
     "vue-router": "^3.2.0",
     "vue-simple-markdown": "^1.1.4",
     "vue-social-sharing": "^3.0.4",
