@@ -221,7 +221,7 @@ export default {
     loginGoogle: function () {
       const vm = this
       if (this.isFacebookApp()) {
-        window.open('https://we.alearn.org.tw/')
+        window.alert('不支援Facebook App內瀏覽，請另用瀏覽器開啟本頁')
       } else {
         signInWithPopup(auth, provider)
         .then((result) => {
