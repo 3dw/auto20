@@ -11,7 +11,7 @@
       span(v-if ="!user")
     .ui.huge.buttons
       router-link(to="/intro").ui.purple.button 瞭解更多
-      button.ui.orange.button(@click="loginGoogle", v-if="!user")
+      button.ui.orange.button(@click="loginGoogle", v-if="!user", :class="{disabled: isInApp}")
         i.google.icon
         | 登入
       router-link.ui.blue.button(to="/myFlag", v-else)

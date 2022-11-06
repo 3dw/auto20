@@ -19,7 +19,7 @@
         a.item(href="https://github.com/3dw/auto20/issues", target="_blank", rel="noopener noreferrer")
           i.github.icon
           | 錯誤回報
-        a.item(v-if="!uid", @click="loginGoogle()")
+        a.item(v-if="!uid && !isInApp", @click="loginGoogle()")
           i.google.icon
           | Google登入
         .item(v-else)
@@ -225,8 +225,9 @@ export default {
     loginGoogle: function () {
       if (this.isInApp) {
         window.alert('本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝')
+      } else {
+        signInWithRedirect(auth, provider)
       }
-      signInWithRedirect(auth, provider)
     }
   },
   mounted () {
