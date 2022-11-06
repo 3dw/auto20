@@ -223,6 +223,9 @@ export default {
       return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
     },
     loginGoogle: function () {
+      if (this.isInApp) {
+        window.alert('本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝')
+      }
       signInWithRedirect(auth, provider)
     }
   },
