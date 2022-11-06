@@ -86,7 +86,7 @@
 
 import { onValue } from 'firebase/database'
 import { auth, usersRef, placesRef, groupsRef } from './firebase'
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "firebase/auth"
 const provider = new GoogleAuthProvider()
 provider.addScope('https://www.googleapis.com/auth/userinfo.email')
 // import firebase from 'firebase/app'
@@ -219,48 +219,43 @@ export default {
       return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
     },
     loginGoogle: function () {
-      const vm = this
-      if (this.isFacebookApp()) {
-        window.alert('不支援Facebook App內瀏覽，請另用瀏覽器開啟本頁')
-      } else {
-        signInWithPopup(auth, provider)
-        .then((result) => {
-            // console.log(result)
-          // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            const token = credential.accessToken
-            // The signed-in user info.
-            const user = result.user
-
-            console.log(credential)
-            // console.log(token)
-
-            vm.user = user
-            vm.email = user.providerData[0].email
-            // console.log(vm.email)
-            vm.token = token
-            // The signed-in user info.
-            vm.uid = result.user.uid
-            vm.photoURL = decodeURI(result.user.photoURL)
-            // console.log(vm.photoURL)
-            // console.log(user)
-
-        }).catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          // const email = error.customData.email;
-          // The AuthCredential type that was used.
-          // const credential = GoogleAuthProvider.credentialFromError(error);
-          console.log(errorCode);
-          console.log(errorMessage);
-        });
-      }
+      signInWithRedirect(auth, provider)
     }
   },
   mounted () {
     const vm = this
+    getRedirectResult(auth).then((result) => {
+        // console.log(result)
+      // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        const token = credential.accessToken
+        // The signed-in user info.
+        const user = result.user
+
+        console.log(credential)
+        // console.log(token)
+
+        vm.user = user
+        vm.email = user.providerData[0].email
+        // console.log(vm.email)
+        vm.token = token
+        // The signed-in user info.
+        vm.uid = result.user.uid
+        vm.photoURL = decodeURI(result.user.photoURL)
+        // console.log(vm.photoURL)
+        // console.log(user)
+
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      // const email = error.customData.email;
+      // The AuthCredential type that was used.
+      // const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log(errorCode);
+      console.log(errorMessage);
+    })
     onValue(usersRef, (snapshot) => {
       const data = snapshot.val()
       // console.log(data)

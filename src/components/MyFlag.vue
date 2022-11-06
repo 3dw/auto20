@@ -1,6 +1,7 @@
 <template lang="pug">
   .hello
     loader(v-show="!users")
+    p 本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝
     .ui.massive.blue.button(v-if="uid && !root.name && users" @click="setMe()") 按此開始
     .ui.huge.buttons(v-if="!user")
       //button.ui.blue.button(@click="loginFB")
@@ -140,8 +141,8 @@
           | 必填項目尚未填寫
       .ui.divider
       a.ui.large.blue.button(v-bind:class="{disabled: !isValid(root)}" @click="updateFlag")
-        span(v-show='myIndex == -1') 升起旗幟!!
-        span(v-show='myIndex > -1') 更新旗幟!!
+        span(v-show='!this.users[this.uid]') 升起旗幟!!
+        span(v-show='this.users[this.uid]') 更新旗幟!!
 </template>
 
 <script>
@@ -174,7 +175,7 @@ export default {
     setMe () {
       console.log(this.users)
       const keys = Object.keys(this.users)
-      this.root = this.users[this.uid]
+      this.root = this.users[this.uid] || {}
       this.root.email = this.email
       console.log(this.root.email)
       this.myIndex = keys.indexOf(this.uid)
@@ -182,7 +183,7 @@ export default {
         console.log('new')
         this.myIndex = this.uid
         this.root = {
-          name: this.user.providerData[0].displayName,
+          name: this.user.providerData[0].displayName || '新朋友',
           uid: this.uid,
           email: this.email,
           photoURL: this.photoURL || '',

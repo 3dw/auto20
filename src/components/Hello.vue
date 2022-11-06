@@ -17,6 +17,8 @@
       router-link.ui.blue.button(to="/myFlag", v-else)
         | 前往我的旗幟
     .ui.divider
+    p 本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝
+    .ui.divider
     h2(v-if="users && users.length") 最近更新
     .ui.two.doubling.cards.container(v-if="users")
       .ui.card(v-for="(h, index) in list.slice(0, 2)", :key="index")
@@ -143,6 +145,10 @@ export default {
 img.leaflet-marker-icon {
   border-radius: 50% !important;
   border: 1px solid purple !important;
+}
+
+p {
+  text-align: center;
 }
 
 </style>
