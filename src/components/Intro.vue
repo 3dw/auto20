@@ -20,8 +20,8 @@
         | 登入 
 
     .ui.segment.container
-      h2.ui.header 自學2.0是什麼?
-      h4 自學2.0是一個公益的尋友平台，可以依地圖的地理位置尋友，也可依照孩子的年紀，升旗者的興趣和可分享的專長來尋友
+      h2.ui.header 自主學習2.0是什麼?
+      h4 自主學習2.0是一個公益的尋友平台，可以依地圖的地理位置尋友，也可依照孩子的年紀，升旗者的興趣和可分享的專長來尋友
       h2.ui.header 這是什麼單位在設計維護的?
       h4 本平台由
         a(href="http://www.alearn.org.tw", target="_blank") 自主學習促進會
@@ -57,7 +57,7 @@ export default {
   },
   data () {
     return {
-      msg: '自學2.0使用說明'
+      msg: '自主學習2.0使用說明'
     }
   },
   methods: {
