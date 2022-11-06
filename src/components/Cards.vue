@@ -20,7 +20,7 @@ export default {
   components: { Loader, Card },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: '朋友',
+    title: '自主學習朋友',
   },
   data () {
     return {

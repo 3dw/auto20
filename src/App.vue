@@ -14,7 +14,7 @@
         | 地圖
       router-link.item.fat-only(to='/cards')
         sui-icon(name='users')
-        | 自學朋友
+        | 自主學習朋友
       .right.menu
         a.item(href="https://github.com/3dw/auto20/issues", target="_blank", rel="noopener noreferrer")
           i.github.icon
@@ -51,7 +51,7 @@
       sui-menu-item
         router-link(to='/cards')
           sui-icon(name='users')
-          | 自學朋友
+          | 自主學習朋友
       sui-menu-item(v-if="uid")
         router-link(to='/myFlag')
           sui-icon(name='edit')
@@ -109,7 +109,7 @@ export default {
     // if no subcomponents specify a metaInfo.title, this title will be used
     title: '',
     // all titles will be injected into this template
-    titleTemplate: '%s | 自學2.0'
+    titleTemplate: '%s | 自主學習2.0'
   },
   data () {
     return {

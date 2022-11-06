@@ -66,11 +66,11 @@
 
         .two.fields
           .field
-            label 比較有空的時段
-            input(type='text', v-model='root.freetime', placeholder='例如：週五下午和週末')
-          .field
             label.required 有效聯絡方式
             input(type='text' v-model='root.connect_me',  placeholder='可公開的方式，如e-mail。臉書私訊不可')
+          .field
+            label 比較有空的時段
+            input(type='text', v-model='root.freetime', placeholder='例如：週五下午和週末')
         h4.ui.dividing.header 社交資訊
         .field
           label 您的身份
