@@ -17,7 +17,7 @@
       router-link.ui.blue.button(to="/myFlag", v-else)
         | 前往我的旗幟
     .ui.divider
-    p 本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝
+    p(v-if="isInApp") 本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝
     .ui.divider
     h2(v-if="users && users.length") 最近更新
     .ui.two.doubling.cards.container(v-if="users")
@@ -49,7 +49,7 @@ import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
 export default {
   name: 'hello',
   components: {Card, LMap, LTileLayer, LMarker, LPopup},
-  props: ['uid', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'users', 'places', 'cities'],
+  props: ['uid', 'user', 'zoom', 'center', 'mySearch', 'photoURL', 'book', 'users', 'places', 'cities', 'isInApp'],
   mixins: [mix],
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used

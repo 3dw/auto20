@@ -77,13 +77,14 @@
         main
           .ui.form.container(v-if="doSearch($route.path)")
             input(v-autofocus="", v-model="mySearch", placeholder="以關鍵字或年齡搜詢", autofocus)
-          router-view(:uid = "uid", :user="user", :groups="groups", :email="email", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook")
+          router-view(:uid = "uid", :user="user", :groups="groups", :email="email", :users="users", :places="places", :mySearch="mySearch", :provider="provider", :photoURL="photoURL", :cities = "cities", @loginGoogle="loginGoogle", :zoom="zoom", :center="center", :book="book", @locate="locate", @locateCity = "locateCity", @addBook="addBook", @removeBook="removeBook", :isInApp="isInApp")
     chatbox#ch(@loginGoogle = "loginGoogle", :uid = "uid", :user="user", :photoURL="photoURL")
       // ad
 </template>
 
 <script>
 
+import InApp from 'detect-inapp'
 import { onValue } from 'firebase/database'
 import { auth, usersRef, placesRef, groupsRef } from './firebase'
 import { signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "firebase/auth"
@@ -94,6 +95,8 @@ provider.addScope('https://www.googleapis.com/auth/userinfo.email')
 import mix from './mixins/mix.js'
 import Chatbox from './components/Chatbox'
 // import Ad from './components/Ad-Be'
+
+const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera)
 
 export default {
   name: 'app',
@@ -110,6 +113,7 @@ export default {
   },
   data () {
     return {
+      isInApp: inapp.isInApp,
       mySearch: '',
       visible: false,
       zoom: 7,
@@ -224,6 +228,7 @@ export default {
   },
   mounted () {
     const vm = this
+    console.log(vm.isInApp)
     getRedirectResult(auth).then((result) => {
         // console.log(result)
       // This gives you a Google Access Token. You can use it to access the Google API.
