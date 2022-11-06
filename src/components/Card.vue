@@ -26,6 +26,14 @@
         p.descrtpion(v-if="h.freetime") 有空時間： {{h.freetime}}
       .content
         .ui.divider
+        p 個人網址：
+          a(v-if="h.site", :href='h.site', target='_blank')
+            img(:src="'https://www.google.com/s2/favicons?domain=' + h.site" title='個人網址' alt='個人網址')
+        p 社群網址：
+          a(v-if="h.site2", :href='h.site2', target='_blank')
+            img(:src="'https://www.google.com/s2/favicons?domain=' + h.site2" title='社群網址' alt='個人網址')
+      .content
+        .ui.divider
         p.descrtpion(v-if="!full")
           span.text(v-html="highlight(part(h.note), mySearch) + '...'")
         p.descrtpion(v-else)

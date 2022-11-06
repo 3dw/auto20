@@ -55,13 +55,13 @@
               input(v-model='root.site', placeholder='個人網址')
               span(v-show='root.site')
                 a(:href='root.site', target='_blank')
-                  img(:src="'http://www.google.com/s2/favicons?domain=' + root.site" title='個人網址' alt='個人網址')
+                  img(:src="'https://www.google.com/s2/favicons?domain=' + root.site" title='個人網址' alt='個人網址')
                   | 測試連結
             .field
               input(v-model='root.site2', placeholder='參與的社群網址')
               span(v-show='root.site2')
                 a(v-show='root.site2', :href='root.site2', target='_blank')
-                  img(:src="'http://www.google.com/s2/favicons?domain=' + root.site2" title='社群網址' alt='社群網址')
+                  img(:src="'https://www.google.com/s2/favicons?domain=' + root.site2" title='社群網址' alt='社群網址')
                   | 測試連結
 
         .two.fields
@@ -143,6 +143,11 @@
       a.ui.large.blue.button(v-bind:class="{disabled: !isValid(root)}" @click="updateFlag")
         span(v-show='!this.users[this.uid]') 升起旗幟!!
         span(v-show='this.users[this.uid]') 更新旗幟!!
+      br
+      br
+      br
+      br
+      br
 </template>
 
 <script>
