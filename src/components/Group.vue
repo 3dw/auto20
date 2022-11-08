@@ -13,6 +13,10 @@
                   i.edit.icon
                   | {{edit ? '結束' : ''}}編輯社團資料
               .ui.form(v-show="edit")
+                .field(v-if="!uid")
+                  button.ui.orange.button(@click="loginGoogle()")
+                    i.google.icon
+                    | 請先登入
                 .field
                   .ui.labeled.input
                     label.ui.label 輸入社團簡介  
@@ -93,6 +97,9 @@ export default {
     }
   },
   methods: {
+    loginGoogle: function () {
+      this.$emit('loginGoogle')
+    },
     isMember () {
       // console.log(this.groups)
       // console.log(this.$route.params.idx)
