@@ -12,7 +12,7 @@
         a.item(v-if="!isFull" @click="isFull = true; isMini = false; reCount()")
           i.comments.icon
           | 聊聊
-          .red.note(v-show = "chats.length > read") {{ chats.length - read }}
+          .red.note(v-show = "fil(chats).length > read") {{ fil(chats).length - read }}
         a.item(v-if="!isMini" @click="isFull = false; isMini = true")
           i.compress.icon
           | 縮小
@@ -161,7 +161,7 @@ export default {
       return l
     },
     reCount: function () {
-      this.read = this.chats.length
+      this.read = this.fil(this.chats).length
       this.$localStorage.set('read', this.read)
     }
   },
@@ -172,7 +172,11 @@ export default {
       // console.log(data)
       vm.chats = data
     })
+    console.log(this.read)
     this.read = this.$localStorage.get('read') || 0
+    if (this.read === 'undefined') {
+      this.read = 0
+    }
   }
 }
 </script>

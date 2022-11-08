@@ -12,11 +12,14 @@
       router-link.item.fat-only(to='/maps')
         sui-icon(name='map')
         | 地圖
-      router-link.item.fat-only(to='/cards')
+      router-link.item(to='/cards')
         sui-icon(name='users')
-        | 自主學習朋友
+        | 朋友
+      router-link.item(to="/groups")
+        i.globe.icon
+        | 社團
       .right.menu
-        a.item(href="https://github.com/3dw/auto20/issues", target="_blank", rel="noopener noreferrer")
+        a.item.fat-only(href="https://github.com/3dw/auto20/issues", target="_blank", rel="noopener noreferrer")
           i.github.icon
           | 錯誤回報
         a.item(v-if="!uid && !isInApp", @click="loginGoogle()")
@@ -30,8 +33,10 @@
                 router-link.ui(to="/myFlag") 我的旗幟
               sui-dropdown-item
                 router-link.ui(to="/book") 我的名簿
+              sui-dropdown-divider
               sui-dropdown-item(v-for="i in myGroupIdx()", :key="i")
                 router-link.ui(:to="'/group/' + i") {{ groups[i].n }}
+              sui-dropdown-divider
               sui-dropdown-item
                 a.ui(@click="logout()") 登出
                   img.ui.small(:src="photoURL")
@@ -51,7 +56,7 @@
       sui-menu-item
         router-link(to='/cards')
           sui-icon(name='users')
-          | 自主學習朋友
+          | 朋友
       sui-menu-item(v-if="uid")
         router-link(to='/myFlag')
           sui-icon(name='edit')
@@ -154,7 +159,7 @@ export default {
       })
     },
     doSearch: function (p) {
-      return !(p.match(/(drawing|myPlace|outer|myFlag|group\/|place|intro|faq|flag\/\d+|ans\/\d+)/))
+      return !(p.match(/(drawing|^\/$|myPlace|outer|myFlag|group\/|place|intro|faq|flag\/\d+|ans\/\d+)/))
     },
     locate: function (h) {
       this.zoom = 13
