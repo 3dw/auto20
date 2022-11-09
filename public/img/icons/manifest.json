@@ -1,4 +1,10 @@
 {
+  "start_url": "/",
+  "name": "auto20",
+  "short_name": "auto20",
+  "display": "standalone",
+  "theme_color": "black",
+  "background_color": "gray",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
