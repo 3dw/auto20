@@ -25,7 +25,7 @@
         a.item(v-if="!uid && !isInApp", @click="loginGoogle()")
           i.google.icon
           | Google登入
-        .item(v-else)
+        .item(v-if="uid")
           img.ui.avatar(:src="photoURL")
           sui-dropdown(icon="angle down")
             sui-dropdown-menu(button, inverted="true")
