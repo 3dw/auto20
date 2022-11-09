@@ -26,7 +26,7 @@
           i.google.icon
           | Google登入
         .item(v-if="uid")
-          img.ui.avatar(:src="photoURL")
+          img.ui.avatar(:src="photoURL", referrerpolicy="no-referrer")
           sui-dropdown(icon="angle down")
             sui-dropdown-menu(button, inverted="true")
               sui-dropdown-item
@@ -39,7 +39,7 @@
               sui-dropdown-divider
               sui-dropdown-item
                 a.ui(@click="logout()") 登出
-                  img.ui.small(:src="photoURL")
+                  img.ui.small(:src="photoURL", referrerpolicy="no-referrer")
     sui-menu(is='sui-sidebar', :visible='visible', animation='overlay', width='thin', icon='labeled', inverted='' vertical='', fixed='')
       sui-menu-item
         router-link(to='/')
