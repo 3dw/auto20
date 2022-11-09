@@ -92,7 +92,7 @@
 import InApp from 'detect-inapp'
 import { onValue } from 'firebase/database'
 import { auth, usersRef, placesRef, groupsRef } from './firebase'
-import { signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "firebase/auth"
+import { signInWithRedirect, getRedirectResult, GoogleAuthProvider } from 'firebase/auth'
 const provider = new GoogleAuthProvider()
 provider.addScope('https://www.googleapis.com/auth/userinfo.email')
 // import firebase from 'firebase/app'
