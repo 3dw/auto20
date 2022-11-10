@@ -21,12 +21,23 @@ export default {
   components: { Card, Loader },
   mixins: [mix],
   props: ['mySearch', 'book', 'users'],
-  metaInfo: {
-    // if no subcomponents specify a metaInfo.title, this title will be used
-    title: '旗幟',
+  metaInfo() {
+    return {
+      title: this.myT
+    }
   },
   data () {
     return {
+    }
+  },
+  computed: {
+    // a computed getter
+    myT() {
+      if (Object.keys(this.users).length > 0 && this.$route.params.uid) {
+        return this.users[this.$route.params.uid].name
+      }
+      // `this` points to the component instance
+      return [{ name: '旗幟' }][0].name
     }
   },
   methods: {
