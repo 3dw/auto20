@@ -5,8 +5,7 @@
       | {{msg}} {{user && user.providerData[0].displayName}}
       img(src="../assets/usershake0.png")
     h4.ui.header 請先登入，和
-      span(v-if = "users") {{ toList(users).length }}
-      span(v-else) 各
+      span {{ toList(users).length > 0 ? toList(users).length : '各' }}
       | 位朋友相互認識，升起互助旗
       span(v-if ="!user")
     .ui.huge.buttons
@@ -20,11 +19,13 @@
     p(v-if="isInApp") 本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝
     .ui.divider
     h2(v-if="users && users.length") 最近更新
-    .ui.two.doubling.cards.container(v-if="users")
+    .ui.two.doubling.cards.container(v-if="toList(users).length > 0")
       .ui.card(v-for="(h, index) in list.slice(0, 2)", :key="index")
         card(:h="h", :full="true", :mySearch="mySearch", :uid="uid || ''", :book="book", @locate="locate", @addBook="addBook", @removeBook="removeBook")
-    .ui.container(v-if="users")
-      .ui.dividder
+    .ui.active.inverted.dimmer(v-else)
+      .ui.text.loader Loading
+    .ui.container(v-if="toList(users).length > 0")
+      .ui.divider
       h2 地圖
       .ui.grid
         .ui.stackable.row
