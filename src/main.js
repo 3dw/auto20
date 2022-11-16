@@ -12,7 +12,6 @@ import infiniteScroll from 'vue-infinite-scroll'
 import autofocus from 'vue-autofocus-directive'
 import VueGtag from 'vue-gtag'
 import VueSimpleMarkdown from 'vue-simple-markdown'
-import { rtdbPlugin } from 'vuefire'
 import './registerServiceWorker'
 import VueSocialSharing from 'vue-social-sharing'
 import '../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
@@ -24,7 +23,6 @@ Vue.use(VueExcelXlsx)
 Vue.use(SuiVue)
 Vue.use(VueSocialSharing)
 Vue.use(VueMeta)
-Vue.use(rtdbPlugin)
 // import alts from 'html-img-alt'
 Vue.use(VueSimpleMarkdown)
 
