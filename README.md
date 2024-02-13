@@ -2,7 +2,7 @@
 
 ## Project setup
 ```
-yarn install
+yarn --ignore-engines
 ```
 
 ### Compiles and hot-reloads for development
