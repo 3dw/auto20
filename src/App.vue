@@ -88,52 +88,39 @@
 </template>
 
 <script>
+import InApp from 'detect-inapp' // 引入檢測應用內瀏覽的庫
+import { onValue } from 'firebase/database' // 從 Firebase 引入數據庫讀取功能
+import { auth, usersRef, placesRef, groupsRef } from './firebase' // 引入自訂的 Firebase 配置和參考
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth' // 引入 Firebase 身份驗證功能
+const provider = new GoogleAuthProvider() // 創建一個 Google 身份驗證提供者
+provider.addScope('https://www.googleapis.com/auth/userinfo.email') // 添加需要的權限範圍
 
-import InApp from 'detect-inapp'
-import { onValue } from 'firebase/database'
-import { auth, usersRef, placesRef, groupsRef } from './firebase'
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-const provider = new GoogleAuthProvider()
-provider.addScope('https://www.googleapis.com/auth/userinfo.email')
-// import firebase from 'firebase/app'
-// import 'firebase/auth';
-import mix from './mixins/mix.js'
-import Chatbox from './components/Chatbox'
-// import Ad from './components/Ad-Be'
-
+// 判斷用戶是否通過某些特定客戶端應用如 Facebook 或 Instagram 來訪問
 const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera)
 
 export default {
   name: 'app',
-  mixins: [mix],
-  components: { Chatbox },
-  // firebase: {
-  //  users: usersRef
-  // },
-  metaInfo: {
-    // if no subcomponents specify a metaInfo.title, this title will be used
-    title: '',
-    // all titles will be injected into this template
-    titleTemplate: '%s | 自主學習2.0'
-  },
+  mixins: [mix], // 混入其他功能
+  components: { Chatbox }, // 註冊 Chatbox 組件
   data () {
     return {
-      isInApp: inapp.isInApp,
-      mySearch: '',
-      visible: false,
-      zoom: 7,
-      center: [22.613220, 121.219482],
-      user: '',
-      token: '',
-      uid: '',
-      provider: '',
-      photoURL: '',
-      email: '',
-      book: [],
-      users: [],
-      places: [],
-      groups: [],
-      cities: [
+      isInApp: inapp.isInApp, // 檢測是否在應用內
+      mySearch: '', // 搜索字符串
+      visible: false, // 控制側邊欄的顯示
+      zoom: 7, // 地圖縮放級別
+      center: [22.613220, 121.219482], // 地圖中心點座標
+      user: '', // 用戶信息
+      token: '', // 認證令牌
+      uid: '', // 用戶 ID
+      provider: '', // 身份驗證提供者
+      photoURL: '', // 用戶頭像URL
+      email: '', // 用戶電子郵箱
+      book: [], // 存儲 "我的名簿" 數據
+      users: [], // 所有用戶的數據
+      places: [], // 所有地點的數據
+      groups: [], // 所有團體的數據
+      cities: [ // 各大城市的座標和可選的縮放級別
+        // 下面列出了一些台灣的主要城市和他們的座標
         {t: '臺北市', c: [25.046337, 121.517444]},
         {t: '新北市', c: [25.011709, 121.465881], z: 10},
         {t: '桃園市', c: [24.993923, 121.301680]},
@@ -150,7 +137,7 @@ export default {
     }
   },
   methods: {
-    myGroupIdx () {
+    myGroupIdx () { // 過濾並返回當前用戶所屬的團體索引
       const vm = this
       return this.groups.filter(function (g) {
         return (g.members || []).indexOf(vm.uid || '') > -1
@@ -158,64 +145,37 @@ export default {
         return g.idx
       })
     },
-    doSearch: function (p) {
+    doSearch: function (p) { // 判斷是否在特定路由進行搜索
       return !(p.match(/(drawing|^\/$|myPlace|outer|myFlag|group\/|place|intro|faq|flag\/\d+|ans\/\d+)/))
     },
-    locate: function (h) {
+    locate: function (h) { // 定位到特定坐標
       this.zoom = 13
       this.center = h.latlngColumn.split(',')
       this.$router.push({path: '/maps'})
     },
-    locateCity: function (c) {
-      // console.log(c)
+    locateCity: function (c) { // 定位到選定的城市
       this.zoom = c.z || 13
       this.center = c.c
     },
-    getLocal: function (n) {
+    getLocal: function (n) { // 從本地存儲獲取數據
       console.log('get:' + n)
       this[n] = JSON.parse(this.$localStorage.get(n))
     },
-    setLocal: function (n) {
+    setLocal: function (n) { // 將數據保存到本地存儲
       console.log('set:' + n)
       this.$localStorage.set(n, JSON.stringify(this[n]))
-      // console.log(this.$localStorage.get(n))
     },
-    addBook: function (uid) {
+    addBook: function (uid) { // 添加用戶到 "我的名簿"
       if (this.book.indexOf(uid) === -1) {
         this.book.push(uid)
         this.setLocal('book')
       }
     },
-    removeBook: function (index) {
+    removeBook: function (index) { // 從 "我的名簿" 移除用戶
       this.book.splice(index, 1)
       this.setLocal('book')
     },
-    /* loginFB: function () {
-      var vm = this
-      var provider = new firebase.auth.FacebookAuthProvider()
-      firebase.auth().signInWithPopup(provider).then(function (result) {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        vm.provider = 'facebook'
-        vm.token = result.credential.accessToken
-        // The signed-in user info.
-        vm.user = result.user
-        vm.uid = result.user.uid
-        vm.photoURL = vm.user.photoURL
-        for (var i = 0; i < vm.users.length; i++) {
-          if (vm.users[i].uid === vm.uid) {
-            vm.center = vm.users[i].latlngColumn.split(',')
-            vm.zoom = 13
-            console.log(vm.uid)
-          }
-        }
-        // ...
-      }).catch(function (error) {
-        var errorCode = error.code
-        var errorMessage = error.message
-        console.log(errorCode + errorMessage)
-      })
-    }, */
-    logout () {
+    logout () { // 處理用戶登出
       const vm = this
       auth.signOut().then(function() {
         vm.user = null
@@ -223,21 +183,15 @@ export default {
         vm.photoURL = null
       })
     },
-    isFacebookApp: function () {
-      var ua = navigator.userAgent || navigator.vendor || window.opera || ''
-      return (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)
-    },
-    loginGoogle: function () {
+    loginGoogle: function () { // 處理 Google 登入
       const vm = this
       if (this.isInApp) {
         window.alert('本系統不支援facebook, link等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝')
       } else {
-        // signInWithRedirect(auth, provider)
         signInWithPopup(auth, provider).then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
+          // 處理登入成功後的信息
           const credential = GoogleAuthProvider.credentialFromResult(result)
           const token = credential.accessToken
-          // The signed-in user info.
           const user = result.user
           vm.user = user
           vm.email = user.providerData[0].email
@@ -251,17 +205,15 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted () { // 組件掛載後的初始化操作
     const vm = this
     console.log(vm.isInApp)
     onValue(usersRef, (snapshot) => {
       const data = snapshot.val()
-      // console.log(data)
       vm.users = data
     })
     onValue(placesRef, (snapshot) => {
       const data = snapshot.val()
-      // console.log(data)
       vm.places = data
     })
     onValue(groupsRef, (snapshot) => {
