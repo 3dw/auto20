@@ -57,7 +57,7 @@ export default {
   },
   data () {
     return {
-      msg: '自主學習2.0使用說明'
+      msg: '自學2.0使用說明'
     }
   },
   methods: {
